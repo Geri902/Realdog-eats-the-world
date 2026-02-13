@@ -19,10 +19,10 @@ public partial class RealDogPainter : TileMapLayer
 	//testing
 	List<Vector2I> testShape = new List<Vector2I>
 	{
-		new Vector2I(0, 0),
-		new Vector2I(1, 0),
-		new Vector2I(2, 0),
 		new Vector2I(3, 0),
+		new Vector2I(2, 0),
+		new Vector2I(1, 0),
+		new Vector2I(0, 0),
 		new Vector2I(0, 1),
 		new Vector2I(0, 2),
 		new Vector2I(0, 3),
@@ -30,15 +30,16 @@ public partial class RealDogPainter : TileMapLayer
 		new Vector2I(1, 4),
 		new Vector2I(2, 4),
 		new Vector2I(3, 4),
-		new Vector2I(2, 2),
-		new Vector2I(3, 2),
 		new Vector2I(3, 3),
+		new Vector2I(3, 2),
+		new Vector2I(2, 2),
 	};
 
 	private int partCount = 0;
 	public override void _Ready()
 	{
 		partPlaces = testShape;
+		partCount = 14;
 		DrawDog();
 	}
 
@@ -89,7 +90,7 @@ public partial class RealDogPainter : TileMapLayer
 		Vector2I diff1 = partPlaces[which - 1] - current;
 		Vector2I diff2 = partPlaces[which + 1] - current;
 
-		return diff1.X == diff2.X || diff1.Y == diff2.Y;
+		return diff1.X != diff2.X && diff1.Y != diff2.Y;
 	}
 	private int CalcDeg(int which, string what)
 	{
