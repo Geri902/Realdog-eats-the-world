@@ -15,9 +15,6 @@ public partial class RealDogPainter : TileMapLayer
 		{"Chomp", new Vector2I(1,3)},
 	};
 
-	private List<Vector2I> partPlaces = new List<Vector2I>();
-
-	private int partCount = 0;
 	public override void _Ready()
 	{
 	}
@@ -26,32 +23,26 @@ public partial class RealDogPainter : TileMapLayer
 	{
 	}
 
-	public void AddPart(Vector2I where)
+	public void DrawDog(List<Vector2I> partPlaces)
 	{
-		partPlaces.Add(where);
-		partCount++;
-	}
-
-	public void DrawDog()
-	{
-		int lastPartInd = partCount - 1;
+		int lastPartInd = partPlaces.Count - 1;
 
 		Clear();
-		DrawPart(0,"Head");
+		DrawPart(partPlaces, 0, "Head");
 		for (int i = 1; i < lastPartInd; i++)
 		{
 			string what = "Body";
-			if (IsBend(i))
+			if (IsBend(partPlaces, i))
 			{
 				what = "Bend";
 			}
-			DrawPart(i,what);
+			DrawPart(partPlaces, i, what);
 		}
-		DrawPart(lastPartInd,"Tail");
+		DrawPart(partPlaces, lastPartInd, "Tail");
 
 	}
 
-	private void DrawPart(int which, string what)
+	private void DrawPart(List<Vector2I> partPlaces, int which, string what)
 	{
 		Vector2I part = partPlaces[which];
 		SetCell(
@@ -60,10 +51,10 @@ public partial class RealDogPainter : TileMapLayer
 			atlasCoords: partFromName[what],
 			alternativeTile: 0
 		);
-		RotatePart(part, which, what);
+		RotatePart(partPlaces, part, which, what);
 	}
 
-	private bool IsBend(int which)
+	private bool IsBend(List<Vector2I> partPlaces, int which)
 	{
 		Vector2I current = partPlaces[which];
 		Vector2I diff1 = partPlaces[which - 1] - current;
@@ -71,7 +62,7 @@ public partial class RealDogPainter : TileMapLayer
 
 		return diff1.X != diff2.X && diff1.Y != diff2.Y;
 	}
-	private int CalcDeg(int which, string what)
+	private int CalcDeg(List<Vector2I> partPlaces, int which, string what)
 	{
 		Vector2I current = partPlaces[which];
 		Vector2I prev;
@@ -123,7 +114,7 @@ public partial class RealDogPainter : TileMapLayer
 				diffNext = next - current;
 				diffPrev = prev - current;
 
-				if (IsBend(which))
+				if (IsBend(partPlaces, which))
 				{
 					if ((diffPrev == Vector2I.Left && diffNext == Vector2I.Up) || (diffNext == Vector2I.Left && diffPrev == Vector2I.Up))
 					{
@@ -158,10 +149,10 @@ public partial class RealDogPainter : TileMapLayer
 		return deg;
 	}
 
-	private void RotatePart(Vector2I part, int which, string what)
+	private void RotatePart(List<Vector2I> partPlaces, Vector2I part, int which, string what)
 	{
 		int rotation = 0;
-		switch (CalcDeg(which, what))
+		switch (CalcDeg(partPlaces, which, what))
 		{
 			case 90:
 				rotation = (int)TileSetAtlasSource.TransformTranspose | (int)TileSetAtlasSource.TransformFlipH;
