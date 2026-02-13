@@ -9,9 +9,10 @@ public partial class RealDogPainter : TileMapLayer
 	private static Dictionary<string,Vector2I> partFromName = new Dictionary<string, Vector2I>()
 	{
 		{"Tail", new Vector2I(0,0)},
-		{"Bend", new Vector2I(0,1)},
-		{"Body", new Vector2I(0,2)},
+		{"Body", new Vector2I(0,1)},
+		{"Bend", new Vector2I(0,2)},
 		{"Head", new Vector2I(0,3)},
+		{"Chomp", new Vector2I(1,3)},
 	};
 
 	private List<Vector2I> partPlaces = new List<Vector2I>();
@@ -38,6 +39,7 @@ public partial class RealDogPainter : TileMapLayer
 	private int partCount = 0;
 	public override void _Ready()
 	{
+		//testShape.Reverse();
 		partPlaces = testShape;
 		partCount = 14;
 		DrawDog();
@@ -97,8 +99,8 @@ public partial class RealDogPainter : TileMapLayer
 		Vector2I current = partPlaces[which];
 		Vector2I prev;
 		Vector2I next;
-		Vector2I diff1;
-		Vector2I diff2;
+		Vector2I diffNext;
+		Vector2I diffPrev;
 
 		int deg = 0;
 
@@ -106,34 +108,34 @@ public partial class RealDogPainter : TileMapLayer
 		{
 			case "Head":
 				next = partPlaces[which + 1];
-				diff1 = next - current;
+				diffNext = next - current;
 
-				if (diff1 == Vector2I.Down)
+				if (diffNext == Vector2I.Down)
 				{
 					deg = 90;
 				}
-				else if (diff1 == Vector2I.Left)
+				else if (diffNext == Vector2I.Left)
 				{
 					deg = 180;
 				}
-				else if (diff1 == Vector2I.Up)
+				else if (diffNext == Vector2I.Up)
 				{
 					deg = 270;
 				}
 				break;
 			case "Tail":
 				prev = partPlaces[which - 1];
-				diff1 = prev - current;
+				diffPrev = prev - current;
 
-				if (diff1 == Vector2I.Up)
+				if (diffPrev == Vector2I.Up)
 				{
 					deg = 90;
 				}
-				else if (diff1 == Vector2I.Right)
+				else if (diffPrev == Vector2I.Right)
 				{
 					deg = 180;
 				}
-				else if (diff1 == Vector2I.Down)
+				else if (diffPrev == Vector2I.Down)
 				{
 					deg = 270;
 				}
@@ -141,35 +143,35 @@ public partial class RealDogPainter : TileMapLayer
 			default:
 				prev = partPlaces[which - 1];
 				next = partPlaces[which + 1];
-				diff1 = next - current;
-				diff2 = prev - current;
+				diffNext = next - current;
+				diffPrev = prev - current;
 
 				if (IsBend(which))
 				{
-					if ((diff2 == Vector2I.Left && diff1 == Vector2I.Up) || (diff1 == Vector2I.Left && diff2 == Vector2I.Up))
+					if ((diffPrev == Vector2I.Left && diffNext == Vector2I.Up) || (diffNext == Vector2I.Left && diffPrev == Vector2I.Up))
 					{
 						deg = 90;
 					}
-					else if ((diff2 == Vector2I.Right && diff1 == Vector2I.Up) || (diff1 == Vector2I.Right && diff2 == Vector2I.Up))
+					else if ((diffPrev == Vector2I.Right && diffNext == Vector2I.Up) || (diffNext == Vector2I.Right && diffPrev == Vector2I.Up))
 					{
 						deg = 180;
 					}
-					else if ((diff2 == Vector2I.Right && diff1 == Vector2I.Down) || (diff1 == Vector2I.Right && diff2 == Vector2I.Down))
+					else if ((diffPrev == Vector2I.Right && diffNext == Vector2I.Down) || (diffNext == Vector2I.Right && diffPrev == Vector2I.Down))
 					{
 						deg = 270;
 					}
 				}
 				else
 				{
-					if (diff1 == Vector2I.Left){
+					if (diffNext == Vector2I.Left){
 						deg = 180;
 					}
 
-					else if (diff1 == Vector2I.Up){
+					else if (diffNext == Vector2I.Up){
 						deg = 270;
 					}
 
-					else if (diff1 == Vector2I.Down){
+					else if (diffNext == Vector2I.Down){
 						deg = 90;
 					}
 				}
