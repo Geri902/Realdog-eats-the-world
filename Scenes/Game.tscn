@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://b80aan3xp8do1"]
+[gd_scene load_steps=11 format=4 uid="uid://b80aan3xp8do1"]
 
 [ext_resource type="Texture2D" uid="uid://c06i2r1j4xoa4" path="res://Assets/The Original-Sheet.png" id="1_gl6un"]
 [ext_resource type="Script" uid="uid://djnqgnnuk42gr" path="res://Scripts/Game.cs" id="1_j5yw3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://debrmedtv4wm0" path="res://Scripts/RealDogPainter.cs" id="2_j5yw3"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Wall.tres" id="4_b2bpf"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="5_7lihs"]
+[ext_resource type="Script" uid="uid://30blq1lcrr5t" path="res://Scripts/Map.cs" id="6_fgofq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mpx46"]
 resource_name = "RealDogSheet"
@@ -50,6 +51,7 @@ wait_time = 0.5
 [node name="MapTiles" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAANAAcAAAADAAIAAAANAAYAAAAAAAIAAAANAAUAAAAAAAIAAAANAAQAAAAAAAIAAAANAAMAAAAAAAIAAAANAAIAAAAAAAIAAAANAAEAAAAAAAIAAAANAAAAAAAAAAIAAAANAP//AAAAAAIAAAANAP7/AAAAAAIAAAANAP3/AAAAAAIAAAANAPz/AAAAAAIAAAAMAAcAAAABAAIAAAALAAcAAAABAAIAAAAKAAcAAAABAAIAAAAJAAcAAAABAAIAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAcAAAABAAIAAAD//wcAAAABAAIAAAD+/wcAAAABAAIAAAD9/wcAAAABAAIAAAD8/wcAAAABAAIAAAD7/wcAAAABAAIAAAD6/wcAAAABAAIAAAD5/wcAAAABAAIAAAD4/wcAAAABAAIAAAD3/wcAAAABAAIAAAD2/wcAAAABAAIAAAD1/wcAAAABAAIAAAD0/wcAAAABAAIAAADz/wcAAAABAAIAAADy/wcAAAACAAIAAADy/wYAAAAAAAIAAADy/wUAAAAAAAIAAADy/wQAAAAAAAIAAADy/wMAAAAAAAIAAADy/wIAAAAAAAIAAADy/wEAAAAAAAIAAADy/wAAAAAAAAIAAADy////AAAAAAIAAADy//7/AAAAAAIAAADy//3/AAAAAAIAAADy//z/AAAAAAIAAADy//v/AAAAAAIAAAANAPv/AAAAAAIAAAANAPr/AAAFAAIAAAAMAPr/AAABAAIAAAALAPr/AAABAAIAAAAKAPr/AAABAAIAAAAJAPr/AAABAAIAAAAIAPr/AAABAAIAAAAHAPr/AAABAAIAAAAGAPr/AAABAAIAAAAFAPr/AAABAAIAAAAEAPr/AAABAAIAAAADAPr/AAABAAIAAAACAPr/AAABAAIAAAABAPr/AAABAAIAAAAAAPr/AAABAAIAAAD///r/AAABAAIAAAD+//r/AAABAAIAAAD9//r/AAABAAIAAAD8//r/AAABAAIAAAD7//r/AAABAAIAAAD6//r/AAABAAIAAAD5//r/AAABAAIAAAD4//r/AAABAAIAAAD3//r/AAABAAIAAAD2//r/AAABAAIAAAD1//r/AAABAAIAAAD0//r/AAABAAIAAADz//r/AAABAAIAAADy//r/AAAEAAIAAAA=")
 tile_set = ExtResource("4_b2bpf")
+script = ExtResource("6_fgofq")
 
 [node name="Inside Background" type="Sprite2D" parent="."]
 z_index = -1

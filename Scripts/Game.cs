@@ -9,7 +9,6 @@ public partial class Game : Node2D
 	private PackedScene explosionScene;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private RealDogPainter realDogPainter;
-	private TileMapLayer mapNode;
 	private Timer timer;
 	private List<Vector2I> partPlaces = new List<Vector2I>();
 	private Vector2I currentDirection;
@@ -18,10 +17,10 @@ public partial class Game : Node2D
 	{
 		rnd.Randomize();
 		realDogPainter = GetNode<RealDogPainter>("DogTiles");
-		mapNode = GetNode<TileMapLayer>("MapTiles"); 
 		timer = GetNode<Timer>("Timer");
+		map = GetNode<Map>("MapTiles");
 
-		map = new Map(mapNode.GetUsedCells().ToList(), rnd);
+		map.SetRnd(rnd);
 
 		timer.Timeout += Step;
 		Spawn(Vector2I.Zero);

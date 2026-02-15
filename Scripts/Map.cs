@@ -1,8 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-public partial class Map
+public partial class Map : TileMapLayer
 {
     private RandomNumberGenerator rnd;
     private Dictionary<Vector2I, Space> spaces = new Dictionary<Vector2I, Space>();
@@ -15,16 +16,22 @@ public partial class Map
         
     };
 
-    public Map(List<Vector2I> walls, RandomNumberGenerator rnd)
+    public override void _Ready()
     {
-        this.rnd = rnd;
+        List<Vector2I> walls = GetUsedCells().ToList();
+
         foreach (Vector2I wall in walls)
         {
             spaces.Add(wall, new Wall());
             SetBoundry(wall);
         }
         CorrectBoundries();
-        GD.Print($"({boundry["minX"]},{boundry["maxX"]})-({boundry["minY"]},{boundry["maxY"]})");
+    }
+
+    public void SetRnd(RandomNumberGenerator rnd)
+    {
+        this.rnd = rnd;
+        
     }
 
     public string TryMove(List<Vector2I> dogParts, Vector2I direction)
