@@ -1,31 +1,36 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class Game : Node2D
 {
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private RealDogPainter realDogPainter;
+	private TileMapLayer mapNode;
 	private Timer timer;
 	private List<Vector2I> partPlaces = new List<Vector2I>();
 	private Vector2I currentDirection;
 	private int partCount = 0;
+	private Map map;
 	public override void _Ready()
 	{
 		rnd.Randomize();
 		realDogPainter = GetNode<RealDogPainter>("DogTiles");
+		mapNode = GetNode<TileMapLayer>("MapTiles"); 
 		timer = GetNode<Timer>("Timer");
 
-		timer.Timeout += HandleTimer;
+		map = new Map(mapNode.GetUsedCells().ToList(), rnd);
+
+		timer.Timeout += Step;
 		Spawn(Vector2I.Zero);
 		timer.Start();
-		AddPart();
-		AddPart();
-		AddPart();
-		AddPart();
+
+		//code for testing
 		AddPart();
 	}
-	public override void _Process(double delta)
+
+    public override void _Process(double delta)
 	{
 		if(Input.IsAnythingPressed()){
 			if (Input.IsActionJustPressed("Up"))
@@ -76,7 +81,7 @@ public partial class Game : Node2D
 		}
 	}
 
-	private void HandleTimer()
+	private void Step()
 	{
 		Move();
 	}
