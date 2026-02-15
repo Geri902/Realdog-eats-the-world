@@ -5,13 +5,14 @@ using System.Linq;
 
 public partial class Game : Node2D
 {
+	[Export]
+	private PackedScene explosionScene;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private RealDogPainter realDogPainter;
 	private TileMapLayer mapNode;
 	private Timer timer;
 	private List<Vector2I> partPlaces = new List<Vector2I>();
 	private Vector2I currentDirection;
-	private int partCount = 0;
 	private Map map;
 	public override void _Ready()
 	{
@@ -82,9 +83,24 @@ public partial class Game : Node2D
 		}
 	}
 
+	private void Explode()
+	{
+		double delay = 0.05;
+		double increment = 0.05;
+		foreach (Vector2I part in partPlaces)
+		{
+			Explosion explosion = explosionScene.Instantiate<Explosion>();
+			AddChild(explosion);
+			explosion.Position = part * 128;
+			explosion.Start(delay, realDogPainter, part);
+			delay += increment;
+		}
+	}
+
 	private void Die()
 	{
 		GD.Print("Die");
+		Explode();
 		timer.Stop();
 	}
 

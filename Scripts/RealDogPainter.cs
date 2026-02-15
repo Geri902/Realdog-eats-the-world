@@ -173,4 +173,9 @@ public partial class RealDogPainter : TileMapLayer
 			alternativeTile: rotation
 		);
 	}
+
+	public void KillCell(Vector2I position)
+	{
+		EraseCell(position);
+	}
 }

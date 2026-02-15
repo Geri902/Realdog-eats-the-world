@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dliets6c6vm6h"]
+
+[ext_resource type="SpriteFrames" uid="uid://dh5d5xqwy3ekm" path="res://Resources/SpriteFrames/ExplosionFrames.tres" id="1_mbc3v"]
+[ext_resource type="Script" uid="uid://dw1unc6t7pm2y" path="res://Scripts/Explosion.cs" id="2_ix64a"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_mbc3v")
+offset = Vector2(64, 64)
+script = ExtResource("2_ix64a")
+
+[node name="Delay" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
