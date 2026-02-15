@@ -27,7 +27,8 @@ public partial class Game : Node2D
 		timer.Start();
 
 		//code for testing
-		AddPart();
+		Eat();
+		Eat();
 	}
 
     public override void _Process(double delta)
@@ -81,9 +82,38 @@ public partial class Game : Node2D
 		}
 	}
 
+	private void Die()
+	{
+		GD.Print("Die");
+		timer.Stop();
+	}
+
+	private void Eat()
+	{
+		AddPart();
+		realDogPainter.DrawDog(partPlaces);
+		GD.Print("Eat");
+	}
+
 	private void Step()
 	{
-		Move();
+		string option = map.TryMove(partPlaces, currentDirection);
+
+		switch (option)
+		{
+			case "Move":
+				Move();
+				break;
+			case "Die":
+				Die();
+				break;
+			case "Eat":
+				Eat();
+				break;
+			default:
+				GD.Print("couldn't handle move");
+				break;
+		}
 	}
 	private void Move()
 	{

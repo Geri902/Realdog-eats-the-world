@@ -27,11 +27,11 @@ public partial class Map
         GD.Print($"({boundry["minX"]},{boundry["maxX"]})-({boundry["minY"]},{boundry["maxY"]})");
     }
 
-    public string TryMove(List<Vector2I> segments, Vector2I direction)
+    public string TryMove(List<Vector2I> dogParts, Vector2I direction)
     {
-        Vector2I target = segments[0] + direction;
+        Vector2I target = dogParts[0] + direction;
 
-        foreach (Vector2I segment in segments)
+        foreach (Vector2I segment in dogParts)
         {
             if (segment == target)
             {
