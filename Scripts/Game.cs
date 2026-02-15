@@ -24,7 +24,9 @@ public partial class Game : Node2D
 
 		timer.Timeout += Step;
 		Spawn(Vector2I.Zero);
+		map.GenerateFood(partPlaces);
 		timer.Start();
+
 
 		//code for testing
 		Eat();
