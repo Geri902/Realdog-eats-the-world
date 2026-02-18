@@ -13,12 +13,16 @@ public partial class Game : Node2D
 	private List<Vector2I> partPlaces = new List<Vector2I>();
 	private Vector2I currentDirection;
 	private Map map;
+	private Label scoreLabel;
+	private int score = 0;
 	public override void _Ready()
 	{
 		rnd.Randomize();
 		realDogPainter = GetNode<RealDogPainter>("DogTiles");
 		timer = GetNode<Timer>("Timer");
 		map = GetNode<Map>("MapTiles");
+		scoreLabel = GetNode<Label>("Score");
+		scoreLabel.Text = $"Score: {score}";
 
 		map.SetRnd(rnd);
 
@@ -105,10 +109,18 @@ public partial class Game : Node2D
 		timer.Stop();
 	}
 
+	private void IncreaseScore()
+	{
+		int value = 10;
+		//later can add logic that gives score based on tile, length or other variables
+		score += value;
+		scoreLabel.Text = $"Score: {score}";
+	}
 	private void Eat()
 	{
 		AddPart();
 		realDogPainter.DrawDog(partPlaces);
+		IncreaseScore();
 		GD.Print("Eat");
 	}
 
