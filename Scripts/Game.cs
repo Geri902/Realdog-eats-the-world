@@ -12,6 +12,7 @@ public partial class Game : Node2D
 	private Timer timer;
 	private List<Vector2I> partPlaces = new List<Vector2I>();
 	private Vector2I currentDirection;
+	private Vector2I nextDirection;
 	private Map map;
 	private Label scoreLabel;
 	private Clock clock;
@@ -101,7 +102,7 @@ public partial class Game : Node2D
 	{
 		if (CanTurn(direction))
 		{
-			currentDirection = direction;
+			nextDirection = direction;
 		}
 	}
 
@@ -147,6 +148,8 @@ public partial class Game : Node2D
 
 	private void Step()
 	{
+		currentDirection = nextDirection;
+		
 		string option = map.TryMove(partPlaces, currentDirection);
 
 		switch (option)
@@ -205,6 +208,8 @@ public partial class Game : Node2D
 				currentDirection = Vector2I.Left;
 				break;
 		}
+
+		nextDirection = currentDirection;
 
 		AddPart();
 	}
