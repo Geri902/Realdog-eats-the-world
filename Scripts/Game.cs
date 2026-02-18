@@ -19,7 +19,7 @@ public partial class Game : Node2D
 	{
 		rnd.Randomize();
 		realDogPainter = GetNode<RealDogPainter>("DogTiles");
-		timer = GetNode<Timer>("Timer");
+		timer = GetNode<Timer>("StepTimer");
 		map = GetNode<Map>("MapTiles");
 		scoreLabel = GetNode<Label>("Score");
 		scoreLabel.Text = $"Score: {score}";

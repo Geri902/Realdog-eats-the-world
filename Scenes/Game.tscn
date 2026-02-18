@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b80aan3xp8do1"]
+[gd_scene load_steps=16 format=4 uid="uid://b80aan3xp8do1"]
 
 [ext_resource type="Texture2D" uid="uid://c06i2r1j4xoa4" path="res://Assets/The Original-Sheet.png" id="1_gl6un"]
 [ext_resource type="Script" uid="uid://djnqgnnuk42gr" path="res://Scripts/Game.cs" id="1_j5yw3"]
@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Wall.tres" id="4_b2bpf"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="5_7lihs"]
 [ext_resource type="Script" uid="uid://30blq1lcrr5t" path="res://Scripts/Map.cs" id="6_fgofq"]
+[ext_resource type="Script" uid="uid://d2v8x6anp2njl" path="res://Scripts/Clock.cs" id="8_2irst"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mpx46"]
 resource_name = "RealDogSheet"
@@ -40,6 +41,12 @@ sources/0 = SubResource("TileSetAtlasSource_mpx46")
 font = SubResource("SystemFont_fgofq")
 font_size = 145
 
+[sub_resource type="SystemFont" id="SystemFont_bf53h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_71axn"]
+font = SubResource("SystemFont_bf53h")
+font_size = 145
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_j5yw3")
 explosionScene = ExtResource("2_7lihs")
@@ -51,7 +58,7 @@ script = ExtResource("2_j5yw3")
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="StepTimer" type="Timer" parent="."]
 wait_time = 0.25
 
 [node name="MapTiles" type="TileMapLayer" parent="."]
@@ -79,3 +86,21 @@ offset_bottom = -809.0
 text = "Score: "
 label_settings = SubResource("LabelSettings_2irst")
 vertical_alignment = 1
+
+[node name="Clock" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1236.0
+offset_top = -1088.0
+offset_right = 1788.0
+offset_bottom = -809.0
+grow_horizontal = 0
+text = "00:00"
+label_settings = SubResource("LabelSettings_71axn")
+horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("8_2irst")
+
+[node name="ClockTimer" type="Timer" parent="Clock"]
+autostart = true
