@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://b80aan3xp8do1"]
+[gd_scene load_steps=21 format=4 uid="uid://b80aan3xp8do1"]
 
 [ext_resource type="Texture2D" uid="uid://c06i2r1j4xoa4" path="res://Assets/The Original-Sheet.png" id="1_gl6un"]
 [ext_resource type="Script" uid="uid://djnqgnnuk42gr" path="res://Scripts/Game.cs" id="1_j5yw3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="5_7lihs"]
 [ext_resource type="Script" uid="uid://30blq1lcrr5t" path="res://Scripts/Map.cs" id="6_fgofq"]
 [ext_resource type="Script" uid="uid://d2v8x6anp2njl" path="res://Scripts/Clock.cs" id="8_2irst"]
+[ext_resource type="Script" uid="uid://dgkeodswluyii" path="res://Scripts/GameOver.cs" id="9_bf53h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mpx46"]
 resource_name = "RealDogSheet"
@@ -46,6 +47,20 @@ font_size = 145
 [sub_resource type="LabelSettings" id="LabelSettings_71axn"]
 font = SubResource("SystemFont_bf53h")
 font_size = 145
+
+[sub_resource type="SystemFont" id="SystemFont_71axn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dahhg"]
+font = SubResource("SystemFont_71axn")
+font_size = 153
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_3so38"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3cx6b"]
+font = SubResource("SystemFont_3so38")
+font_size = 141
+font_color = Color(0, 0, 0, 1)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_j5yw3")
@@ -104,3 +119,64 @@ script = ExtResource("8_2irst")
 
 [node name="ClockTimer" type="Timer" parent="Clock"]
 autostart = true
+
+[node name="Game Over Popup" type="ColorRect" parent="."]
+visible = false
+offset_left = -1590.0
+offset_top = -579.0
+offset_right = 1524.0
+offset_bottom = 780.0
+script = ExtResource("9_bf53h")
+
+[node name="Text" type="Label" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -880.0
+offset_top = 18.0
+offset_right = 880.0
+offset_bottom = 439.0
+grow_horizontal = 2
+text = "Lol, You just got exploded!
+Better luck next time!"
+label_settings = SubResource("LabelSettings_dahhg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stats" type="Label" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -147.5
+offset_right = 395.0
+offset_bottom = 147.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Score: x Time: y"
+label_settings = SubResource("LabelSettings_3cx6b")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="New Game" type="Button" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -559.0
+offset_top = -452.0
+offset_right = 621.0
+offset_bottom = -156.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 211
+text = "New Game"
+
+[node name="Delay" type="Timer" parent="Game Over Popup"]
+one_shot = true

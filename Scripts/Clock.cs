@@ -3,7 +3,7 @@ using System;
 
 public partial class Clock : Label
 {
-	private Timer timer;
+	public Timer timer;
 	public int timeInSeconds = 0;
 	public override void _Ready()
 	{
@@ -14,6 +14,19 @@ public partial class Clock : Label
 	private void HandleTick()
 	{
 		timeInSeconds += 1;
+		Text = GetTimeText();
+		
+	}
+
+	public void RestartClock()
+	{
+		timeInSeconds = 0;
+		Text = GetTimeText();
+		timer.Start();
+	}
+
+	public string GetTimeText()
+	{
 		int seconds = timeInSeconds % 60;
 		int minutes = timeInSeconds / 60;
 		
@@ -31,8 +44,7 @@ public partial class Clock : Label
 		}
 		output += seconds;
 
-		Text = output;
-		
+		return output;
 	}
 
 	public override void _Process(double delta)

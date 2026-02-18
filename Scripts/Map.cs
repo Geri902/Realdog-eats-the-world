@@ -30,6 +30,19 @@ public partial class Map : TileMapLayer
         FillSpaces();
     }
 
+    public void ResetMap()
+    {
+        for (int y = boundry["minY"] + 1; y < boundry["maxY"]; y++)
+        {
+            for (int x = boundry["minX"] + 1; x < boundry["maxX"]; x++)
+            {
+                Vector2I pos = new Vector2I(x,y);
+                spaces[pos] = null;
+                EraseCell(pos);
+            }
+        }
+    }
+
     public void SetRnd(RandomNumberGenerator rnd)
     {
         this.rnd = rnd;

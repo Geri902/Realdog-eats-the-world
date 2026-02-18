@@ -14,6 +14,8 @@ public partial class Game : Node2D
 	private Vector2I currentDirection;
 	private Map map;
 	private Label scoreLabel;
+	private Clock clock;
+	private GameOver gameOverPopup;
 	private int score = 0;
 	public override void _Ready()
 	{
@@ -22,6 +24,9 @@ public partial class Game : Node2D
 		timer = GetNode<Timer>("StepTimer");
 		map = GetNode<Map>("MapTiles");
 		scoreLabel = GetNode<Label>("Score");
+		clock = GetNode<Clock>("Clock");
+		gameOverPopup = GetNode<GameOver>("Game Over Popup");
+
 		scoreLabel.Text = $"Score: {score}";
 
 		map.SetRnd(rnd);
@@ -31,10 +36,22 @@ public partial class Game : Node2D
 		map.GenerateFood(partPlaces);
 		timer.Start();
 
+		gameOverPopup.newGameButton.Pressed += RestartGame;
+	}
 
-		//code for testing
-		Eat();
-		Eat();
+	private void RestartGame()
+	{
+		score = 0;
+		scoreLabel.Text = $"Score: {score}";
+
+		clock.RestartClock();
+		timer.Start();
+
+		Spawn(Vector2I.Zero);
+		map.ResetMap();
+		map.GenerateFood(partPlaces);
+
+		gameOverPopup.Visible = false;
 	}
 
     public override void _Process(double delta)
@@ -100,12 +117,16 @@ public partial class Game : Node2D
 			explosion.Start(delay, realDogPainter, part);
 			delay += increment;
 		}
+
+		gameOverPopup.GetGameOver(score, clock.GetTimeText());
+		partPlaces.Clear();
 	}
 
 	private void Die()
 	{
 		GD.Print("Die");
 		Explode();
+		clock.timer.Stop();
 		timer.Stop();
 	}
 
