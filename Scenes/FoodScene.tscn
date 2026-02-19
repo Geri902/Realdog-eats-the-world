@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctn71ws2854f5"]
+
+[ext_resource type="Script" uid="uid://b84vqm6wmdvxh" path="res://Scripts/FoodScene.cs" id="1_plqyi"]
+[ext_resource type="Texture2D" uid="uid://dh68lk7dllx0c" path="res://Assets/NegPal.png" id="2_mxe1j"]
+
+[node name="FoodScene" type="Node2D"]
+script = ExtResource("1_plqyi")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_mxe1j")
+centered = false
+
+[node name="Timer" type="Timer" parent="."]

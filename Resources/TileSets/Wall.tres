@@ -1,7 +1,6 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://duhmlmhnrx3dn"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://duhmlmhnrx3dn"]
 
 [ext_resource type="Texture2D" uid="uid://b056wuxea4q03" path="res://Assets/Wall Tiles.png" id="1_mo3d7"]
-[ext_resource type="Texture2D" uid="uid://dh68lk7dllx0c" path="res://Assets/NegPal.png" id="2_wj2jl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wj2jl"]
 texture = ExtResource("1_mo3d7")
@@ -103,11 +102,6 @@ texture_region_size = Vector2i(128, 128)
 0:4/0/terrains_peering_bit/left_side = 0
 0:4/0/terrains_peering_bit/top_side = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ug8p7"]
-texture = ExtResource("2_wj2jl")
-texture_region_size = Vector2i(128, 128)
-0:0/0 = 0
-
 [resource]
 tile_size = Vector2i(128, 128)
 physics_layer_0/collision_layer = 1
@@ -115,4 +109,3 @@ terrain_set_0/mode = 2
 terrain_set_0/terrain_0/name = "Wall"
 terrain_set_0/terrain_0/color = Color(0, 1, 0, 1)
 sources/0 = SubResource("TileSetAtlasSource_wj2jl")
-sources/1 = SubResource("TileSetAtlasSource_ug8p7")

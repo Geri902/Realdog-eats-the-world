@@ -6,8 +6,11 @@ using System.Linq;
 public partial class Map : TileMapLayer
 {
     private const int WallLayerInd = 0;
-    private const int NegPalLayerInd = 1;
+    private const int AreaSize = 128;
+    [Export]
+    private PackedScene foodScene;
     private RandomNumberGenerator rnd;
+    private Dictionary<Vector2I, FoodScene> foods = new Dictionary<Vector2I, FoodScene>();
     private Dictionary<Vector2I, Space> spaces = new Dictionary<Vector2I, Space>();
     private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
@@ -41,6 +44,12 @@ public partial class Map : TileMapLayer
                 EraseCell(pos);
             }
         }
+
+        foreach (KeyValuePair<Vector2I,FoodScene> food in foods)
+        {
+            food.Value.QueueFree();
+        }
+        foods.Clear();
     }
 
     public void SetRnd(RandomNumberGenerator rnd)
@@ -70,7 +79,6 @@ public partial class Map : TileMapLayer
             if (spaces[target].eddible)
             {
                 spaces[target] = null;
-                EraseCell(target);
 
                 List<Vector2I> copy = new List<Vector2I>(dogParts);
                 copy[copy.Count() - 1] = copy[0] + direction;
@@ -80,7 +88,7 @@ public partial class Map : TileMapLayer
                     So I change the last to the future next position, the foreach doesn't care that the new head is at the position of the tail
                 */
 
-                GenerateFood(dogParts);
+                MoveFood(dogParts, target);
                 return "Eat";
             }
         }
@@ -128,11 +136,28 @@ public partial class Map : TileMapLayer
         }
     }
 
+    public void MoveFood(List<Vector2I> dogParts, Vector2I foodPosition)
+    {
+        Vector2I position = GetRandomNonDogPosition(dogParts);
+        spaces[position] = new Food();
+
+        FoodScene food = foods[foodPosition];
+        foods.Remove(foodPosition);
+        foods.Add(position, food);
+
+        food.GlobalPosition = position * AreaSize;
+
+    }
+
     public void GenerateFood(List<Vector2I> dogParts)
     {
         Vector2I position = GetRandomNonDogPosition(dogParts);
         spaces[position] = new Food();
-        SetCell(position, NegPalLayerInd, new Vector2I(0,0));
+        FoodScene food = foodScene.Instantiate<FoodScene>();
+        food.GlobalPosition = position * AreaSize;
+        AddChild(food);
+        food.SetRnd(rnd);
+        foods.Add(position, food);
     }
 
     private Vector2I GetRandomPosition()
