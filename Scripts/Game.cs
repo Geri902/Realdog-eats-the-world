@@ -18,6 +18,7 @@ public partial class Game : Node2D
 	private Clock clock;
 	private GameOver gameOverPopup;
 	private int score = 0;
+	public string gameMode = "Normal";
 	public override void _Ready()
 	{
 		rnd.Randomize();
@@ -40,6 +41,8 @@ public partial class Game : Node2D
 		timer.Start();
 
 		gameOverPopup.newGameButton.Pressed += RestartGame;
+
+		GD.Print(gameMode);
 	}
 
 	private void RestartGame()

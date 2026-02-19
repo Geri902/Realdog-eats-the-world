@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://diqb2sl70uko0"]
+
+[ext_resource type="Script" uid="uid://b5kralyej6jlk" path="res://Scripts/MainMenu.cs" id="1_tt5f1"]
+[ext_resource type="PackedScene" uid="uid://b80aan3xp8do1" path="res://Scenes/Game.tscn" id="2_853f1"]
+
+[sub_resource type="SystemFont" id="SystemFont_853f1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8saeu"]
+font = SubResource("SystemFont_853f1")
+font_size = 116
+font_color = Color(0.89059, 0.89059, 0.8905901, 1)
+outline_size = 25
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Main menu" type="Node2D" node_paths=PackedStringArray("normalButton", "worldDestructionButton")]
+script = ExtResource("1_tt5f1")
+gameScene = ExtResource("2_853f1")
+normalButton = NodePath("Panel/Normal mode")
+worldDestructionButton = NodePath("Panel/World Destruction")
+
+[node name="Panel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="ColorRect" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5764706, 0.6862745, 1, 1)
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+offset_left = 54.0
+offset_top = 60.0
+offset_right = 1380.0
+offset_bottom = 218.0
+text = "RealDog Eats The World"
+label_settings = SubResource("LabelSettings_8saeu")
+
+[node name="Normal mode" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 640.0
+offset_right = 655.0
+offset_bottom = 791.0
+theme_override_font_sizes/font_size = 51
+text = "Normal Mode"
+
+[node name="World Destruction" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 384.0
+offset_right = 655.0
+offset_bottom = 535.0
+theme_override_font_sizes/font_size = 51
+text = "World Destruction"
