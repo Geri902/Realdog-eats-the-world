@@ -5,11 +5,13 @@ public partial class GameOver : ColorRect
 {
 	private Label stats;
 	public Button newGameButton;
+	public Button mainMenuButton;
 	private Timer delay;
 	public override void _Ready()
 	{
 		stats = GetNode<Label>("Stats");
 		newGameButton = GetNode<Button>("New Game");
+		mainMenuButton = GetNode<Button>("Main Menu");
 		delay = GetNode<Timer>("Delay");
 
 		delay.Timeout += DelayedReveal;

@@ -38,6 +38,7 @@ public partial class MainMenu : Node2D
 		{
 			game = gameScene.Instantiate<Game>();
 			game.gameMode = type;
+			game.mainMenu = this;
 			panel.Visible = false;
 			GetTree().Root.AddChild(game);
 		}

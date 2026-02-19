@@ -19,6 +19,7 @@ public partial class Game : Node2D
 	private GameOver gameOverPopup;
 	private int score = 0;
 	public string gameMode = "Normal";
+	public MainMenu mainMenu = null;
 	public override void _Ready()
 	{
 		rnd.Randomize();
@@ -41,8 +42,17 @@ public partial class Game : Node2D
 		timer.Start();
 
 		gameOverPopup.newGameButton.Pressed += RestartGame;
+		gameOverPopup.mainMenuButton.Pressed += BackToMainMenu;
 
 		GD.Print(gameMode);
+	}
+
+	private void BackToMainMenu()
+	{
+		if (mainMenu is not null)
+		{
+			mainMenu.BackToMenu();
+		}
 	}
 
 	private void RestartGame()
