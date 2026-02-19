@@ -12,6 +12,7 @@ public partial class RealDogPainter : TileMapLayer
 		{"Body", new Vector2I(0,1)},
 		{"Bend", new Vector2I(0,2)},
 		{"Head", new Vector2I(0,3)},
+		{"HeadOpen", new Vector2I(1,3)},
 		{"Chomp", new Vector2I(1,3)},
 	};
 
@@ -23,12 +24,21 @@ public partial class RealDogPainter : TileMapLayer
 	{
 	}
 
-	public void DrawDog(List<Vector2I> partPlaces)
+	public void DrawDog(List<Vector2I> partPlaces, bool isOpen)
 	{
 		int lastPartInd = partPlaces.Count - 1;
 
 		Clear();
-		DrawPart(partPlaces, 0, "Head");
+
+		if (isOpen)
+		{
+			DrawPart(partPlaces, 0, "HeadOpen");
+		}
+		else
+		{
+			DrawPart(partPlaces, 0, "Head");
+		}
+
 		for (int i = 1; i < lastPartInd; i++)
 		{
 			string what = "Body";
@@ -74,6 +84,7 @@ public partial class RealDogPainter : TileMapLayer
 
 		switch (what)
 		{
+			case "HeadOpen":
 			case "Head":
 				next = partPlaces[which + 1];
 				diffNext = next - current;

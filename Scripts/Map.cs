@@ -159,4 +159,22 @@ public partial class Map : TileMapLayer
 
         return emptySpaces[randIndex].Key;
     }
+
+    public bool IsNextFood(Vector2I headPosition)
+    {
+        Vector2I[] around = new Vector2I[4]{ Vector2I.Up, Vector2I.Down, Vector2I.Left, Vector2I.Right};
+
+        foreach (Vector2I nextStep in around)
+        {
+            Vector2I target = headPosition + nextStep;
+        if (spaces[target] is not null)
+        {
+            if (spaces[target].eddible)
+            {
+                return true;
+            }
+        }
+        }
+        return false;
+    }
 }

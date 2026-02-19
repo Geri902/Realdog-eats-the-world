@@ -141,7 +141,7 @@ public partial class Game : Node2D
 	private void Eat()
 	{
 		AddPart();
-		realDogPainter.DrawDog(partPlaces);
+		realDogPainter.DrawDog(partPlaces, map.IsNextFood(partPlaces[0]));
 		IncreaseScore();
 		GD.Print("Eat");
 	}
@@ -179,7 +179,7 @@ public partial class Game : Node2D
 			partPlaces[i] = prevPosition;
 			prevPosition = temp;
 		}
-		realDogPainter.DrawDog(partPlaces);
+		realDogPainter.DrawDog(partPlaces, map.IsNextFood(partPlaces[0]));
 	}
 	public void AddPart()
 	{
