@@ -3,11 +3,13 @@
 [ext_resource type="Script" uid="uid://b84vqm6wmdvxh" path="res://Scripts/FoodScene.cs" id="1_plqyi"]
 [ext_resource type="Texture2D" uid="uid://dh68lk7dllx0c" path="res://Assets/NegPal.png" id="2_mxe1j"]
 
-[node name="FoodScene" type="Node2D"]
+[node name="FoodScene" type="Node2D" node_paths=PackedStringArray("fearBox")]
 script = ExtResource("1_plqyi")
+fearBox = NodePath("")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_mxe1j")
 centered = false
+region_rect = Rect2(0, 0, 128, 128)
 
 [node name="Timer" type="Timer" parent="."]

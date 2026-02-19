@@ -89,11 +89,12 @@ public partial class Map : TileMapLayer
                 */
 
                 MoveFood(dogParts, target);
+                ScareFoods(dogParts[0]);
                 return "Eat";
             }
         }
 
-
+        ScareFoods(dogParts[0]);
         return "Move";
     }
 
@@ -146,6 +147,7 @@ public partial class Map : TileMapLayer
         foods.Add(position, food);
 
         food.GlobalPosition = position * AreaSize;
+        food.CalmDown();
 
     }
 
@@ -201,5 +203,29 @@ public partial class Map : TileMapLayer
         }
         }
         return false;
+    }
+
+    private void ScareFoods(Vector2I head)
+    {
+        foreach (KeyValuePair<Vector2I, FoodScene> food in foods)
+        {
+            int panicRange = food.Value.panicRange;
+            Vector2I foodPosition = food.Key;
+
+            if (Mathf.Abs(foodPosition.X - head.X) <= panicRange && Mathf.Abs(foodPosition.Y - head.Y) <= panicRange)
+            {
+                if (!food.Value.isPanicing)
+                {
+                    food.Value.Panic();
+                }
+            }
+            else
+            {
+                if (food.Value.isPanicing)
+                {
+                    food.Value.CalmDown();
+                }
+            }
+        }
     }
 }

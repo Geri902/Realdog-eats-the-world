@@ -8,6 +8,8 @@ public partial class FoodScene : Node2D
 	private Sprite2D sprite;
 	private Timer shiverTimer;
 	private float shiverSpead = 0.05f;
+	public int panicRange = 3;
+	public bool isPanicing = false;
 	public override void _Ready()
 	{
 		sprite = GetNode<Sprite2D>("Sprite");
@@ -39,15 +41,19 @@ public partial class FoodScene : Node2D
 	{
 		sprite.Offset = GetRandomOffset();
 	}
-	private void Panic()
+	public void Panic()
 	{
 		shiverTimer.Start();
+		isPanicing = true;
 		Shiver();
 	}
 
 	public void CalmDown()
 	{
 		shiverTimer.Stop();
+		isPanicing = false;
 		sprite.Offset = Vector2.Zero;
 	}
+
+	
 }
