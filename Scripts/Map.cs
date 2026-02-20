@@ -282,10 +282,6 @@ public partial class Map : TileMapLayer
                 }
                 break;
                 case "Wall-Border":
-                    foreach (Vector2I position in where)
-                    {
-                        EraseCell(position);
-                    }
                     SetCellsTerrainConnect(where, 0, 0, false);
                     break;
             default:
@@ -381,14 +377,17 @@ public partial class Map : TileMapLayer
 
                 if (spaces[hit] is Wall)
                 {
-                    Godot.Collections.Array<Vector2I> around = GetSurroundingCells(hit);
+                    Godot.Collections.Array<Vector2I> around = new Godot.Collections.Array<Vector2I>(){Vector2I.Up,Vector2I.Down,Vector2I.Left,Vector2I.Right};
                     Godot.Collections.Array<Vector2I> toFix = new Godot.Collections.Array<Vector2I>();
 
                     foreach (Vector2I position in around)
                     {
-                        if (spaces[position] is Wall)
+                        if (spaces.ContainsKey(position))
                         {
-                            toFix.Add(position);
+                            if (spaces[position] is Wall)
+                            {
+                                toFix.Add(position);
+                            }
                         }
                     }
                     Put("Wall", toFix);

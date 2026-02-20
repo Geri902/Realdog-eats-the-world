@@ -206,6 +206,7 @@ public partial class Game : Node2D
 
 	private void Fire()
 	{
+		//big beam broken
 		Godot.Collections.Array<Vector2I> beam = map.GetBeamArea(false, currentDirection);
 		realDogPainter.Beam(false, beam);
 	}
