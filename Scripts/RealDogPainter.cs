@@ -189,4 +189,21 @@ public partial class RealDogPainter : TileMapLayer
 	{
 		EraseCell(position);
 	}
+
+	public void Beam(bool large, Godot.Collections.Array<Vector2I> where)
+	{
+		/*
+            Type: setInd, terrainInd
+            small: 0, 1
+            large: 0, 0
+        */
+		if (large)
+		{
+			SetCellsTerrainConnect(where, 0, 0, false);
+		}
+		else
+		{
+			SetCellsTerrainConnect(where, 0, 1, false);
+		}
+	}
 }

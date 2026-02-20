@@ -6,7 +6,7 @@ using System.Linq;
 public partial class Game : Node2D
 {
 	[Export]
-	private PackedScene explosionScene;
+	public PackedScene explosionScene;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private RealDogPainter realDogPainter;
 	private Timer timer;
@@ -68,6 +68,7 @@ public partial class Game : Node2D
 		clock.RestartClock();
 		timer.Start();
 
+		realDogPainter.Clear();
 		Spawn(Vector2I.Zero);
 		map.ResetMap();
 		map.GenerateFood();
@@ -93,6 +94,10 @@ public partial class Game : Node2D
 			else if (Input.IsActionJustPressed("Right"))
 			{
 				ChangeDirection(Vector2I.Right);
+			}
+			else if (Input.IsActionJustPressed("Fire"))
+			{
+				ChangeDirection(Vector2I.Zero);
 			}
 		}
 	}
@@ -145,7 +150,6 @@ public partial class Game : Node2D
 
 	public void Die()
 	{
-		GD.Print("Die");
 		Explode();
 		clock.timer.Stop();
 		timer.Stop();
@@ -155,7 +159,12 @@ public partial class Game : Node2D
 	private void IncreaseScore()
 	{
 		int value = 10;
-		//later can add logic that gives score based on tile, length or other variables
+		if (gameMode == "World Destruction")
+		{
+			int pc = partPlaces.Count() - 1;
+			value = 10 ^ (int)Math.Floor(pc / 4.0) * pc; 
+			//this needs to be fixed
+		}
 		score += value;
 		scoreLabel.Text = $"Score: {score}";
 	}
@@ -164,11 +173,11 @@ public partial class Game : Node2D
 		AddPart();
 		realDogPainter.DrawDog(partPlaces, map.IsNextFood(partPlaces[0]));
 		IncreaseScore();
-		GD.Print("Eat");
 	}
 
 	private void Step()
 	{
+		Vector2I previousDirection = currentDirection;
 		currentDirection = nextDirection;
 		
 		string option = map.TryMove(currentDirection);
@@ -184,10 +193,21 @@ public partial class Game : Node2D
 			case "Eat":
 				Eat();
 				break;
+			case "Fire":
+				currentDirection = previousDirection;
+				nextDirection = currentDirection;
+				Fire();
+				break;
 			default:
 				GD.Print("couldn't handle move");
 				break;
 		}
+	}
+
+	private void Fire()
+	{
+		Godot.Collections.Array<Vector2I> beam = map.GetBeamArea(false, currentDirection);
+		realDogPainter.Beam(false, beam);
 	}
 	private void Move()
 	{

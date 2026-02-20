@@ -194,6 +194,6 @@ terrain_set_0/mode = 2
 terrain_set_0/terrain_0/name = "Wall"
 terrain_set_0/terrain_0/color = Color(0, 1, 0, 1)
 terrain_set_0/terrain_1/name = "Warning"
-terrain_set_0/terrain_1/color = Color(0, 1, 0, 1)
+terrain_set_0/terrain_1/color = Color(0, 0, 1, 1)
 sources/0 = SubResource("TileSetAtlasSource_wj2jl")
 sources/3 = SubResource("TileSetAtlasSource_ba4my")

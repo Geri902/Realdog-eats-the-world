@@ -34,7 +34,7 @@ public partial class Map : TileMapLayer
 
         foreach (Vector2I wall in walls)
         {
-            spaces.Add(wall, new Wall());
+            spaces.Add(wall, new Wall(false));
             SetBoundry(wall);
         }
         FillSpaces();
@@ -61,7 +61,7 @@ public partial class Map : TileMapLayer
         foods.Clear();
 
         Godot.Collections.Array<Vector2I> walls = GetUsedCells();
-        Put("Wall", walls);
+        Put("Wall-Border", walls);
         wallSpawnTimer.Start();
     }
 
@@ -74,6 +74,11 @@ public partial class Map : TileMapLayer
 
     public string TryMove(Vector2I direction)
     {
+        if (direction == Vector2I.Zero)
+        {
+            return "Fire";
+        }
+
         List<Vector2I> dogParts = game.GetDogParts();
         Vector2I target = dogParts[0] + direction;
 
@@ -266,7 +271,7 @@ public partial class Map : TileMapLayer
                 SetCellsTerrainConnect(where, 0, 0, false);
                 foreach (Vector2I wall in where)
                 {
-                    spaces[wall] = new Wall();
+                    spaces[wall] = new Wall(true);
 
                 }
                 List<Vector2I> dogParts = game.GetDogParts();
@@ -276,6 +281,13 @@ public partial class Map : TileMapLayer
                     return;
                 }
                 break;
+                case "Wall-Border":
+                    foreach (Vector2I position in where)
+                    {
+                        EraseCell(position);
+                    }
+                    SetCellsTerrainConnect(where, 0, 0, false);
+                    break;
             default:
                 break;
         }
@@ -325,5 +337,73 @@ public partial class Map : TileMapLayer
         int emptyCount = nonDog.Count(x=>x.Value is null);
 
         return emptyCount >= count;
+    }
+
+    public Godot.Collections.Array<Vector2I> GetBeamArea(bool large, Vector2I direction)
+    {
+        Vector2I start = game.GetDogParts()[0] + direction;
+        Godot.Collections.Array<Vector2I> beamArea = new Godot.Collections.Array<Vector2I>();
+
+        Vector2I nextStep = start;
+        while (nextStep.X <= boundry["maxX"] && nextStep.X >= boundry["minX"] && nextStep.Y <= boundry["maxY"] && nextStep.Y >= boundry["minY"])
+        {
+            beamArea.Add(nextStep);
+            HandleBeam(nextStep);
+            if (large)
+            {
+                Vector2I paralel = new Vector2I(-nextStep.X, nextStep.Y);
+                beamArea.Add(paralel);
+                HandleBeam(paralel);
+
+                paralel = new Vector2I(nextStep.X, -nextStep.Y);
+                beamArea.Add(paralel);
+                HandleBeam(paralel);
+            }
+
+            nextStep += direction;
+        }
+
+        return beamArea;
+    }
+
+    public void HandleBeam(Vector2I hit)
+    {
+        if (spaces[hit] is not null)
+        {
+            if (spaces[hit].destructable)
+            {
+                if (spaces[hit] is Food)
+                {
+                    MoveFood(hit);
+                }
+                
+                EraseCell(hit);
+
+                if (spaces[hit] is Wall)
+                {
+                    Godot.Collections.Array<Vector2I> around = GetSurroundingCells(hit);
+                    Godot.Collections.Array<Vector2I> toFix = new Godot.Collections.Array<Vector2I>();
+
+                    foreach (Vector2I position in around)
+                    {
+                        if (spaces[position] is Wall)
+                        {
+                            toFix.Add(position);
+                        }
+                    }
+                    Put("Wall", toFix);
+                }
+
+                spaces[hit] = null;
+
+                PackedScene explosionScene = game.explosionScene;
+                Explosion explosion = explosionScene.Instantiate<Explosion>();
+			    AddChild(explosion);
+			    explosion.Position = hit * 128;
+			    explosion.Start(0.01, null, hit);
+
+
+            }
+        }
     }
 }

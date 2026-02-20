@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dw1unc6t7pm2y" path="res://Scripts/Explosion.cs" id="2_ix64a"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+z_index = 3
 sprite_frames = ExtResource("1_mbc3v")
 offset = Vector2(64, 64)
 script = ExtResource("2_ix64a")

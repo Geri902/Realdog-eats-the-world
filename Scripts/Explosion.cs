@@ -18,7 +18,7 @@ public partial class Explosion : AnimatedSprite2D
 
 	public override void _Process(double delta)
 	{
-		if (Frame > 11 && killed == false)
+		if (Frame > 11 && killed == false && dogPainter is not null)
 		{
 			dogPainter.KillCell(at);
 		}
