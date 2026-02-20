@@ -23,3 +23,11 @@ class Food : Space
         eddible = true;
     }
 }
+
+class Warning : Space
+{
+    public Warning()
+    {
+        eddible = false;
+    }
+}

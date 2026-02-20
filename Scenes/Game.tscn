@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://b80aan3xp8do1"]
+[gd_scene load_steps=23 format=4 uid="uid://b80aan3xp8do1"]
 
 [ext_resource type="Texture2D" uid="uid://c06i2r1j4xoa4" path="res://Assets/The Original-Sheet.png" id="1_gl6un"]
 [ext_resource type="Script" uid="uid://djnqgnnuk42gr" path="res://Scripts/Game.cs" id="1_j5yw3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://30blq1lcrr5t" path="res://Scripts/Map.cs" id="6_fgofq"]
 [ext_resource type="PackedScene" uid="uid://ctn71ws2854f5" path="res://Scenes/FoodScene.tscn" id="7_71axn"]
 [ext_resource type="Script" uid="uid://d2v8x6anp2njl" path="res://Scripts/Clock.cs" id="8_2irst"]
+[ext_resource type="PackedScene" uid="uid://cnmf0bmq75kt0" path="res://Scenes/Flickerer.tscn" id="8_dahhg"]
 [ext_resource type="Script" uid="uid://dgkeodswluyii" path="res://Scripts/GameOver.cs" id="9_bf53h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mpx46"]
@@ -86,11 +87,9 @@ tile_map_data = PackedByteArray("AAANAAcAAAADAAIAAAANAAYAAAAAAAIAAAANAAUAAAAAAAI
 tile_set = ExtResource("4_b2bpf")
 script = ExtResource("6_fgofq")
 foodScene = ExtResource("7_71axn")
+flickererScene = ExtResource("8_dahhg")
 
 [node name="Wall Spawn Timer" type="Timer" parent="MapTiles"]
-
-[node name="Flicker Timer" type="Timer" parent="MapTiles"]
-wait_time = 0.25
 
 [node name="Inside Background" type="Sprite2D" parent="."]
 z_index = -1

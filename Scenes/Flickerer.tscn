@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnmf0bmq75kt0"]
+
+[ext_resource type="Script" uid="uid://c4vqrkjkps0nk" path="res://Scripts/Flickerer.cs" id="1_yi1el"]
+
+[node name="Flickerer" type="Node2D"]
+script = ExtResource("1_yi1el")
+
+[node name="Flicker" type="Timer" parent="."]
+wait_time = 0.5

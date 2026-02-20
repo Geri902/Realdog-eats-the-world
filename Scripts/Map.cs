@@ -6,10 +6,15 @@ using System.Linq;
 public partial class Map : TileMapLayer
 {
     private const int WallLayerInd = 0;
+    private const int WarningLayerInd = 3;
     private const int AreaSize = 128;
     [Export]
     private PackedScene foodScene;
+    [Export]
+    private PackedScene flickererScene;
     private RandomNumberGenerator rnd;
+    public Timer wallSpawnTimer;
+    private Game game;
     private Dictionary<Vector2I, FoodScene> foods = new Dictionary<Vector2I, FoodScene>();
     private Dictionary<Vector2I, Space> spaces = new Dictionary<Vector2I, Space>();
     private Dictionary<string, int> boundry = new Dictionary<string, int>()
@@ -23,6 +28,8 @@ public partial class Map : TileMapLayer
 
     public override void _Ready()
     {
+        wallSpawnTimer = GetNode<Timer>("Wall Spawn Timer");
+
         List<Vector2I> walls = GetUsedCells().ToList();
 
         foreach (Vector2I wall in walls)
@@ -31,6 +38,8 @@ public partial class Map : TileMapLayer
             SetBoundry(wall);
         }
         FillSpaces();
+
+        wallSpawnTimer.Timeout += PlaceWall;
     }
 
     public void ResetMap()
@@ -50,16 +59,22 @@ public partial class Map : TileMapLayer
             food.Value.QueueFree();
         }
         foods.Clear();
+
+        Godot.Collections.Array<Vector2I> walls = GetUsedCells();
+        Put("Wall", walls);
+        wallSpawnTimer.Start();
     }
 
-    public void SetRnd(RandomNumberGenerator rnd)
+    public void SetMap(RandomNumberGenerator rnd, Game game)
     {
         this.rnd = rnd;
+        this.game = game;
         
     }
 
-    public string TryMove(List<Vector2I> dogParts, Vector2I direction)
+    public string TryMove(Vector2I direction)
     {
+        List<Vector2I> dogParts = game.GetDogParts();
         Vector2I target = dogParts[0] + direction;
 
         foreach (Vector2I segment in dogParts)
@@ -88,7 +103,7 @@ public partial class Map : TileMapLayer
                     So I change the last to the future next position, the foreach doesn't care that the new head is at the position of the tail
                 */
 
-                MoveFood(dogParts, target);
+                MoveFood(target);
                 ScareFoods(dogParts[0]);
                 return "Eat";
             }
@@ -137,9 +152,15 @@ public partial class Map : TileMapLayer
         }
     }
 
-    public void MoveFood(List<Vector2I> dogParts, Vector2I foodPosition)
+    public void MoveFood(Vector2I foodPosition)
     {
-        Vector2I position = GetRandomNonDogPosition(dogParts);
+        if (!IsThereEnoughCells(1))
+        {
+            foods[foodPosition].QueueFree();
+            return;
+        }
+
+        Vector2I position = GetRandomNonDogPosition();
         spaces[position] = new Food();
 
         FoodScene food = foods[foodPosition];
@@ -151,9 +172,9 @@ public partial class Map : TileMapLayer
 
     }
 
-    public void GenerateFood(List<Vector2I> dogParts)
+    public void GenerateFood()
     {
-        Vector2I position = GetRandomNonDogPosition(dogParts);
+        Vector2I position = GetRandomNonDogPosition();
         spaces[position] = new Food();
         FoodScene food = foodScene.Instantiate<FoodScene>();
         food.GlobalPosition = position * AreaSize;
@@ -171,11 +192,11 @@ public partial class Map : TileMapLayer
         return emptySpaces[randIndex].Key;
     }
 
-    private Vector2I GetRandomNonDogPosition(List<Vector2I> dogParts)
+    private Vector2I GetRandomNonDogPosition()
     {
         Dictionary<Vector2I, Space> nonDog = new Dictionary<Vector2I, Space>(spaces);
 
-        foreach (Vector2I pos in dogParts)
+        foreach (Vector2I pos in game.GetDogParts())
         {
             nonDog.Remove(pos);
         }
@@ -227,5 +248,82 @@ public partial class Map : TileMapLayer
                 }
             }
         }
+    }
+
+    public void Put(string what, Godot.Collections.Array<Vector2I> where)
+    {
+        /*
+            Type: setInd, terrainInd
+            warning: 0, 1
+            wall: 0, 0
+        */
+        switch (what)
+        {
+            case "Warning":
+                SetCellsTerrainConnect(where, 0, 1, false);
+                break;
+            case "Wall":
+                SetCellsTerrainConnect(where, 0, 0, false);
+                foreach (Vector2I wall in where)
+                {
+                    spaces[wall] = new Wall();
+
+                }
+                List<Vector2I> dogParts = game.GetDogParts();
+                if (dogParts.Any(where.Contains))
+                {
+                    game.Die();
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void KillCells(Godot.Collections.Array<Vector2I> where)
+    {
+        foreach (Vector2I position in where)
+        {
+            EraseCell(position);
+        }
+    }
+
+    private void PlaceWall()
+    {
+        //later can write logic to set multiple walls at once, like a 3x1 wall
+        int wallCount = 1;
+
+        if (!IsThereEnoughCells(wallCount))
+        {
+            return;
+        }
+
+        Godot.Collections.Array<Vector2I> walls = new Godot.Collections.Array<Vector2I>();
+
+        for (int i = 0; i < wallCount; i++)
+        {
+            Vector2I position = GetRandomPosition();
+            spaces[position] = new Warning();
+            walls.Add(position);
+        }
+
+        Flickerer flickerer = flickererScene.Instantiate<Flickerer>();
+        AddChild(flickerer);
+        flickerer.StartFlicker(walls, this, "Wall", 3);
+    }
+
+    private bool IsThereEnoughCells(int count)
+    {
+        Dictionary<Vector2I, Space> nonDog = new Dictionary<Vector2I, Space>(spaces);
+
+        foreach (Vector2I pos in game.GetDogParts())
+        {
+            nonDog.Remove(pos);
+        }
+
+        int emptyCount = nonDog.Count(x=>x.Value is null);
+
+        return emptyCount >= count;
     }
 }

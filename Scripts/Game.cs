@@ -32,17 +32,22 @@ public partial class Game : Node2D
 
 		scoreLabel.Text = $"Score: {score}";
 
-		map.SetRnd(rnd);
+		map.SetMap(rnd, this);
 
 		timer.Timeout += Step;
 		Spawn(Vector2I.Zero);
-		map.GenerateFood(partPlaces);
+		map.GenerateFood();
 
 		Step();
 		timer.Start();
 
 		gameOverPopup.newGameButton.Pressed += RestartGame;
 		gameOverPopup.mainMenuButton.Pressed += BackToMainMenu;
+
+		if (gameMode == "World Destruction")
+		{
+			map.wallSpawnTimer.Start();
+		}
 
 		GD.Print(gameMode);
 	}
@@ -65,7 +70,7 @@ public partial class Game : Node2D
 
 		Spawn(Vector2I.Zero);
 		map.ResetMap();
-		map.GenerateFood(partPlaces);
+		map.GenerateFood();
 
 		gameOverPopup.Visible = false;
 	}
@@ -138,12 +143,13 @@ public partial class Game : Node2D
 		partPlaces.Clear();
 	}
 
-	private void Die()
+	public void Die()
 	{
 		GD.Print("Die");
 		Explode();
 		clock.timer.Stop();
 		timer.Stop();
+		map.wallSpawnTimer.Stop();
 	}
 
 	private void IncreaseScore()
@@ -165,7 +171,7 @@ public partial class Game : Node2D
 	{
 		currentDirection = nextDirection;
 		
-		string option = map.TryMove(partPlaces, currentDirection);
+		string option = map.TryMove(currentDirection);
 
 		switch (option)
 		{
@@ -227,5 +233,10 @@ public partial class Game : Node2D
 		nextDirection = currentDirection;
 
 		AddPart();
+	}
+
+	public List<Vector2I> GetDogParts()
+	{
+		return partPlaces;
 	}
 }
