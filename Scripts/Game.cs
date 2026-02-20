@@ -215,6 +215,8 @@ public partial class Game : Node2D
 	{
 		//big beam broken
 		Godot.Collections.Array<Vector2I> beam = map.GetBeamArea(false, currentDirection);
+		//needs guards to not remove too much
+		partPlaces.RemoveAt(partPlaces.Count() - 1);
 		realDogPainter.Beam(false, beam, partPlaces);
 	}
 	private void Move()
