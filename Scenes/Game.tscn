@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://djnqgnnuk42gr" path="res://Scripts/Game.cs" id="1_j5yw3"]
 [ext_resource type="PackedScene" uid="uid://dliets6c6vm6h" path="res://Scenes/Explosion.tscn" id="2_7lihs"]
 [ext_resource type="Script" uid="uid://debrmedtv4wm0" path="res://Scripts/RealDogPainter.cs" id="2_j5yw3"]
-[ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Wall.tres" id="4_b2bpf"]
+[ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="4_b2bpf"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="5_7lihs"]
 [ext_resource type="Script" uid="uid://30blq1lcrr5t" path="res://Scripts/Map.cs" id="6_fgofq"]
 [ext_resource type="PackedScene" uid="uid://ctn71ws2854f5" path="res://Scenes/FoodScene.tscn" id="7_71axn"]
@@ -38,18 +38,21 @@ sources/0 = SubResource("TileSetAtlasSource_mpx46")
 [sub_resource type="CanvasTexture" id="CanvasTexture_fgofq"]
 
 [sub_resource type="SystemFont" id="SystemFont_fgofq"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_2irst"]
 font = SubResource("SystemFont_fgofq")
 font_size = 145
 
 [sub_resource type="SystemFont" id="SystemFont_bf53h"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_71axn"]
 font = SubResource("SystemFont_bf53h")
 font_size = 145
 
 [sub_resource type="SystemFont" id="SystemFont_71axn"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_dahhg"]
 font = SubResource("SystemFont_71axn")
@@ -57,6 +60,7 @@ font_size = 153
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="SystemFont" id="SystemFont_3so38"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_3cx6b"]
 font = SubResource("SystemFont_3so38")
@@ -82,6 +86,11 @@ tile_map_data = PackedByteArray("AAANAAcAAAADAAIAAAANAAYAAAAAAAIAAAANAAUAAAAAAAI
 tile_set = ExtResource("4_b2bpf")
 script = ExtResource("6_fgofq")
 foodScene = ExtResource("7_71axn")
+
+[node name="Wall Spawn Timer" type="Timer" parent="MapTiles"]
+
+[node name="Flicker Timer" type="Timer" parent="MapTiles"]
+wait_time = 0.25
 
 [node name="Inside Background" type="Sprite2D" parent="."]
 z_index = -1
