@@ -171,7 +171,14 @@ public partial class Game : Node2D
 	private void Eat()
 	{
 		AddPart();
-		realDogPainter.DrawDog(partPlaces, map.IsNextFood(partPlaces[0]));
+		if (map.IsNextFood(partPlaces[0]))
+		{
+			realDogPainter.DrawDog(partPlaces, "Hungry");
+		}
+		else
+		{
+			realDogPainter.DrawDog(partPlaces, "Normal");
+		}
 		IncreaseScore();
 	}
 
@@ -208,7 +215,7 @@ public partial class Game : Node2D
 	{
 		//big beam broken
 		Godot.Collections.Array<Vector2I> beam = map.GetBeamArea(false, currentDirection);
-		realDogPainter.Beam(false, beam);
+		realDogPainter.Beam(false, beam, partPlaces);
 	}
 	private void Move()
 	{
@@ -221,7 +228,14 @@ public partial class Game : Node2D
 			partPlaces[i] = prevPosition;
 			prevPosition = temp;
 		}
-		realDogPainter.DrawDog(partPlaces, map.IsNextFood(partPlaces[0]));
+		if (map.IsNextFood(partPlaces[0]))
+		{
+			realDogPainter.DrawDog(partPlaces, "Hungry");
+		}
+		else
+		{
+			realDogPainter.DrawDog(partPlaces, "Head");
+		}
 	}
 	public void AddPart()
 	{

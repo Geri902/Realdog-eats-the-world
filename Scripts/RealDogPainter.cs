@@ -13,6 +13,8 @@ public partial class RealDogPainter : TileMapLayer
 		{"Bend", new Vector2I(0,2)},
 		{"Head", new Vector2I(0,3)},
 		{"HeadOpen", new Vector2I(1,3)},
+		{"HeadBeamS", new Vector2I(2,3)},
+		{"HeadBeamL", new Vector2I(3,3)},
 		{"Chomp", new Vector2I(1,3)},
 	};
 
@@ -24,19 +26,26 @@ public partial class RealDogPainter : TileMapLayer
 	{
 	}
 
-	public void DrawDog(List<Vector2I> partPlaces, bool isOpen)
+	public void DrawDog(List<Vector2I> partPlaces, string headOption)
 	{
 		int lastPartInd = partPlaces.Count - 1;
 
 		Clear();
 
-		if (isOpen)
+		switch (headOption)
 		{
-			DrawPart(partPlaces, 0, "HeadOpen");
-		}
-		else
-		{
-			DrawPart(partPlaces, 0, "Head");
+			case "Hungry":
+				DrawPart(partPlaces, 0, "HeadOpen");
+				break;
+			case "BeamS":
+				DrawPart(partPlaces, 0, "HeadBeamS");
+				break;
+			case "BeamL":
+				DrawPart(partPlaces, 0, "HeadBeamL");
+				break;
+			default:
+				DrawPart(partPlaces, 0, "Head");
+				break;
 		}
 
 		for (int i = 1; i < lastPartInd; i++)
@@ -84,6 +93,8 @@ public partial class RealDogPainter : TileMapLayer
 
 		switch (what)
 		{
+			case "HeadBeamS":
+			case "HeadBeamL":
 			case "HeadOpen":
 			case "Head":
 				next = partPlaces[which + 1];
@@ -190,7 +201,7 @@ public partial class RealDogPainter : TileMapLayer
 		EraseCell(position);
 	}
 
-	public void Beam(bool large, Godot.Collections.Array<Vector2I> where)
+	public void Beam(bool large, Godot.Collections.Array<Vector2I> where, List<Vector2I> partPlaces)
 	{
 		/*
             Type: setInd, terrainInd
@@ -199,10 +210,12 @@ public partial class RealDogPainter : TileMapLayer
         */
 		if (large)
 		{
+			DrawDog(partPlaces, "BeamL");
 			SetCellsTerrainConnect(where, 0, 0, false);
 		}
 		else
 		{
+			DrawDog(partPlaces, "BeamS");
 			SetCellsTerrainConnect(where, 0, 1, false);
 		}
 	}
