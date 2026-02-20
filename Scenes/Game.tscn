@@ -1,9 +1,9 @@
-[gd_scene load_steps=23 format=4 uid="uid://b80aan3xp8do1"]
+[gd_scene load_steps=21 format=4 uid="uid://b80aan3xp8do1"]
 
-[ext_resource type="Texture2D" uid="uid://c06i2r1j4xoa4" path="res://Assets/The Original-Sheet.png" id="1_gl6un"]
 [ext_resource type="Script" uid="uid://djnqgnnuk42gr" path="res://Scripts/Game.cs" id="1_j5yw3"]
 [ext_resource type="PackedScene" uid="uid://dliets6c6vm6h" path="res://Scenes/Explosion.tscn" id="2_7lihs"]
 [ext_resource type="Script" uid="uid://debrmedtv4wm0" path="res://Scripts/RealDogPainter.cs" id="2_j5yw3"]
+[ext_resource type="TileSet" uid="uid://bfg2enybqjykf" path="res://Resources/TileSets/RealDog.tres" id="3_dahhg"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="4_b2bpf"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="5_7lihs"]
 [ext_resource type="Script" uid="uid://30blq1lcrr5t" path="res://Scripts/Map.cs" id="6_fgofq"]
@@ -11,30 +11,6 @@
 [ext_resource type="Script" uid="uid://d2v8x6anp2njl" path="res://Scripts/Clock.cs" id="8_2irst"]
 [ext_resource type="PackedScene" uid="uid://cnmf0bmq75kt0" path="res://Scenes/Flickerer.tscn" id="8_dahhg"]
 [ext_resource type="Script" uid="uid://dgkeodswluyii" path="res://Scripts/GameOver.cs" id="9_bf53h"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mpx46"]
-resource_name = "RealDogSheet"
-texture = ExtResource("1_gl6un")
-texture_region_size = Vector2i(128, 128)
-0:0/next_alternative_id = 11
-0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-18.063217, -32.753174, -4.470064, -30.287552, 8.367043, -26.046722, 20.115292, -20.659721, 26.64846, -15.788496, 29.112724, -16.01773, 43.554474, -61.97916, 44.586025, -61.97916, 59.1997, -21.347422, 59.1997, -16.991974, 31.347757, -3.753708, 31.519686, 7.7079945, 28.195791, 14.928867, 15.234024, 27.530079, 5.2150764, 55.274063, -11.461704, 35.330704, -20.974918, 54.987522, -28.711567, 33.03836, -64, 33.363796, -64, -33.183937)
-0:1/next_alternative_id = 13
-0:1/0 = 0
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(64, -33.40606, 64, 33.406067, -64, 33.363796, -64, -33.183937)
-0:2/next_alternative_id = 6
-0:2/0 = 0
-0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(32.66069, 20.907005, 33.146095, 64, -33.562157, 64, -33.562157, 33.180767, -64, 33.363796, -64, -33.183937, -28.916157, -32.140617, -7.9744797, -27.217245, 4.0219116, -20.282915, 15.394211, -10.29748, 24.686216, 1.9069405)
-0:3/next_alternative_id = 7
-0:3/0 = 0
-0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(40.51712, -62.38032, 43.783707, -62.494938, 51.06189, -34.814926, 64, -34.642998, 64, 33.72606, 49.457253, 33.439518, 42.236374, 56.420235, 25.960758, 31.662956, 18.396032, 53.325577, 11.690939, 25.588253, -0.17192459, 15.9604225, -39.256332, 9.656486, -7.6793404, 0.4298153, -46.477207, -14.011931, -5.960087, -24.384773, 5.329691, -36.93534, 10.602076, -62.15109, 12.206717, -62.49494, 26.935003, -40.946938)
-1:3/0 = 0
-1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(40.51712, -62.38032, 43.783707, -62.494938, 51.06189, -34.814926, 64, -34.642998, 64, 33.72606, 49.457253, 33.439518, 42.236374, 56.420235, 25.960758, 31.662956, 18.396032, 53.325577, 11.690939, 25.588253, -4.9504166, 13.718536, -36.079327, 23.11594, -11.159416, 0.3775711, -47.90999, -29.828373, -5.960087, -24.384773, 5.329691, -36.93534, 10.602076, -62.15109, 12.206717, -62.49494, 26.935003, -40.946938)
-
-[sub_resource type="TileSet" id="TileSet_idj7w"]
-tile_size = Vector2i(128, 128)
-physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_mpx46")
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_fgofq"]
 
@@ -73,7 +49,7 @@ script = ExtResource("1_j5yw3")
 explosionScene = ExtResource("2_7lihs")
 
 [node name="DogTiles" type="TileMapLayer" parent="."]
-tile_set = SubResource("TileSet_idj7w")
+tile_set = ExtResource("3_dahhg")
 script = ExtResource("2_j5yw3")
 
 [node name="Camera" type="Camera2D" parent="."]
