@@ -1,11 +1,15 @@
-[gd_scene load_steps=4 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=7 format=4 uid="uid://db6dfhna4fiat"]
 
+[ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="2_me0nq"]
+[ext_resource type="Script" uid="uid://jjunxrgok2wq" path="res://Scripts/Reworked Scripts/DogController.cs" id="4_2dj2o"]
+[ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
 
 [node name="WorldDestruction" type="Node2D"]
+script = ExtResource("1_e2hwi")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
@@ -25,3 +29,7 @@ modulate = Color(0.7411765, 0.44705883, 0.8117647, 1)
 z_index = -2
 scale = Vector2(3840, 2304)
 texture = SubResource("CanvasTexture_e2hwi")
+
+[node name="DogController" type="Node2D" parent="."]
+script = ExtResource("4_2dj2o")
+segmentScene = ExtResource("5_2dj2o")

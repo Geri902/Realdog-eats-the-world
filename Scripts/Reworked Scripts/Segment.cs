@@ -111,28 +111,17 @@ public partial class Segment : Area2D
 		return deg;
 	}
 
-	private void DrawSegment(Vector2 previous, Vector2 next, BodyType what)
+	public void DrawSegment(Vector2 previous, Vector2 next, BodyType what)
 	{
 		Vector2I currentI = new Vector2I((int)GlobalPosition.X / size, (int)GlobalPosition.Y / size);
 		Vector2I previousI = new Vector2I((int)previous.X / size, (int)previous.Y / size);
 		Vector2I nextI = new Vector2I((int)next.X / size, (int)next.Y / size);
-
-		int deg = 0;
-		switch (CalcDeg(currentI, previousI, nextI, what))
+		
+		frames.RotationDegrees = CalcDeg(currentI, previousI, nextI, what);
+		if (what == BodyType.Straight && previousI.X != nextI.X && nextI.Y != previousI.Y)
 		{
-			case 90:
-				deg = (int)TileSetAtlasSource.TransformTranspose | (int)TileSetAtlasSource.TransformFlipH;
-				break;
-			case 180:
-				deg = (int)TileSetAtlasSource.TransformFlipH | (int)TileSetAtlasSource.TransformFlipV;
-				break;
-			case 270:
-				deg = (int)TileSetAtlasSource.TransformTranspose | (int)TileSetAtlasSource.TransformFlipV;
-				break;
-			default:
-				break;
+			frames.Frame = (int)BodyType.Bend;
 		}
-		GlobalRotation = deg;
 		frames.Frame = (int)what;
 	}
 }
