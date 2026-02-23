@@ -2,10 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://c06i2r1j4xoa4" path="res://Assets/The Original-Sheet.png" id="1_ylpfi"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y0xe8"]
-atlas = ExtResource("1_ylpfi")
-region = Rect2(0, 0, 128, 128)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_uw2r1"]
 atlas = ExtResource("1_ylpfi")
 region = Rect2(0, 128, 128, 128)
@@ -13,6 +9,10 @@ region = Rect2(0, 128, 128, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_lk028"]
 atlas = ExtResource("1_ylpfi")
 region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0xe8"]
+atlas = ExtResource("1_ylpfi")
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qxn0w"]
 atlas = ExtResource("1_ylpfi")
@@ -34,13 +34,13 @@ region = Rect2(384, 384, 128, 128)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y0xe8")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_uw2r1")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lk028")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0xe8")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qxn0w")
