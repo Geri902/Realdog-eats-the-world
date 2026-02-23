@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cinj2xxubx1fm"]
+
+[ext_resource type="Script" uid="uid://byi32536jeexo" path="res://Scripts/Reworked Scripts/Segment.cs" id="1_om7y0"]
+[ext_resource type="SpriteFrames" uid="uid://dpx5yn0aeupwo" path="res://Resources/SpriteFrames/RealDogFrames.tres" id="1_v7yqs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_om7y0"]
+size = Vector2(128, 128)
+
+[node name="Segment" type="Area2D"]
+script = ExtResource("1_om7y0")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_om7y0")
+
+[node name="Frames" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_v7yqs")
+speed_scale = 0.0
+centered = false
