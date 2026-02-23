@@ -14,6 +14,6 @@ position = Vector2(64, 64)
 shape = SubResource("RectangleShape2D_om7y0")
 
 [node name="Frames" type="AnimatedSprite2D" parent="."]
+position = Vector2(64, 64)
 sprite_frames = ExtResource("1_v7yqs")
 speed_scale = 0.0
-centered = false

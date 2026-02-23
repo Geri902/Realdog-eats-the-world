@@ -116,12 +116,15 @@ public partial class Segment : Area2D
 		Vector2I currentI = new Vector2I((int)GlobalPosition.X / size, (int)GlobalPosition.Y / size);
 		Vector2I previousI = new Vector2I((int)previous.X / size, (int)previous.Y / size);
 		Vector2I nextI = new Vector2I((int)next.X / size, (int)next.Y / size);
-		
+
 		frames.RotationDegrees = CalcDeg(currentI, previousI, nextI, what);
 		if (what == BodyType.Straight && previousI.X != nextI.X && nextI.Y != previousI.Y)
 		{
 			frames.Frame = (int)BodyType.Bend;
 		}
-		frames.Frame = (int)what;
+		else
+		{
+			frames.Frame = (int)what;
+		}
 	}
 }

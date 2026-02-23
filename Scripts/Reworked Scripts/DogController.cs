@@ -30,10 +30,9 @@ public partial class DogController : Node2D
 			segment.QueueFree();
 		}
 		parts.Clear();
-		Spawn();
 	}
 
-	public void Spawn()
+	public Vector2 Spawn()
 	{
 		AddPart(Vector2.Zero);
 
@@ -62,6 +61,8 @@ public partial class DogController : Node2D
 		AddPart(nextPosition * 4);
 
 		DrawAll();
+
+		return nextPosition / -size;
 	}
 
 	private void AddPart(Vector2 position)
@@ -82,5 +83,20 @@ public partial class DogController : Node2D
 			parts[i].DrawSegment(parts[i - 1].GlobalPosition, parts[i + 1].GlobalPosition, BodyType.Straight);
 		}
 		parts[lastInd].DrawSegment(parts[lastInd - 1].GlobalPosition, Vector2.Zero, BodyType.Tail);
+	}
+
+	public void Move(Vector2 direction)
+	{
+		Vector2 prev = parts[0].Position;
+		parts[0].Position += direction * size;
+		for (int i = 1; i < parts.Count; i++)
+		{
+			Vector2 current = parts[i].Position;
+			parts[i].Position = prev;
+			prev = current;
+		}
+
+		//maybe later I can make drawin inside movement loop
+		DrawAll();		
 	}
 }

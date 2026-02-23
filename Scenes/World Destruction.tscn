@@ -33,3 +33,5 @@ texture = SubResource("CanvasTexture_e2hwi")
 [node name="DogController" type="Node2D" parent="."]
 script = ExtResource("4_2dj2o")
 segmentScene = ExtResource("5_2dj2o")
+
+[node name="Step" type="Timer" parent="."]
