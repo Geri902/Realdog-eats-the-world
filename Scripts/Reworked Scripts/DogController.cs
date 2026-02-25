@@ -37,6 +37,7 @@ public partial class DogController : Node2D
 	public Vector2 Spawn()
 	{
 		AddPart(Vector2.Zero);
+		parts[0].isHead = true;
 
 		Vector2 nextPosition;
 		int dir = rnd.RandiRange(0,3);

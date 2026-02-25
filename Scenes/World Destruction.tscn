@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
-[ext_resource type="PackedScene" uid="uid://dliets6c6vm6h" path="res://Scenes/Explosion.tscn" id="2_ax67c"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="2_me0nq"]
 [ext_resource type="Script" uid="uid://jjunxrgok2wq" path="res://Scripts/Reworked Scripts/DogController.cs" id="4_2dj2o"]
 [ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
+[ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
 
@@ -34,6 +34,8 @@ texture = SubResource("CanvasTexture_e2hwi")
 [node name="DogController" type="Node2D" parent="."]
 script = ExtResource("4_2dj2o")
 segmentScene = ExtResource("5_2dj2o")
-explosionScene = ExtResource("2_ax67c")
 
 [node name="Step" type="Timer" parent="."]
+
+[node name="ReworkedFoodScene" parent="." instance=ExtResource("6_ax67c")]
+position = Vector2(-640, 0)

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8eunq1psqbav"]
+
+[ext_resource type="Script" uid="uid://mrvgb6quauui" path="res://Scripts/Reworked Scripts/ReworkedFood.cs" id="1_q3i57"]
+[ext_resource type="Texture2D" uid="uid://dh68lk7dllx0c" path="res://Assets/NegPal.png" id="2_jrb82"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m1s8x"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gbdhd"]
+size = Vector2(640, 640)
+
+[node name="ReworkedFoodScene" type="StaticBody2D"]
+script = ExtResource("1_q3i57")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_m1s8x")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(64, 64)
+texture = ExtResource("2_jrb82")
+
+[node name="Fear Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fear Area"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_gbdhd")
+debug_color = Color(0.3436135, 0.62106025, 0, 0.41960785)
+
+[node name="Timer" type="Timer" parent="."]
