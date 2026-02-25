@@ -13,7 +13,7 @@ public enum BodyType
 	AttackLarge = 6,
 }
 
-public partial class Segment : Area2D
+public partial class Segment : CharacterBody2D
 {
 	private const int size = 128;
 	private AnimatedSprite2D frames;
@@ -125,6 +125,32 @@ public partial class Segment : Area2D
 		else
 		{
 			frames.Frame = (int)what;
+		}
+	}
+
+	public void MoveSegment(Vector2 direction)
+	{
+		KinematicCollision2D collision = MoveAndCollide(direction, true);
+
+		if (collision is not null)
+		{
+			GD.Print("collision:");
+			HandleCollision(collision.GetCollider());
+			GD.Print("------");
+		}
+		else
+		{
+			MoveAndCollide(direction);
+		}
+
+
+	}
+
+	public void HandleCollision(GodotObject collider)
+	{
+		if (collider is TileMapLayer)
+		{
+			GD.Print("wall");
 		}
 	}
 }

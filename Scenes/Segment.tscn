@@ -4,9 +4,9 @@
 [ext_resource type="SpriteFrames" uid="uid://dpx5yn0aeupwo" path="res://Resources/SpriteFrames/RealDogFrames.tres" id="1_v7yqs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_om7y0"]
-size = Vector2(128, 128)
+size = Vector2(126, 126)
 
-[node name="Segment" type="Area2D"]
+[node name="Segment" type="CharacterBody2D"]
 script = ExtResource("1_om7y0")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]

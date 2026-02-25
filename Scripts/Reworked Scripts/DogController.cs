@@ -88,7 +88,7 @@ public partial class DogController : Node2D
 	public void Move(Vector2 direction)
 	{
 		Vector2 prev = parts[0].Position;
-		parts[0].Position += direction * size;
+		parts[0].MoveSegment(direction * size);
 		for (int i = 1; i < parts.Count; i++)
 		{
 			Vector2 current = parts[i].Position;
