@@ -163,6 +163,11 @@ public partial class Segment : CharacterBody2D
 			GD.Print("wall");
 			return "Die";
 		}
+		if (collider is Segment)
+		{
+			GD.Print("Body");
+			return "Die";
+		}
 		return "Can't handle";
 	}
 	
