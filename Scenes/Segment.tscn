@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cinj2xxubx1fm"]
+[gd_scene load_steps=5 format=3 uid="uid://cinj2xxubx1fm"]
 
 [ext_resource type="Script" uid="uid://byi32536jeexo" path="res://Scripts/Reworked Scripts/Segment.cs" id="1_om7y0"]
 [ext_resource type="SpriteFrames" uid="uid://dpx5yn0aeupwo" path="res://Resources/SpriteFrames/RealDogFrames.tres" id="1_v7yqs"]
+[ext_resource type="SpriteFrames" uid="uid://dh5d5xqwy3ekm" path="res://Resources/SpriteFrames/ExplosionFrames.tres" id="3_kiben"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_om7y0"]
 size = Vector2(126, 126)
@@ -13,7 +14,14 @@ script = ExtResource("1_om7y0")
 position = Vector2(64, 64)
 shape = SubResource("RectangleShape2D_om7y0")
 
-[node name="Frames" type="AnimatedSprite2D" parent="."]
+[node name="Body Frames" type="AnimatedSprite2D" parent="."]
 position = Vector2(64, 64)
 sprite_frames = ExtResource("1_v7yqs")
 speed_scale = 0.0
+
+[node name="Explosion Frames" type="AnimatedSprite2D" parent="."]
+position = Vector2(66, 57)
+sprite_frames = ExtResource("3_kiben")
+
+[node name="Delay" type="Timer" parent="."]
+one_shot = true

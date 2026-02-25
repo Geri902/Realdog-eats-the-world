@@ -16,17 +16,27 @@ public enum BodyType
 public partial class Segment : CharacterBody2D
 {
 	private const int size = 128;
-	private AnimatedSprite2D frames;
+	private AnimatedSprite2D bodyFrames;
+	private AnimatedSprite2D explosionFrames;
+	private Timer delayTimer;
 	public bool isHead = false;
 	public override void _Ready()
 	{
-		frames = GetNode<AnimatedSprite2D>("Frames");
+		bodyFrames = GetNode<AnimatedSprite2D>("Body Frames");
+		explosionFrames = GetNode<AnimatedSprite2D>("Explosion Frames");
+		delayTimer = GetNode<Timer>("Delay");
+
+		delayTimer.Timeout += Explode;
 	}
 
 
 	public override void _Process(double delta)
 	{
-		
+		if (explosionFrames.Frame > 11)
+		{
+			explosionFrames.Stop();
+			Visible = false;
+		}
 	}
 	private int CalcDeg(Vector2I currentI, Vector2I previousI, Vector2I nextI, BodyType what)
 	{
@@ -117,40 +127,52 @@ public partial class Segment : CharacterBody2D
 		Vector2I previousI = new Vector2I((int)previous.X / size, (int)previous.Y / size);
 		Vector2I nextI = new Vector2I((int)next.X / size, (int)next.Y / size);
 
-		frames.RotationDegrees = CalcDeg(currentI, previousI, nextI, what);
+		bodyFrames.RotationDegrees = CalcDeg(currentI, previousI, nextI, what);
 		if (what == BodyType.Straight && previousI.X != nextI.X && nextI.Y != previousI.Y)
 		{
-			frames.Frame = (int)BodyType.Bend;
+			bodyFrames.Frame = (int)BodyType.Bend;
 		}
 		else
 		{
-			frames.Frame = (int)what;
+			bodyFrames.Frame = (int)what;
 		}
 	}
 
-	public void MoveSegment(Vector2 direction)
+	public string MoveSegment(Vector2 direction)
 	{
 		KinematicCollision2D collision = MoveAndCollide(direction, true);
 
 		if (collision is not null)
 		{
 			GD.Print("collision:");
-			HandleCollision(collision.GetCollider());
-			GD.Print("------");
+			return HandleCollision(collision.GetCollider());
 		}
 		else
 		{
 			MoveAndCollide(direction);
+			return "Moved";
 		}
 
 
 	}
 
-	public void HandleCollision(GodotObject collider)
+	public string HandleCollision(GodotObject collider)
 	{
 		if (collider is TileMapLayer)
 		{
 			GD.Print("wall");
+			return "Die";
 		}
+		return "Can't handle";
+	}
+	
+	public void StartExplosion(float delay)
+	{
+		delayTimer.WaitTime = delay;
+		delayTimer.Start();
+	}
+	private void Explode()
+	{
+		explosionFrames.Play("default",1,false);
 	}
 }

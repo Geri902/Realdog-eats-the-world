@@ -17,7 +17,7 @@ public partial class WorldDestruction : Node2D
 
 		stepTimer.Timeout += HandleStep;
 
-		dogController.SetUp(rnd);
+		dogController.SetUp(rnd, this);
 		nextDirection = dogController.Spawn();
 		currentDirection = nextDirection;
 		stepTimer.Start();
@@ -83,5 +83,10 @@ public partial class WorldDestruction : Node2D
 	{
 		currentDirection = nextDirection;
 		dogController.Move(currentDirection);
+	}
+
+	public void GameOver()
+	{
+		stepTimer.Stop();
 	}
 }

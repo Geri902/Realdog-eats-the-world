@@ -10,6 +10,7 @@ public partial class DogController : Node2D
 	private List<Segment> parts = new List<Segment>();
 	private RandomNumberGenerator rnd;
 	private BodyType headState = BodyType.HeadNormal;
+	private WorldDestruction gameScene;
 	public override void _Ready()
 	{
 	}
@@ -18,9 +19,10 @@ public partial class DogController : Node2D
 	{
 	}
 
-	public void SetUp(RandomNumberGenerator rnd)
+	public void SetUp(RandomNumberGenerator rnd, WorldDestruction gameScene)
 	{
 		this.rnd = rnd;
+		this.gameScene = gameScene;
 	}
 
 	public void Reset()
@@ -88,15 +90,44 @@ public partial class DogController : Node2D
 	public void Move(Vector2 direction)
 	{
 		Vector2 prev = parts[0].Position;
-		parts[0].MoveSegment(direction * size);
+		string response = parts[0].MoveSegment(direction * size);
+
+		switch (response)
+		{
+			case "Moved":
+				MoveRest(prev);
+				break;
+			case "Die":
+				Explode();
+				gameScene.GameOver();	
+				break;
+			default:
+				GD.Print(response);
+				break;
+		}
+
+		DrawAll();		
+	}
+
+	private void MoveRest(Vector2 previous)
+	{
+		Vector2 prev = previous;
 		for (int i = 1; i < parts.Count; i++)
 		{
 			Vector2 current = parts[i].Position;
 			parts[i].Position = prev;
 			prev = current;
 		}
+	}
 
-		//maybe later I can make drawin inside movement loop
-		DrawAll();		
+	private void Explode()
+	{
+		float delay = 0.05f;
+		float increment = 0.05f;
+		foreach (Segment part in parts)
+		{
+			part.StartExplosion(delay);
+			delay += increment;
+		}
 	}
 }
