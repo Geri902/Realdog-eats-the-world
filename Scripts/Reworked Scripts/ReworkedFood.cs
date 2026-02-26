@@ -1,10 +1,14 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class ReworkedFood : CharacterBody2D
 {
+	private const int size = 128;
 	private float maxOffset = 10f;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
+	private Dictionary<string, int> boundry;
+	private DogController dogController;
 	private Sprite2D sprite;
 	private Timer shiverTimer;
 	private Area2D fearArea;
@@ -29,9 +33,11 @@ public partial class ReworkedFood : CharacterBody2D
 	{
 	}
 
-	public void SetUp(RandomNumberGenerator rnd)
+	public void SetUp(RandomNumberGenerator rnd, Dictionary<string, int> boundry, DogController dogController)
 	{
 		this.rnd = rnd;	
+		this.boundry = boundry;
+		this.dogController = dogController;
 	}
 
 	private Vector2 GetRandomOffset()
@@ -80,5 +86,30 @@ public partial class ReworkedFood : CharacterBody2D
 				CalmDown();
 			}
 		}
+	}
+
+	private Vector2 GetRandomNonDogPosition()
+	{
+		List<Vector2> dogPositions = dogController.GetDogPositions();
+		int x;
+		int y;
+		do
+		{
+			x = rnd.RandiRange(boundry["minX"],boundry["maxX"]) * size;
+			y = rnd.RandiRange(boundry["minY"],boundry["maxY"]) * size;
+		} while (dogPositions.Contains(new Vector2(x,y)));
+
+
+		GD.Print($"moved fruit to: {x}:{y}");
+		return new Vector2(x, y);
+	}
+
+	public void MoveFood()
+	{
+		Vector2 prevPos = GlobalPosition;
+		do
+		{
+			GlobalPosition = GetRandomNonDogPosition();
+		} while (GlobalPosition.IsEqualApprox(prevPos));
 	}
 }
