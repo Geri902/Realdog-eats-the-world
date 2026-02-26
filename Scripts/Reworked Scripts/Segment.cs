@@ -141,10 +141,12 @@ public partial class Segment : CharacterBody2D
 		if (isFull)
 		{
 			bodyFrames.Scale = new Vector2(1.25f, 1.25f);
+			bodyFrames.Modulate = new Color(r: 0.5f, g: 0.5f, b: 0.5f);
 		}
 		else
 		{
 			bodyFrames.Scale = new Vector2(1, 1);
+			bodyFrames.Modulate = new Color(r: 1.0f, g: 1.0f, b: 1.0f);
 		}
 	}
 
