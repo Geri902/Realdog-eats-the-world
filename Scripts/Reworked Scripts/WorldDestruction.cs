@@ -5,6 +5,7 @@ using System.Linq;
 
 public partial class WorldDestruction : Node2D
 {
+	private const int size = 128;
 	[Export]
 	private PackedScene foodScene;
 	private List<ReworkedFood> foods = new List<ReworkedFood>();
@@ -36,6 +37,7 @@ public partial class WorldDestruction : Node2D
 
 		dogController.SetUp(rnd, this);
 		nextDirection = dogController.Spawn();
+		SpawnFood();
 		currentDirection = nextDirection;
 		stepTimer.Start();
 
@@ -105,6 +107,7 @@ public partial class WorldDestruction : Node2D
 	private void SpawnFood()
 	{
 		ReworkedFood food = foodScene.Instantiate<ReworkedFood>();
+		food.GlobalPosition = GetRandomNonDogPosition();
 		food.SetUp(rnd);
 		AddChild(food);
 		foods.Add(food);
@@ -123,11 +126,28 @@ public partial class WorldDestruction : Node2D
 
 	private void SetBoundries(Godot.Collections.Array<Vector2I> walls)
     {
-        boundry["minX"] = walls.Min(l => l.X) - 1;
+        boundry["minX"] = walls.Min(l => l.X) + 1;
         boundry["maxX"] = walls.Max(l => l.X) - 1;
-        boundry["minY"] = walls.Min(l => l.Y) - 1;
+        boundry["minY"] = walls.Min(l => l.Y) + 1;
         boundry["maxY"] = walls.Max(l => l.Y) - 1;
 
 		GD.Print($"X: [{boundry["minX"]},{boundry["maxX"]}]\nY: [{boundry["minY"]},{boundry["maxY"]}]");
     }
+
+	private Vector2 GetRandomNonDogPosition()
+	{
+		List<Vector2> dogPositions = dogController.GetDogPositions();
+
+		int x;
+		int y;
+		do
+		{
+			x = rnd.RandiRange(boundry["minX"],boundry["maxX"]) * size;
+			y = rnd.RandiRange(boundry["minY"],boundry["maxY"]) * size;
+		} while (dogPositions.Contains(new Vector2(x,y)));
+
+
+		GD.Print($"moved fruit to: {x}:{y}");
+		return new Vector2(x, y);
+	}
 }

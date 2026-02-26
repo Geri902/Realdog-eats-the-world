@@ -131,4 +131,16 @@ public partial class DogController : Node2D
 			delay += increment;
 		}
 	}
+
+	public List<Vector2> GetDogPositions()
+	{
+		List<Vector2> dogPositions = new List<Vector2>();
+
+		foreach (Segment part in parts)
+		{
+			dogPositions.Add(part.GlobalPosition);
+		}
+
+		return dogPositions;
+	}
 }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class ReworkedFood : StaticBody2D
+public partial class ReworkedFood : CharacterBody2D
 {
 	private float maxOffset = 10f;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
