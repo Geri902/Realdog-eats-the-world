@@ -20,6 +20,7 @@ public partial class Segment : CharacterBody2D
 	private AnimatedSprite2D explosionFrames;
 	private Timer delayTimer;
 	public bool isHead = false;
+	public bool isFull = false;
 	public override void _Ready()
 	{
 		bodyFrames = GetNode<AnimatedSprite2D>("Body Frames");
@@ -135,6 +136,15 @@ public partial class Segment : CharacterBody2D
 		else
 		{
 			bodyFrames.Frame = (int)what;
+		}
+
+		if (isFull)
+		{
+			bodyFrames.Scale = new Vector2(1.25f, 1.25f);
+		}
+		else
+		{
+			bodyFrames.Scale = new Vector2(1, 1);
 		}
 	}
 

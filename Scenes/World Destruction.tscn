@@ -37,3 +37,4 @@ script = ExtResource("4_2dj2o")
 segmentScene = ExtResource("5_2dj2o")
 
 [node name="Step" type="Timer" parent="."]
+wait_time = 0.25

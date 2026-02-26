@@ -59,9 +59,6 @@ public partial class DogController : Node2D
 		}
 
 		AddPart(nextPosition);
-		AddPart(nextPosition * 2);
-		AddPart(nextPosition * 3);
-		AddPart(nextPosition * 4);
 
 		DrawAll();
 
@@ -96,6 +93,9 @@ public partial class DogController : Node2D
 		switch (response)
 		{
 			case "Eat":
+				MoveRest(prev);
+				parts[0].isFull = true;
+				break;
 			case "Moved":
 				MoveRest(prev);
 				break;
@@ -119,6 +119,28 @@ public partial class DogController : Node2D
 			Vector2 current = parts[i].Position;
 			parts[i].Position = prev;
 			prev = current;
+		}
+
+		Digest(prev);
+	}
+
+	private void Digest(Vector2 prev)
+	{
+		int lastInd = parts.Count - 1;
+
+		if (parts[lastInd].isFull)
+		{
+			parts[lastInd].isFull = false;
+			AddPart(prev);
+		}
+
+		for (int i = lastInd; i > 0; i--)
+		{
+			if (parts[i - 1].isFull)
+			{
+				parts[i].isFull = true;
+				parts[i - 1].isFull = false;
+			}
 		}
 	}
 
