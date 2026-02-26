@@ -95,6 +95,7 @@ public partial class DogController : Node2D
 
 		switch (response)
 		{
+			case "Eat":
 			case "Moved":
 				MoveRest(prev);
 				break;

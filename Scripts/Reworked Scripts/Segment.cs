@@ -145,7 +145,7 @@ public partial class Segment : CharacterBody2D
 		if (collision is not null)
 		{
 			GD.Print("collision:");
-			return HandleCollision(collision.GetCollider());
+			return HandleCollision(collision.GetCollider(), direction);
 		}
 		else
 		{
@@ -156,7 +156,7 @@ public partial class Segment : CharacterBody2D
 
 	}
 
-	public string HandleCollision(GodotObject collider)
+	public string HandleCollision(GodotObject collider, Vector2 direction)
 	{
 		if (collider is TileMapLayer)
 		{
@@ -167,6 +167,13 @@ public partial class Segment : CharacterBody2D
 		{
 			GD.Print("Body");
 			return "Die";
+		}
+		if (collider is ReworkedFood food)
+		{
+			GD.Print("Food");
+			food.MoveFood();
+			GlobalPosition += direction;
+			return "Eat";
 		}
 		return "Can't handle";
 	}
