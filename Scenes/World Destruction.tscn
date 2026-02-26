@@ -11,6 +11,7 @@
 
 [node name="WorldDestruction" type="Node2D"]
 script = ExtResource("1_e2hwi")
+foodScene = ExtResource("6_ax67c")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
@@ -36,6 +37,3 @@ script = ExtResource("4_2dj2o")
 segmentScene = ExtResource("5_2dj2o")
 
 [node name="Step" type="Timer" parent="."]
-
-[node name="ReworkedFoodScene" parent="." instance=ExtResource("6_ax67c")]
-position = Vector2(-640, 0)

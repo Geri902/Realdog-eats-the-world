@@ -29,7 +29,7 @@ public partial class ReworkedFood : StaticBody2D
 	{
 	}
 
-	public void SetRnd(RandomNumberGenerator rnd)
+	public void SetUp(RandomNumberGenerator rnd)
 	{
 		this.rnd = rnd;	
 	}

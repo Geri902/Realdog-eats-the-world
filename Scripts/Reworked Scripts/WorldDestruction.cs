@@ -1,21 +1,38 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class WorldDestruction : Node2D
 {
+	[Export]
+	private PackedScene foodScene;
+	private List<ReworkedFood> foods = new List<ReworkedFood>();
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private DogController dogController;
 	private Timer stepTimer;
+	private TileMapLayer borderTiles;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
+	private Dictionary<string, int> boundry = new Dictionary<string, int>()
+    {
+        {"minX",0},
+        {"maxX",0},
+        {"minY",0},
+        {"maxY",0},
+        
+    };
 	public override void _Ready()
 	{
 		rnd.Randomize();
 
 		dogController = GetNode<DogController>("DogController");
 		stepTimer = GetNode<Timer>("Step");
+		borderTiles = GetNode<TileMapLayer>("Borders");
 
 		stepTimer.Timeout += HandleStep;
+
+		SetBoundries(borderTiles.GetUsedCells());
 
 		dogController.SetUp(rnd, this);
 		nextDirection = dogController.Spawn();
@@ -85,8 +102,32 @@ public partial class WorldDestruction : Node2D
 		dogController.Move(currentDirection);
 	}
 
+	private void SpawnFood()
+	{
+		ReworkedFood food = foodScene.Instantiate<ReworkedFood>();
+		food.SetUp(rnd);
+		AddChild(food);
+		foods.Add(food);
+	}
+
+	private void ResetFood()
+	{
+		foods.Clear();
+		SpawnFood();
+	}
+
 	public void GameOver()
 	{
 		stepTimer.Stop();
 	}
+
+	private void SetBoundries(Godot.Collections.Array<Vector2I> walls)
+    {
+        boundry["minX"] = walls.Min(l => l.X) - 1;
+        boundry["maxX"] = walls.Max(l => l.X) - 1;
+        boundry["minY"] = walls.Min(l => l.Y) - 1;
+        boundry["maxY"] = walls.Max(l => l.Y) - 1;
+
+		GD.Print($"X: [{boundry["minX"]},{boundry["maxX"]}]\nY: [{boundry["minY"]},{boundry["maxY"]}]");
+    }
 }
