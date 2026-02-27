@@ -28,8 +28,6 @@ public partial class AreaHit : Area2D
 		countdownTimer.Timeout += Hit;
 		visibilityTimer.Timeout += ChangeVisibility;
 		animation.AnimationFinished += Finish;
-
-		StartUp("5x5", 3.0f, new Vector2(1000,500));
 	}
 
 	public override void _Process(double delta)
@@ -98,13 +96,11 @@ public partial class AreaHit : Area2D
 				GD.Print("Hit:");
 				if (body is ReworkedFood food)
 				{
-					GD.Print("Food");
-					//food.MoveFood();
+					food.MoveFood();
 				}
 				else if (body is Segment segment)
 				{
-					GD.Print("Segment");
-					//egment.Hit();
+					segment.Hit();
 				}
 			}
 		}

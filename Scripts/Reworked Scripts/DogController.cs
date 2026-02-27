@@ -112,8 +112,7 @@ public partial class DogController : Node2D
 				MoveRest(prev);
 				break;
 			case "Die":
-				Explode();
-				gameScene.GameOver();	
+				Die();
 				return false;
 			default:
 				GD.Print(response);
@@ -122,6 +121,12 @@ public partial class DogController : Node2D
 
 		DrawAll();
 		return true;		
+	}
+
+	public void Die()
+	{
+		Explode();
+		gameScene.GameOver();
 	}
 
 	public void MoveRest(Vector2 previous, Segment reattatched = null)

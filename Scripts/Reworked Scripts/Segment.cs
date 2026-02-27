@@ -223,6 +223,14 @@ public partial class Segment : CharacterBody2D
 
 	public void Hit()
 	{
-		
+		GD.Print("Owie");
+		if (isAttatched)
+		{
+			owner.Die();
+		}
+		else
+		{
+			StartExplosion(0.01f);
+		}
 	}
 }

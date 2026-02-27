@@ -5,12 +5,16 @@ using System.Linq;
 
 public partial class WorldDestruction : Node2D
 {
+	private const int size = 128;
 	[Export]
 	private PackedScene foodScene;
+	[Export]
+	private PackedScene areaHitScene;
 	private List<ReworkedFood> foods = new List<ReworkedFood>();
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private DogController dogController;
 	private Timer stepTimer;
+	private Timer areaHitTimer;
 	private TileMapLayer borderTiles;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
@@ -28,9 +32,11 @@ public partial class WorldDestruction : Node2D
 
 		dogController = GetNode<DogController>("DogController");
 		stepTimer = GetNode<Timer>("Step");
+		areaHitTimer = GetNode<Timer>("Area Hit");
 		borderTiles = GetNode<TileMapLayer>("Borders");
 
 		stepTimer.Timeout += HandleStep;
+		areaHitTimer.Timeout += SpawnHit;
 
 		SetBoundries(borderTiles.GetUsedCells());
 
@@ -39,6 +45,7 @@ public partial class WorldDestruction : Node2D
 		SpawnFood();
 		currentDirection = nextDirection;
 		stepTimer.Start();
+		areaHitTimer.Start();
 
 	}
 
@@ -129,6 +136,7 @@ public partial class WorldDestruction : Node2D
 	public void GameOver()
 	{
 		stepTimer.Stop();
+		areaHitTimer.Stop();
 	}
 
 	private void SetBoundries(Godot.Collections.Array<Vector2I> walls)
@@ -140,4 +148,40 @@ public partial class WorldDestruction : Node2D
 
 		GD.Print($"X: [{boundry["minX"]},{boundry["maxX"]}]\nY: [{boundry["minY"]},{boundry["maxY"]}]");
     }
+
+	private Vector2 GetRandomAreaCenter(int areaSize)
+	{
+		int x = rnd.RandiRange(boundry["minX"] + areaSize,boundry["maxX"] - areaSize) * size;
+		int y = rnd.RandiRange(boundry["minY"] + areaSize,boundry["maxY"] - areaSize) * size;
+
+		return new Vector2(x, y);
+	}
+
+	private void SpawnHit()
+	{
+		int areaSize = rnd.RandiRange(1,3);
+		string area = "";
+
+		switch (areaSize)
+		{
+			case 1:
+				area = "1x1";
+				break;
+			case 2:
+				area = "3x3";
+				break;
+			case 3:
+				area = "5x5";
+				break;
+			default:
+				break;
+		}
+
+		AreaHit hit = areaHitScene.Instantiate<AreaHit>();
+		AddChild(hit);
+		Vector2 position = GetRandomAreaCenter(areaSize);
+		float countdown = 3.0f;
+
+		hit.StartUp(area, countdown, position);
+	}
 }
