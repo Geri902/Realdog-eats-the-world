@@ -7,35 +7,33 @@ public partial class AreaHit : Area2D
 	private const int WarningSetId = 0;
 	private const int WarningTerrainId = 1;
 	private Timer countdownTimer;
+	private Timer visibilityTimer;
 	private AnimatedSprite2D animation;
 	private TileMapLayer warningTiles;
 	private CollisionShape2D shape;
 	private int area;
-	private bool active = false;
+	private float vis = 1;
+	private float visStep = 0.10f;
+	private float visDelay = 0.05f;
+	private int flickerCount = 3;
+	private bool inc = false;
 	public override void _Ready()
 	{
 		countdownTimer = GetNode<Timer>("Countdown");
+		visibilityTimer = GetNode<Timer>("Visibility Timer");
 		animation = GetNode<AnimatedSprite2D>("Animation");
 		warningTiles = GetNode<TileMapLayer>("Warning Tiles");
 		shape = GetNode<CollisionShape2D>("Shape");
 
 		countdownTimer.Timeout += Hit;
+		visibilityTimer.Timeout += ChangeVisibility;
 		animation.AnimationFinished += Finish;
 
-		StartUp("5x5", 1.0f, new Vector2(1000,500));
+		StartUp("5x5", 3.0f, new Vector2(1000,500));
 	}
 
 	public override void _Process(double delta)
 	{
-		if (active)
-		{
-			//sin fv alapján warning tile visability
-		}
-
-		if (true)
-		{
-			//check 
-		}
 	}
 
 	public void StartUp(string size, float countdown, Vector2 position)
@@ -57,8 +55,13 @@ public partial class AreaHit : Area2D
 		}
 		SetupArea();
 		ReSize();
+
+		visDelay = countdown / (flickerCount * 2) * visStep;
+
 		countdownTimer.WaitTime = countdown;
 		countdownTimer.Start();
+		visibilityTimer.WaitTime = visDelay;
+		visibilityTimer.Start();
 	}
 
 	private void ReSize()
@@ -96,12 +99,12 @@ public partial class AreaHit : Area2D
 				if (body is ReworkedFood food)
 				{
 					GD.Print("Food");
-					food.MoveFood();
+					//food.MoveFood();
 				}
 				else if (body is Segment segment)
 				{
 					GD.Print("Segment");
-					segment.Hit();
+					//egment.Hit();
 				}
 			}
 		}
@@ -114,5 +117,34 @@ public partial class AreaHit : Area2D
 		QueueFree();
 	}
 
+	private void ChangeVisibility()
+	{
+		if (inc)
+		{
+			if (vis + visStep > 1)
+			{
+				vis = 1;
+				inc = false;
+			}
+			else
+			{
+				vis += visStep;
+			}
+		}
+		else
+		{
+			if (vis - visStep < 0)
+			{
+				vis = 0;
+				inc = true;
+			}
+			else
+			{
+				vis -= visStep;
+			}
+		}
+
+		warningTiles.Modulate = new Color(1.0f, 1.0f, 1.0f, vis);
+	}
 
 }

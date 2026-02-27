@@ -20,7 +20,11 @@ visibility_layer = 2
 tile_set = ExtResource("2_ldrin")
 
 [node name="Countdown" type="Timer" parent="."]
+one_shot = true
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
+z_index = 10
 position = Vector2(64, 64)
 sprite_frames = ExtResource("3_ioc1m")
+
+[node name="Visibility Timer" type="Timer" parent="."]
