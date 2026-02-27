@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cssljiat0uduu"]
+
+[ext_resource type="Script" uid="uid://du5jw7eq4nrp" path="res://Scripts/Reworked Scripts/AreaHit.cs" id="1_qejwt"]
+[ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="2_ldrin"]
+[ext_resource type="SpriteFrames" uid="uid://dh5d5xqwy3ekm" path="res://Resources/SpriteFrames/ExplosionFrames.tres" id="3_ioc1m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8yyay"]
+size = Vector2(128, 128)
+
+[node name="AreaHit" type="Area2D"]
+monitorable = false
+script = ExtResource("1_qejwt")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_8yyay")
+
+[node name="Warning Tiles" type="TileMapLayer" parent="."]
+visibility_layer = 2
+tile_set = ExtResource("2_ldrin")
+
+[node name="Countdown" type="Timer" parent="."]
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+position = Vector2(64, 64)
+sprite_frames = ExtResource("3_ioc1m")

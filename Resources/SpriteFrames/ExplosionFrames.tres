@@ -127,7 +127,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_widcv")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
 "speed": 25.0
 }]
