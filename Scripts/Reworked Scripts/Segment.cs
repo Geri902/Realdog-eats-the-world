@@ -21,6 +21,8 @@ public partial class Segment : CharacterBody2D
 	private Timer delayTimer;
 	public bool isHead = false;
 	public bool isFull = false;
+	private DogController owner = null;
+	public bool isAttatched = true;
 	public override void _Ready()
 	{
 		bodyFrames = GetNode<AnimatedSprite2D>("Body Frames");
@@ -30,6 +32,10 @@ public partial class Segment : CharacterBody2D
 		delayTimer.Timeout += Explode;
 	}
 
+	public void SetUp(DogController owner)
+	{
+		this.owner = owner;
+	}
 
 	public override void _Process(double delta)
 	{
@@ -150,14 +156,14 @@ public partial class Segment : CharacterBody2D
 		}
 	}
 
-	public string MoveSegment(Vector2 direction)
+	public string MoveSegment(Vector2 direction, bool dashing = false)
 	{
 		KinematicCollision2D collision = MoveAndCollide(direction, true);
 
 		if (collision is not null)
 		{
 			GD.Print("collision:");
-			return HandleCollision(collision.GetCollider(), direction);
+			return HandleCollision(collision.GetCollider(), direction, dashing);
 		}
 		else
 		{
@@ -168,17 +174,26 @@ public partial class Segment : CharacterBody2D
 
 	}
 
-	public string HandleCollision(GodotObject collider, Vector2 direction)
+	public string HandleCollision(GodotObject collider, Vector2 direction, bool dashing)
 	{
 		if (collider is TileMapLayer)
 		{
 			GD.Print("wall");
 			return "Die";
 		}
-		if (collider is Segment)
+		if (collider is Segment segment)
 		{
-			GD.Print("Body");
-			return "Die";
+			if (segment.isAttatched || dashing)
+			{
+				GD.Print("Body");
+				return "Die";
+			}
+			Vector2 prev = GlobalPosition;
+			GlobalPosition += direction;
+			owner.MoveRest(prev, segment);
+			GD.Print("Reattatch");
+			return "Reattach";
+
 		}
 		if (collider is ReworkedFood food)
 		{
@@ -198,5 +213,11 @@ public partial class Segment : CharacterBody2D
 	private void Explode()
 	{
 		explosionFrames.Play("default",1,false);
+	}
+
+	public void ClearFullness()
+	{
+		bodyFrames.Scale = new Vector2(1, 1);
+		bodyFrames.Modulate = new Color(r: 1.0f, g: 1.0f, b: 1.0f);
 	}
 }

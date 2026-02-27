@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class DogController : Node2D
 {
@@ -8,9 +9,11 @@ public partial class DogController : Node2D
 	[Export]
 	private PackedScene segmentScene;
 	private List<Segment> parts = new List<Segment>();
+	private List<Segment> removedParts = new List<Segment>();
 	private RandomNumberGenerator rnd;
 	private BodyType headState = BodyType.HeadNormal;
 	private WorldDestruction gameScene;
+	private int dashLength = 3;
 	public override void _Ready()
 	{
 	}
@@ -32,6 +35,12 @@ public partial class DogController : Node2D
 			segment.QueueFree();
 		}
 		parts.Clear();
+
+		foreach (Segment segment in removedParts)
+		{
+			segment.QueueFree();
+		}
+		removedParts.Clear();
 	}
 
 	public Vector2 Spawn()
@@ -69,6 +78,7 @@ public partial class DogController : Node2D
 	{
 		Segment part = segmentScene.Instantiate<Segment>();
 		part.GlobalPosition = position;
+		part.SetUp(this);
 		parts.Add(part);
 		AddChild(part);
 	}
@@ -85,10 +95,10 @@ public partial class DogController : Node2D
 		parts[lastInd].DrawSegment(parts[lastInd - 1].GlobalPosition, Vector2.Zero, BodyType.Tail);
 	}
 
-	public void Move(Vector2 direction)
+	public bool Move(Vector2 direction, bool dashing = false)
 	{
 		Vector2 prev = parts[0].Position;
-		string response = parts[0].MoveSegment(direction * size);
+		string response = parts[0].MoveSegment(direction * size, dashing);
 
 		switch (response)
 		{
@@ -96,22 +106,25 @@ public partial class DogController : Node2D
 				MoveRest(prev);
 				parts[0].isFull = true;
 				break;
+			case "Reattach":
+				break;
 			case "Moved":
 				MoveRest(prev);
 				break;
 			case "Die":
 				Explode();
 				gameScene.GameOver();	
-				break;
+				return false;
 			default:
 				GD.Print(response);
 				break;
 		}
 
-		DrawAll();		
+		DrawAll();
+		return true;		
 	}
 
-	private void MoveRest(Vector2 previous)
+	public void MoveRest(Vector2 previous, Segment reattatched = null)
 	{
 		Vector2 prev = previous;
 		for (int i = 1; i < parts.Count; i++)
@@ -121,6 +134,10 @@ public partial class DogController : Node2D
 			prev = current;
 		}
 
+		if (reattatched is not null)
+		{
+			Reattach(reattatched, prev);
+		}
 		Digest(prev);
 	}
 
@@ -153,6 +170,11 @@ public partial class DogController : Node2D
 			part.StartExplosion(delay);
 			delay += increment;
 		}
+		foreach (Segment part in removedParts)
+		{
+			part.StartExplosion(delay);
+			delay += increment;
+		}
 	}
 
 	public List<Vector2> GetDogPositions()
@@ -166,4 +188,49 @@ public partial class DogController : Node2D
 
 		return dogPositions;
 	}
+
+	private void SplitAt(Segment at)
+	{
+		int ind = parts.IndexOf(at);
+		int length = parts.Count - ind;
+		List<Segment> split = parts.Slice(ind, length);
+
+		foreach (Segment part in split)
+		{
+			part.isAttatched = false;
+			part.isFull = false;
+			part.ClearFullness();
+		}
+
+		parts.RemoveRange(ind, length);
+		removedParts.AddRange(split);
+
+		DrawAll();
+	}
+
+	public bool Dash(Vector2 direction)
+	{
+		if (parts.Count > 2)
+		{
+			SplitAt(parts[2]);
+
+			for (int i = 0; i < dashLength; i++)
+			{
+				bool couldMove = Move(direction, true);
+				if (!couldMove)
+				{
+					break;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+    internal void Reattach(Segment segment, Vector2 prev)
+    {
+        parts.Add(segment);
+		segment.GlobalPosition = prev;
+		removedParts.Remove(segment);
+    }
 }

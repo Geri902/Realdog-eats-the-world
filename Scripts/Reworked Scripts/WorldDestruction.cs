@@ -63,7 +63,15 @@ public partial class WorldDestruction : Node2D
 			}
 			else if (Input.IsActionJustPressed("Fire"))
 			{
-				ChangeDirection(Vector2.Zero);
+				GD.Print("Fire");
+			}
+			else if(Input.IsActionJustPressed("Dash"))
+			{
+				bool did = dogController.Dash(currentDirection);
+				if (did)
+				{
+					stepTimer.Start();
+				}
 			}
 		}
 	}
