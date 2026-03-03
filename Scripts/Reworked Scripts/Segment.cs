@@ -30,18 +30,25 @@ public partial class Segment : CharacterBody2D
 		delayTimer = GetNode<Timer>("Delay");
 
 		delayTimer.Timeout += Explode;
-		explosionFrames.AnimationFinished += Banish;
+		explosionFrames.AnimationFinished += Die;
+	}
+
+	private void Die()
+	{
+		if (owner.parts.Contains(this))
+		{
+			owner.parts.Remove(this);
+		}
+		else if (owner.removedParts.Contains(this))
+		{
+			owner.removedParts.Remove(this);
+		}
+		QueueFree();
 	}
 
 	public void SetUp(DogController owner)
 	{
 		this.owner = owner;
-	}
-
-	private void Banish()
-	{
-		//queueFree-vel baja van, free után akarja a timer elérni vagy nem tudom. This is a temporary fix
-		GlobalPosition = new Vector2(-1000000, -1000000);
 	}
 
 	public override void _Process(double delta)

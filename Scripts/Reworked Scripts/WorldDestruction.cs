@@ -46,7 +46,7 @@ public partial class WorldDestruction : Node2D
 		SpawnFood();
 		currentDirection = nextDirection;
 		stepTimer.Start();
-		//areaHitTimer.Start();
+		areaHitTimer.Start();
 
 	}
 
@@ -202,8 +202,8 @@ public partial class WorldDestruction : Node2D
 		AreaHit hit = areaHitScene.Instantiate<AreaHit>();
 		AddChild(hit);
 		Vector2 position = GetRandomAreaCenter(areaSize);
-		float countdown = 3.0f;
+		float countdown = 4.0f;
 
-		hit.StartUp(area, countdown, position);
+		hit.StartUp(area, stepTimer.WaitTime * countdown, position);
 	}
 }

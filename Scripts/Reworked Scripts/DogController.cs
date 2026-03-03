@@ -8,8 +8,8 @@ public partial class DogController : Node2D
 	private const int size = 128;
 	[Export]
 	private PackedScene segmentScene;
-	private List<Segment> parts = new List<Segment>();
-	private List<Segment> removedParts = new List<Segment>();
+	public List<Segment> parts = new List<Segment>();
+	public List<Segment> removedParts = new List<Segment>();
 	private RandomNumberGenerator rnd;
 	private BodyType headState = BodyType.HeadNormal;
 	private WorldDestruction gameScene;
