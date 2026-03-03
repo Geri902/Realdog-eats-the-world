@@ -236,6 +236,7 @@ public partial class DogController : Node2D
     {
         parts.Add(segment);
 		segment.GlobalPosition = prev;
+		segment.isAttatched = true;
 		removedParts.Remove(segment);
     }
 }

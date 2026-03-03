@@ -30,6 +30,7 @@ public partial class Segment : CharacterBody2D
 		delayTimer = GetNode<Timer>("Delay");
 
 		delayTimer.Timeout += Explode;
+		explosionFrames.AnimationFinished += Banish;
 	}
 
 	public void SetUp(DogController owner)
@@ -37,13 +38,14 @@ public partial class Segment : CharacterBody2D
 		this.owner = owner;
 	}
 
+	private void Banish()
+	{
+		//queueFree-vel baja van, free után akarja a timer elérni vagy nem tudom. This is a temporary fix
+		GlobalPosition = new Vector2(-1000000, -1000000);
+	}
+
 	public override void _Process(double delta)
 	{
-		if (explosionFrames.Frame > 11)
-		{
-			explosionFrames.Stop();
-			Visible = false;
-		}
 	}
 	private int CalcDeg(Vector2I currentI, Vector2I previousI, Vector2I nextI, BodyType what)
 	{
