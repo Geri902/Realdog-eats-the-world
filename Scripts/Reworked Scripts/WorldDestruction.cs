@@ -18,6 +18,7 @@ public partial class WorldDestruction : Node2D
 	private TileMapLayer borderTiles;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
+	private bool willDash = false;
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
         {"minX",0},
@@ -45,7 +46,7 @@ public partial class WorldDestruction : Node2D
 		SpawnFood();
 		currentDirection = nextDirection;
 		stepTimer.Start();
-		areaHitTimer.Start();
+		//areaHitTimer.Start();
 
 	}
 
@@ -74,10 +75,13 @@ public partial class WorldDestruction : Node2D
 			}
 			else if(Input.IsActionJustPressed("Dash"))
 			{
-				bool did = dogController.Dash(currentDirection);
-				if (did)
+				if (willDash)
 				{
-					stepTimer.Start();
+					willDash = false;
+				}
+				else
+				{
+					willDash = true;
 				}
 			}
 		}
@@ -109,13 +113,30 @@ public partial class WorldDestruction : Node2D
 		if (CanTurn(direction))
 		{
 			nextDirection = direction;
+			willDash = false;
 		}
 	}
 
 	private void HandleStep()
 	{
-		currentDirection = nextDirection;
-		dogController.Move(currentDirection);
+		if (willDash)
+		{
+			bool did = dogController.Dash(currentDirection);
+			if (did)
+			{
+				stepTimer.Start();
+			}
+			else
+			{
+				currentDirection = nextDirection;
+				dogController.Move(currentDirection);
+			}
+		}
+		else
+		{
+			currentDirection = nextDirection;
+			dogController.Move(currentDirection);
+		}
 	}
 
 	private void SpawnFood()
