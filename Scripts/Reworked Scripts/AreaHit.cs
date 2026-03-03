@@ -14,7 +14,7 @@ public partial class AreaHit : Area2D
 	private int area;
 	private float vis = 1;
 	private float visStep = 0.10f;
-	private float visDelay = 0.05f;
+	private double visDelay = 0.05f;
 	private int flickerCount = 3;
 	private bool inc = false;
 	public override void _Ready()
@@ -34,7 +34,7 @@ public partial class AreaHit : Area2D
 	{
 	}
 
-	public void StartUp(string size, float countdown, Vector2 position)
+	public void StartUp(string size, double countdown, Vector2 position)
 	{
 		GlobalPosition = position;
 		switch (size)
