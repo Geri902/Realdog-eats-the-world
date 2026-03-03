@@ -158,14 +158,14 @@ public partial class Segment : CharacterBody2D
 		}
 	}
 
-	public string MoveSegment(Vector2 direction, bool dashing = false)
+	public string MoveSegment(Vector2 direction)
 	{
 		KinematicCollision2D collision = MoveAndCollide(direction, true);
 
 		if (collision is not null)
 		{
 			GD.Print("collision:");
-			return HandleCollision(collision.GetCollider(), direction, dashing);
+			return HandleCollision(collision.GetCollider(), direction);
 		}
 		else
 		{
@@ -176,7 +176,7 @@ public partial class Segment : CharacterBody2D
 
 	}
 
-	public string HandleCollision(GodotObject collider, Vector2 direction, bool dashing)
+	public string HandleCollision(GodotObject collider, Vector2 direction)
 	{
 		if (collider is TileMapLayer)
 		{
@@ -185,7 +185,7 @@ public partial class Segment : CharacterBody2D
 		}
 		if (collider is Segment segment)
 		{
-			if (segment.isAttatched || dashing)
+			if (segment.isAttatched)
 			{
 				GD.Print("Body");
 				return "Die";

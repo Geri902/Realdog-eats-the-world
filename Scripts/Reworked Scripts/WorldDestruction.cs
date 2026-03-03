@@ -131,6 +131,7 @@ public partial class WorldDestruction : Node2D
 				currentDirection = nextDirection;
 				dogController.Move(currentDirection);
 			}
+			willDash = false;
 		}
 		else
 		{

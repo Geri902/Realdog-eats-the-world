@@ -95,10 +95,10 @@ public partial class DogController : Node2D
 		parts[lastInd].DrawSegment(parts[lastInd - 1].GlobalPosition, Vector2.Zero, BodyType.Tail);
 	}
 
-	public bool Move(Vector2 direction, bool dashing = false)
+	public bool Move(Vector2 direction)
 	{
 		Vector2 prev = parts[0].Position;
-		string response = parts[0].MoveSegment(direction * size, dashing);
+		string response = parts[0].MoveSegment(direction * size);
 
 		switch (response)
 		{
@@ -221,7 +221,7 @@ public partial class DogController : Node2D
 
 			for (int i = 0; i < dashLength; i++)
 			{
-				bool couldMove = Move(direction, true);
+				bool couldMove = Move(direction);
 				if (!couldMove)
 				{
 					break;
