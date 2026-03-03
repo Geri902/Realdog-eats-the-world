@@ -7,8 +7,7 @@ public partial class ReworkedFood : CharacterBody2D
 	private const int size = 128;
 	private float maxOffset = 10f;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
-	private Dictionary<string, int> boundry;
-	private DogController dogController;
+	private WorldDestruction gameController;
 	private Sprite2D sprite;
 	private Timer shiverTimer;
 	private Area2D fearArea;
@@ -33,11 +32,10 @@ public partial class ReworkedFood : CharacterBody2D
 	{
 	}
 
-	public void SetUp(RandomNumberGenerator rnd, Dictionary<string, int> boundry, DogController dogController)
+	public void SetUp(RandomNumberGenerator rnd, WorldDestruction gameController)
 	{
 		this.rnd = rnd;	
-		this.boundry = boundry;
-		this.dogController = dogController;
+		this.gameController = gameController;
 	}
 
 	private Vector2 GetRandomOffset()
@@ -88,28 +86,12 @@ public partial class ReworkedFood : CharacterBody2D
 		}
 	}
 
-	private Vector2 GetRandomNonDogPosition()
-	{
-		List<Vector2> dogPositions = dogController.GetDogPositions();
-		int x;
-		int y;
-		do
-		{
-			x = rnd.RandiRange(boundry["minX"],boundry["maxX"]) * size;
-			y = rnd.RandiRange(boundry["minY"],boundry["maxY"]) * size;
-		} while (dogPositions.Contains(new Vector2(x,y)));
-
-
-		GD.Print($"moved fruit to: {x}:{y}");
-		return new Vector2(x, y);
-	}
-
 	public void MoveFood()
 	{
 		Vector2 prevPos = GlobalPosition;
 		do
 		{
-			GlobalPosition = GetRandomNonDogPosition();
+			GlobalPosition = gameController.GetRandomFreePosition();
 		} while (GlobalPosition.IsEqualApprox(prevPos));
 	}
 }

@@ -10,11 +10,15 @@ public partial class WorldDestruction : Node2D
 	private PackedScene foodScene;
 	[Export]
 	private PackedScene areaHitScene;
+	[Export]
+	private PackedScene groundObstacleScene;
+	public List<GroundObstacle> obstacles = new List<GroundObstacle>();
 	private List<ReworkedFood> foods = new List<ReworkedFood>();
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private DogController dogController;
 	private Timer stepTimer;
 	private Timer areaHitTimer;
+	private Timer obstacleTimer;
 	private TileMapLayer borderTiles;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
@@ -34,10 +38,12 @@ public partial class WorldDestruction : Node2D
 		dogController = GetNode<DogController>("DogController");
 		stepTimer = GetNode<Timer>("Step");
 		areaHitTimer = GetNode<Timer>("Area Hit");
+		obstacleTimer = GetNode<Timer>("Obstacle");
 		borderTiles = GetNode<TileMapLayer>("Borders");
 
 		stepTimer.Timeout += HandleStep;
 		areaHitTimer.Timeout += SpawnHit;
+		obstacleTimer.Timeout += SpawnObstacle;
 
 		SetBoundries(borderTiles.GetUsedCells());
 
@@ -47,6 +53,7 @@ public partial class WorldDestruction : Node2D
 		currentDirection = nextDirection;
 		stepTimer.Start();
 		areaHitTimer.Start();
+		obstacleTimer.Start();
 
 	}
 
@@ -143,7 +150,7 @@ public partial class WorldDestruction : Node2D
 	private void SpawnFood()
 	{
 		ReworkedFood food = foodScene.Instantiate<ReworkedFood>();
-		food.SetUp(rnd, boundry, dogController);
+		food.SetUp(rnd, this);
 		food.MoveFood();
 		AddChild(food);
 		foods.Add(food);
@@ -205,5 +212,44 @@ public partial class WorldDestruction : Node2D
 		float countdown = 4.0f;
 
 		hit.StartUp(area, stepTimer.WaitTime * countdown, position);
+	}
+
+	private void SpawnObstacle()
+	{
+		GroundObstacle obstacle = groundObstacleScene.Instantiate<GroundObstacle>();
+		obstacle.gameController = this;
+		obstacles.Add(obstacle);
+		obstacle.GlobalPosition = GetRandomFreePosition();
+		AddChild(obstacle);
+
+	}
+
+    public List<Vector2> ObstaclePositions()
+    {
+        List<Vector2> obstaclePositions = new List<Vector2>();
+
+		foreach (GroundObstacle obstacle in obstacles)
+		{
+			obstaclePositions.Add(obstacle.GlobalPosition);
+		}
+
+		return obstaclePositions;
+    }
+
+	public Vector2 GetRandomFreePosition()
+	{
+		List<Vector2> occupied = [.. ObstaclePositions(), .. dogController.GetDogPositions()];
+
+		Vector2 nextPos = dogController.parts[0].GlobalPosition + currentDirection;
+		occupied.Add(nextPos);
+		int x;
+		int y;
+		do
+		{
+			x = rnd.RandiRange(boundry["minX"],boundry["maxX"]) * size;
+			y = rnd.RandiRange(boundry["minY"],boundry["maxY"]) * size;
+		} while (occupied.Contains(new Vector2(x,y)));
+
+		return new Vector2(x, y);
 	}
 }

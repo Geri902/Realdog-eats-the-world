@@ -3,6 +3,7 @@ using System;
 
 public partial class GroundObstacle : Area2D
 {
+	public WorldDestruction gameController;
 	private AnimatedSprite2D animation;
 	public override void _Ready()
 	{
@@ -18,6 +19,10 @@ public partial class GroundObstacle : Area2D
 
 	private void Die()
 	{
+		if (gameController.obstacles.Contains(this))
+		{
+			gameController.obstacles.Remove(this);
+		}
 		QueueFree();
 	}
 
