@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo7javuf8q6kr"]
+
+[ext_resource type="Script" uid="uid://8nuxvrp2kx7r" path="res://Scripts/Reworked Scripts/GroundObstacle.cs" id="1_b3ola"]
+[ext_resource type="Texture2D" uid="uid://cfusfm21xyum4" path="res://Assets/Floor obstackle.png" id="2_7gl8c"]
+[ext_resource type="SpriteFrames" uid="uid://dh5d5xqwy3ekm" path="res://Resources/SpriteFrames/ExplosionFrames.tres" id="3_goft0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8yyay"]
+size = Vector2(128, 128)
+
+[node name="GroundObstacle" type="Area2D"]
+monitorable = false
+script = ExtResource("1_b3ola")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_8yyay")
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+z_index = 10
+position = Vector2(64, 64)
+sprite_frames = ExtResource("3_goft0")
+frame = 17
+frame_progress = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7gl8c")
+centered = false
