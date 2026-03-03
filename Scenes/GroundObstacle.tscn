@@ -7,8 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8yyay"]
 size = Vector2(128, 128)
 
-[node name="GroundObstacle" type="Area2D"]
-monitorable = false
+[node name="GroundObstacle" type="CharacterBody2D"]
 script = ExtResource("1_b3ola")
 
 [node name="Shape" type="CollisionShape2D" parent="."]

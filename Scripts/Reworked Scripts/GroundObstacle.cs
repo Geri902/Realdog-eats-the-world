@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GroundObstacle : Area2D
+public partial class GroundObstacle : CharacterBody2D
 {
 	public WorldDestruction gameController;
 	private AnimatedSprite2D animation;
@@ -9,8 +9,6 @@ public partial class GroundObstacle : Area2D
 	{
 		animation = GetNode<AnimatedSprite2D>("Animation");
 		animation.AnimationFinished += Die;
-
-		Hit();
 	}
 
 	public override void _Process(double delta)

@@ -190,6 +190,11 @@ public partial class Segment : CharacterBody2D
 			GD.Print("wall");
 			return "Die";
 		}
+		if (collider is GroundObstacle)
+		{
+			GD.Print("Obstacle");
+			return "Die";
+		}
 		if (collider is Segment segment)
 		{
 			if (segment.isAttatched)

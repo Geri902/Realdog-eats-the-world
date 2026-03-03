@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=10 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
 [ext_resource type="Texture2D" uid="uid://0a4fya4g3uoo" path="res://Assets/placeholder floor.Jpg" id="2_me0nq"]
 [ext_resource type="PackedScene" uid="uid://cssljiat0uduu" path="res://Scenes/AreaHit.tscn" id="3_j8355"]
 [ext_resource type="Script" uid="uid://jjunxrgok2wq" path="res://Scripts/Reworked Scripts/DogController.cs" id="4_2dj2o"]
+[ext_resource type="PackedScene" uid="uid://bo7javuf8q6kr" path="res://Scenes/GroundObstacle.tscn" id="4_fc74m"]
 [ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
 [ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
 
@@ -14,6 +15,7 @@
 script = ExtResource("1_e2hwi")
 foodScene = ExtResource("6_ax67c")
 areaHitScene = ExtResource("3_j8355")
+groundObstacleScene = ExtResource("4_fc74m")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)

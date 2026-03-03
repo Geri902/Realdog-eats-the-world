@@ -240,16 +240,29 @@ public partial class WorldDestruction : Node2D
 	{
 		List<Vector2> occupied = [.. ObstaclePositions(), .. dogController.GetDogPositions()];
 
-		Vector2 nextPos = dogController.parts[0].GlobalPosition + currentDirection;
-		occupied.Add(nextPos);
-		int x;
-		int y;
-		do
+		if (dogController.parts.Count > 0)
 		{
-			x = rnd.RandiRange(boundry["minX"],boundry["maxX"]) * size;
-			y = rnd.RandiRange(boundry["minY"],boundry["maxY"]) * size;
-		} while (occupied.Contains(new Vector2(x,y)));
+			Vector2 nextPos = dogController.parts[0].GlobalPosition + currentDirection;
+			occupied.Add(nextPos);
+		}
 
-		return new Vector2(x, y);
+		foreach (ReworkedFood food in foods)
+		{
+			occupied.Add(food.GlobalPosition);
+		}
+
+		if (occupied.Count < (Math.Abs(boundry["minX"]) + boundry["maxX"] + 1) * (Math.Abs(boundry["minY"]) + boundry["maxY"] + 1))
+		{
+			int x;
+			int y;
+			do
+			{
+				x = rnd.RandiRange(boundry["minX"],boundry["maxX"]) * size;
+				y = rnd.RandiRange(boundry["minY"],boundry["maxY"]) * size;
+			} while (occupied.Any(i=>i.IsEqualApprox(new Vector2(x, y))));
+
+			return new Vector2(x, y);
+		}
+		return new Vector2(-1000, -1000);
 	}
 }
