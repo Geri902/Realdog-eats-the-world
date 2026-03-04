@@ -106,7 +106,6 @@ public partial class AreaHit : Area2D
 
 			foreach (Node2D body in bodies)
 			{
-				GD.Print("Hit:");
 				if (body is ReworkedFood food)
 				{
 					food.MoveFood();
