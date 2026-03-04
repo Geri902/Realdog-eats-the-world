@@ -1,3 +1,58 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://ddbe0rh4h0sle"]
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://ddbe0rh4h0sle"]
+
+[ext_resource type="Texture2D" uid="uid://cgqln63knt7wo" path="res://Assets/Beam whole-Sheet.png" id="1_lxyts"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyxwj"]
+atlas = ExtResource("1_lxyts")
+region = Rect2(0, 0, 128, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwf2k"]
+atlas = ExtResource("1_lxyts")
+region = Rect2(256, 0, 128, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwv2y"]
+atlas = ExtResource("1_lxyts")
+region = Rect2(512, 0, 128, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_duq17"]
+atlas = ExtResource("1_lxyts")
+region = Rect2(128, 0, 128, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0e5y"]
+atlas = ExtResource("1_lxyts")
+region = Rect2(384, 0, 128, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6x6v1"]
+atlas = ExtResource("1_lxyts")
+region = Rect2(640, 0, 128, 640)
 
 [resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyxwj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwf2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwv2y")
+}],
+"loop": true,
+"name": &"body",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_duq17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0e5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6x6v1")
+}],
+"loop": true,
+"name": &"start",
+"speed": 5.0
+}]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://ds0c54tggre6a"]
+
+[ext_resource type="SpriteFrames" uid="uid://ddbe0rh4h0sle" path="res://Resources/SpriteFrames/BeamFrames.tres" id="1_josl3"]
+[ext_resource type="Script" uid="uid://m7nhje3m3fjy" path="res://Scripts/Reworked Scripts/Beam.cs" id="1_uxl8y"]
+[ext_resource type="Script" uid="uid://duem8h5htjdod" path="res://Scripts/Reworked Scripts/BeamAreaController.cs" id="2_xrmn3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrmn3"]
+size = Vector2(128, 128)
+
+[node name="Beam" type="Node2D"]
+script = ExtResource("1_uxl8y")
+
+[node name="Start Frames" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_josl3")
+animation = &"start"
+frame = 1
+
+[node name="Body Frames" type="AnimatedSprite2D" parent="."]
+position = Vector2(-384, 0)
+scale = Vector2(5, 1)
+sprite_frames = ExtResource("1_josl3")
+animation = &"body"
+
+[node name="Area" type="Area2D" parent="."]
+script = ExtResource("2_xrmn3")
+
+[node name="Shape" type="CollisionShape2D" parent="Area"]
+shape = SubResource("RectangleShape2D_xrmn3")
