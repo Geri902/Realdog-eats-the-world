@@ -64,7 +64,20 @@ public partial class AreaHit : Area2D
 
 	private void ReSize()
 	{
-		shape.Scale *= area;
+		Vector2 shapeScale;
+		switch (area)
+		{
+			case 2: //3x3
+			shapeScale = new Vector2(3,3);
+				break;
+			case 3: //5x5
+			shapeScale = new Vector2(5,5);
+				break;
+			default:
+			shapeScale = new Vector2(1,1);
+				break;
+		}
+		shape.Scale = shapeScale;
 		animation.Scale *= area;
 	}
 

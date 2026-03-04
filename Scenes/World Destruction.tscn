@@ -44,6 +44,5 @@ segmentScene = ExtResource("5_2dj2o")
 wait_time = 0.25
 
 [node name="Area Hit" type="Timer" parent="."]
-wait_time = 3.0
 
 [node name="Obstacle" type="Timer" parent="."]
