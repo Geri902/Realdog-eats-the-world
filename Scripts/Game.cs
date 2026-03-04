@@ -97,7 +97,10 @@ public partial class Game : Node2D
 			}
 			else if (Input.IsActionJustPressed("Fire"))
 			{
-				ChangeDirection(Vector2I.Zero);
+				if (gameMode != "Normal")
+				{
+					ChangeDirection(Vector2I.Zero);
+				}
 			}
 		}
 	}
