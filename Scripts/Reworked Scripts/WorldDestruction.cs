@@ -165,6 +165,7 @@ public partial class WorldDestruction : Node2D
 	public void GameOver()
 	{
 		stepTimer.Stop();
+		obstacleTimer.Stop();
 		areaHitTimer.Stop();
 	}
 
