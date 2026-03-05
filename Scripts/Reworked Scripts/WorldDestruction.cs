@@ -20,9 +20,11 @@ public partial class WorldDestruction : Node2D
 	private Timer areaHitTimer;
 	private Timer obstacleTimer;
 	private TileMapLayer borderTiles;
+	private Beam beam;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
 	private bool willDash = false;
+	private bool didFire = false;
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
         {"minX",0},
@@ -40,7 +42,8 @@ public partial class WorldDestruction : Node2D
 		areaHitTimer = GetNode<Timer>("Area Hit");
 		obstacleTimer = GetNode<Timer>("Obstacle");
 		borderTiles = GetNode<TileMapLayer>("Borders");
-
+		beam = GetNode<Beam>("Beam");
+		
 		stepTimer.Timeout += HandleStep;
 		areaHitTimer.Timeout += SpawnHit;
 		obstacleTimer.Timeout += SpawnObstacle;
@@ -51,6 +54,7 @@ public partial class WorldDestruction : Node2D
 		nextDirection = dogController.Spawn();
 		SpawnFood();
 		currentDirection = nextDirection;
+
 		stepTimer.Start();
 		areaHitTimer.Start();
 		obstacleTimer.Start();
@@ -78,7 +82,10 @@ public partial class WorldDestruction : Node2D
 			}
 			else if (Input.IsActionJustPressed("Fire"))
 			{
-				GD.Print("Fire");
+				if (CanFire())
+				{
+					Fire();
+				}
 			}
 			else if(Input.IsActionJustPressed("Dash"))
 			{
@@ -92,6 +99,35 @@ public partial class WorldDestruction : Node2D
 				}
 			}
 		}
+	}
+
+	private void Fire()
+	{
+		beam.FireBeam(BeamLength(), "medium", currentDirection, dogController.parts[0].GlobalPosition);
+		didFire = true;
+	}
+
+	private bool CanFire()
+	{
+		if (BeamLength() > 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private int BeamLength()
+	{
+		int length = 1;
+		Vector2 current = dogController.parts[0].GlobalPosition / size;
+		GD.Print("Calculating Length_____");
+		while (current.X < boundry["maxX"] && current.X > boundry["minX"] && current.Y < boundry["maxY"] && current.Y > boundry["minY"])
+		{
+			GD.Print($"current: {current.X}:{current.Y} | length: {length}");
+			current += currentDirection;
+			length++;
+		}
+		return length;
 	}
 
 	private bool CanTurn(Vector2 direction)
@@ -126,6 +162,11 @@ public partial class WorldDestruction : Node2D
 
 	private void HandleStep()
 	{
+		if (didFire)
+		{
+			beam.Banish();
+			didFire = false;
+		}
 		if (willDash)
 		{
 			bool did = dogController.Dash(currentDirection);

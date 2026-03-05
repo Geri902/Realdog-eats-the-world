@@ -4,9 +4,11 @@ using System;
 public partial class Beam : Node2D
 {
 	private const int size = 128;
+	private const int offset = 64;
 	private AnimatedSprite2D startFrames;
 	private AnimatedSprite2D bodyFrames;
 	private BeamAreaController areaController;
+	private bool isReady = true;
 	public override void _Ready()
 	{
 		startFrames = GetNode<AnimatedSprite2D>("Start Frames");
@@ -18,19 +20,48 @@ public partial class Beam : Node2D
 	{
 	}
 
-	private void ReSize(int length, string type, int rotation, Vector2 position)
+	public void FireBeam(int length, string type, Vector2 direction, Vector2 position)
 	{
-		ReSizeFrames(length, type);
-		areaController.ReSize(length, type);
-		Rotation = rotation;
-		Position = position;
+		if (isReady)
+		{
+			Visible = true;
+			ReSizeFrames(length, type);
+			areaController.ReSize(length, type);
+			RotationDegrees = CalcRotation(direction);
+			GlobalPosition = new Vector2(position.X + offset, position.Y + offset);
+			
+			isReady = false;
+		}
 	}
 
-	private void Banish()
+    private float CalcRotation(Vector2 direction)
+    {
+        if (direction == Vector2.Up)
+		{
+			return 90;
+		}
+		if (direction == Vector2.Right)
+		{
+			return 180;
+		}
+		if (direction == Vector2.Down)
+		{
+			return 270;
+		}
+		return 0;
+    }
+
+    private void HandleHits()
 	{
-		Position = new Vector2(-1000, -1000);
+		//work in progress
+	}
+
+	public void Banish()
+	{
+		Position = new Vector2(-10000, -10000);
 		Visible = false;
 		Rotation = 0;
+		isReady = true;
 	}
 
 	private void ReSizeFrames(int length, string type)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=11 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bo7javuf8q6kr" path="res://Scenes/GroundObstacle.tscn" id="4_fc74m"]
 [ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
 [ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
+[ext_resource type="PackedScene" uid="uid://ds0c54tggre6a" path="res://Scenes/Beam.tscn" id="9_alsvf"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
 
@@ -41,8 +42,10 @@ script = ExtResource("4_2dj2o")
 segmentScene = ExtResource("5_2dj2o")
 
 [node name="Step" type="Timer" parent="."]
-wait_time = 0.25
 
 [node name="Area Hit" type="Timer" parent="."]
 
 [node name="Obstacle" type="Timer" parent="."]
+
+[node name="Beam" parent="." instance=ExtResource("9_alsvf")]
+position = Vector2(-9984, -9984)
