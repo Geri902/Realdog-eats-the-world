@@ -51,11 +51,6 @@ public partial class Beam : Node2D
 		return 0;
     }
 
-    private void HandleHits()
-	{
-		//work in progress
-	}
-
 	public void Banish()
 	{
 		Position = new Vector2(-10000, -10000);

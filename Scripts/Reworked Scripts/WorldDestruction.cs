@@ -66,8 +66,8 @@ public partial class WorldDestruction : Node2D
 		currentDirection = nextDirection;
 
 		stepTimer.Start();
-		//areaHitTimer.Start();
-		//obstacleTimer.Start();
+		areaHitTimer.Start();
+		obstacleTimer.Start();
 
 	}
 
@@ -138,10 +138,8 @@ public partial class WorldDestruction : Node2D
 	{
 		int length = 1;
 		Vector2 current = dogController.parts[0].GlobalPosition / size;
-		GD.Print("Calculating Length_____");
 		while (current.X < boundry["maxX"] && current.X > boundry["minX"] && current.Y < boundry["maxY"] && current.Y > boundry["minY"])
 		{
-			GD.Print($"current: {current.X}:{current.Y} | length: {length}");
 			current += currentDirection;
 			length++;
 		}
@@ -305,8 +303,6 @@ public partial class WorldDestruction : Node2D
         boundry["maxX"] = walls.Max(l => l.X) - 1;
         boundry["minY"] = walls.Min(l => l.Y) + 1;
         boundry["maxY"] = walls.Max(l => l.Y) - 1;
-
-		GD.Print($"X: [{boundry["minX"]},{boundry["maxX"]}]\nY: [{boundry["minY"]},{boundry["maxY"]}]");
     }
 
 	private Vector2 GetRandomAreaCenter(int areaSize)

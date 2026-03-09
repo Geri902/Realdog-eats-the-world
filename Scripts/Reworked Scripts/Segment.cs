@@ -171,7 +171,6 @@ public partial class Segment : CharacterBody2D
 
 		if (collision is not null)
 		{
-			GD.Print("collision:");
 			return HandleCollision(collision.GetCollider(), direction);
 		}
 		else
@@ -187,31 +186,26 @@ public partial class Segment : CharacterBody2D
 	{
 		if (collider is TileMapLayer)
 		{
-			GD.Print("wall");
 			return "Die";
 		}
 		if (collider is GroundObstacle)
 		{
-			GD.Print("Obstacle");
 			return "Die";
 		}
 		if (collider is Segment segment)
 		{
 			if (segment.isAttatched)
 			{
-				GD.Print("Body");
 				return "Die";
 			}
 			Vector2 prev = GlobalPosition;
 			GlobalPosition += direction;
 			owner.MoveRest(prev, segment);
-			GD.Print("Reattatch");
 			return "Reattach";
 
 		}
 		if (collider is ReworkedFood food)
 		{
-			GD.Print("Food");
 			food.MoveFood();
 			GlobalPosition += direction;
 			return "Eat";
@@ -237,7 +231,6 @@ public partial class Segment : CharacterBody2D
 
 	public void Hit()
 	{
-		GD.Print("Owie");
 		if (isAttatched)
 		{
 			owner.Die();
