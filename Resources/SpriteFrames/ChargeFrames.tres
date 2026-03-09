@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://cfck71ry7g6ku"]
+
+[ext_resource type="Texture2D" uid="uid://bt8ooyks2odgb" path="res://Assets/Charge Bar-Sheet.png" id="1_qypc5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvl1d"]
+atlas = ExtResource("1_qypc5")
+region = Rect2(0, 0, 512, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3prpw"]
+atlas = ExtResource("1_qypc5")
+region = Rect2(512, 0, 512, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1liq"]
+atlas = ExtResource("1_qypc5")
+region = Rect2(1024, 0, 512, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijnj4"]
+atlas = ExtResource("1_qypc5")
+region = Rect2(1536, 0, 512, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvl1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3prpw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1liq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijnj4")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]

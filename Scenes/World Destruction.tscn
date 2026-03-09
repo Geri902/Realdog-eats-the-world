@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=14 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
@@ -9,8 +9,17 @@
 [ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
 [ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
 [ext_resource type="PackedScene" uid="uid://ds0c54tggre6a" path="res://Scenes/Beam.tscn" id="9_alsvf"]
+[ext_resource type="SpriteFrames" uid="uid://cfck71ry7g6ku" path="res://Resources/SpriteFrames/ChargeFrames.tres" id="10_5akdq"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
+
+[sub_resource type="SystemFont" id="SystemFont_5akdq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_l5i0y"]
+font = SubResource("SystemFont_5akdq")
+font_size = 186
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
 
 [node name="WorldDestruction" type="Node2D"]
 script = ExtResource("1_e2hwi")
@@ -49,3 +58,17 @@ segmentScene = ExtResource("5_2dj2o")
 
 [node name="Beam" parent="." instance=ExtResource("9_alsvf")]
 position = Vector2(-9984, -9984)
+
+[node name="Charge" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.92593e-34, -922)
+scale = Vector2(1.9999999, 2.0000002)
+sprite_frames = ExtResource("10_5akdq")
+
+[node name="CoolDown" type="Label" parent="."]
+offset_left = -792.0
+offset_top = -1045.0
+offset_right = -536.0
+offset_bottom = -789.0
+label_settings = SubResource("LabelSettings_l5i0y")
+horizontal_alignment = 1
+vertical_alignment = 1

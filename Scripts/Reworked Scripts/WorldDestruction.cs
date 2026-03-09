@@ -21,6 +21,8 @@ public partial class WorldDestruction : Node2D
 	private Timer obstacleTimer;
 	private TileMapLayer borderTiles;
 	private Beam beam;
+	private AnimatedSprite2D chargeMeter;
+	private Label coolDownLabel;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
 	private bool willDash = false;
@@ -28,7 +30,7 @@ public partial class WorldDestruction : Node2D
 	private bool didFire = false;
 	private const int maxFireCharge = 3;
 	private int currentCharge = 0;
-	private const int coolDownDuration = 3;
+	private const int coolDownDuration = 5;
 	private int coolDownCurrent = 0;
 
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
@@ -49,6 +51,8 @@ public partial class WorldDestruction : Node2D
 		obstacleTimer = GetNode<Timer>("Obstacle");
 		borderTiles = GetNode<TileMapLayer>("Borders");
 		beam = GetNode<Beam>("Beam");
+		chargeMeter = GetNode<AnimatedSprite2D>("Charge");
+		coolDownLabel = GetNode<Label>("CoolDown");
 		
 		stepTimer.Timeout += HandleStep;
 		areaHitTimer.Timeout += SpawnHit;
@@ -85,15 +89,6 @@ public partial class WorldDestruction : Node2D
 			else if (Input.IsActionJustPressed("Right"))
 			{
 				ChangeDirection(Vector2.Right);
-			}
-			else if (Input.IsActionJustPressed("Fire"))
-			{
-				/*
-				if (CanFire())
-				{
-					Fire();
-				}
-				*/
 			}
 			else if(Input.IsActionJustPressed("Dash"))
 			{
@@ -183,6 +178,22 @@ public partial class WorldDestruction : Node2D
 		}
 	}
 
+	private void ChangeCoolDownText()
+	{
+		string output;
+
+		if (coolDownCurrent != 0)
+		{
+			output = coolDownCurrent.ToString();
+		}
+		else
+		{
+			output = "";
+		}
+
+		coolDownLabel.Text = output;
+	}
+
 	private bool HandleFiring()
 	{
 		if (didFire)
@@ -197,6 +208,7 @@ public partial class WorldDestruction : Node2D
 			{
 				willFire = true;
 				currentCharge += 1;
+				chargeMeter.Frame = currentCharge;
 
 				if (currentCharge > maxFireCharge)
 				{
@@ -206,13 +218,16 @@ public partial class WorldDestruction : Node2D
 			}
 			else
 			{
-				if (willFire && CanFire())
+				if (willFire)
 				{
 					Fire(currentCharge);
 					willFire = false;
 					didFire = true;
 					coolDownCurrent = coolDownDuration;
 					currentCharge = 0;
+					chargeMeter.Frame = 0;
+
+					ChangeCoolDownText();
 
 					return true;
 				}
@@ -221,7 +236,9 @@ public partial class WorldDestruction : Node2D
 		else
 		{
 			coolDownCurrent -= 1;
+			ChangeCoolDownText();
 		}
+
 
 		return false;
 	}
