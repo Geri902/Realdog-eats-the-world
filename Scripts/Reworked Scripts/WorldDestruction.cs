@@ -24,7 +24,13 @@ public partial class WorldDestruction : Node2D
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
 	private bool willDash = false;
+	private bool willFire = false;
 	private bool didFire = false;
+	private const int maxFireCharge = 3;
+	private int currentCharge = 0;
+	private const int coolDownDuration = 3;
+	private int coolDownCurrent = 0;
+
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
         {"minX",0},
@@ -56,8 +62,8 @@ public partial class WorldDestruction : Node2D
 		currentDirection = nextDirection;
 
 		stepTimer.Start();
-		areaHitTimer.Start();
-		obstacleTimer.Start();
+		//areaHitTimer.Start();
+		//obstacleTimer.Start();
 
 	}
 
@@ -82,10 +88,12 @@ public partial class WorldDestruction : Node2D
 			}
 			else if (Input.IsActionJustPressed("Fire"))
 			{
+				/*
 				if (CanFire())
 				{
 					Fire();
 				}
+				*/
 			}
 			else if(Input.IsActionJustPressed("Dash"))
 			{
@@ -101,9 +109,24 @@ public partial class WorldDestruction : Node2D
 		}
 	}
 
-	private void Fire()
+	private void Fire(int charge)
 	{
-		beam.FireBeam(BeamLength(), "medium", currentDirection, dogController.parts[0].GlobalPosition);
+		string size;
+
+		switch (charge)
+		{
+			case 2:
+				size = "medium";
+				break;
+			case 3:
+				size = "large";
+				break;
+			default:
+				size = "small";
+				break;
+		}
+
+		beam.FireBeam(BeamLength(), size, currentDirection, dogController.parts[0].GlobalPosition);
 		didFire = true;
 	}
 
@@ -160,13 +183,56 @@ public partial class WorldDestruction : Node2D
 		}
 	}
 
-	private void HandleStep()
+	private bool HandleFiring()
 	{
 		if (didFire)
 		{
 			beam.Banish();
 			didFire = false;
 		}
+
+		if (coolDownCurrent == 0)
+		{
+			if (Input.IsActionPressed("Fire"))
+			{
+				willFire = true;
+				currentCharge += 1;
+
+				if (currentCharge > maxFireCharge)
+				{
+					dogController.Die();
+					GameOver();
+				}
+			}
+			else
+			{
+				if (willFire && CanFire())
+				{
+					Fire(currentCharge);
+					willFire = false;
+					didFire = true;
+					coolDownCurrent = coolDownDuration;
+					currentCharge = 0;
+
+					return true;
+				}
+			}
+		}
+		else
+		{
+			coolDownCurrent -= 1;
+		}
+
+		return false;
+	}
+
+	private void HandleStep()
+	{
+		if (HandleFiring())
+		{
+			return;
+		}
+
 		if (willDash)
 		{
 			bool did = dogController.Dash(currentDirection);
@@ -205,6 +271,12 @@ public partial class WorldDestruction : Node2D
 
 	public void GameOver()
 	{
+		currentCharge = 0;
+		coolDownCurrent = 0;
+		willDash = false;
+		willFire = false;
+		didFire = false;
+
 		stepTimer.Stop();
 		obstacleTimer.Stop();
 		areaHitTimer.Stop();
