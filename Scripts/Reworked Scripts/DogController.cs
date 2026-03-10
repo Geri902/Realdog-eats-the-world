@@ -252,4 +252,18 @@ public partial class DogController : Node2D
 		segment.isAttatched = true;
 		removedParts.Remove(segment);
     }
+
+    public void LoadBeam()
+    {
+        if (parts.Count < 3)
+		{
+			GD.Print("Bug: can't fire (not long enough)");
+			return;
+		}
+
+		Segment toRemove = parts[parts.Count - 1];
+		parts.Remove(toRemove);
+		toRemove.QueueFree();
+		DrawAll();
+    }
 }

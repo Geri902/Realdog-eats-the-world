@@ -125,15 +125,6 @@ public partial class WorldDestruction : Node2D
 		didFire = true;
 	}
 
-	private bool CanFire()
-	{
-		if (BeamLength() > 1)
-		{
-			return true;
-		}
-		return false;
-	}
-
 	private int BeamLength()
 	{
 		int length = 1;
@@ -202,11 +193,12 @@ public partial class WorldDestruction : Node2D
 
 		if (coolDownCurrent == 0)
 		{
-			if (Input.IsActionPressed("Fire"))
+			if (Input.IsActionPressed("Fire") && dogController.parts.Count > 2)
 			{
 				willFire = true;
 				currentCharge += 1;
 				chargeMeter.Frame = currentCharge;
+				dogController.LoadBeam();
 
 				if (currentCharge > maxFireCharge)
 				{
