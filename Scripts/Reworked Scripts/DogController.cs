@@ -213,6 +213,19 @@ public partial class DogController : Node2D
 		DrawAll();
 	}
 
+	public void HitAt(Segment at)
+	{
+		if (parts.IndexOf(at) < 2)
+		{
+			Die();
+		}
+		else
+		{
+			SplitAt(at);
+			at.StartExplosion(0.05f);
+		}
+	}
+
 	public bool Dash(Vector2 direction)
 	{
 		if (parts.Count > 2)

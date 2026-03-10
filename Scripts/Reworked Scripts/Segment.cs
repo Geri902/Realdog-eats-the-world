@@ -233,7 +233,7 @@ public partial class Segment : CharacterBody2D
 	{
 		if (isAttatched)
 		{
-			owner.Die();
+			owner.HitAt(this);
 		}
 		else
 		{
