@@ -1,0 +1,99 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsmneqjauclbb"]
+
+[ext_resource type="SpriteFrames" uid="uid://coslnjtiwyc8r" path="res://Resources/SpriteFrames/BossFrames.tres" id="1_d27am"]
+[ext_resource type="Script" uid="uid://c4rinqglgito3" path="res://Scripts/Reworked Scripts/Boss.cs" id="1_r5e8v"]
+[ext_resource type="Script" uid="uid://dyfcqgufvd4ke" path="res://Scripts/Reworked Scripts/BossPart.cs" id="2_r5e8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52ox3"]
+size = Vector2(255, 255)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_poe2g"]
+size = Vector2(127, 127)
+
+[node name="BossScene" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_r5e8v")
+
+[node name="Main Frames" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("1_d27am")
+centered = false
+
+[node name="Main Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(128, 128)
+shape = SubResource("RectangleShape2D_52ox3")
+
+[node name="Dead Parts" type="Node2D" parent="."]
+
+[node name="Left Up" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+script = ExtResource("2_r5e8v")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Left Up"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Left Up"]
+position = Vector2(64, 64)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("1_d27am")
+animation = &"split"
+frame = 2
+flip_h = true
+flip_v = true
+
+[node name="Right Up" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(128, 0)
+script = ExtResource("2_r5e8v")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Right Up"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Right Up"]
+position = Vector2(64, 64)
+scale = Vector2(1.9999999, 1.9999999)
+sprite_frames = ExtResource("1_d27am")
+animation = &"split"
+frame = 3
+flip_h = true
+flip_v = true
+
+[node name="Left Down" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+script = ExtResource("2_r5e8v")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Left Down"]
+position = Vector2(64, 192)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Left Down"]
+position = Vector2(63.999996, 192)
+scale = Vector2(1.9999999, 2)
+sprite_frames = ExtResource("1_d27am")
+animation = &"split"
+frame = 1
+flip_h = true
+flip_v = true
+
+[node name="Right Down" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+script = ExtResource("2_r5e8v")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Right Down"]
+position = Vector2(192, 192)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Right Down"]
+position = Vector2(192, 192)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("1_d27am")
+animation = &"split"
+flip_h = true
+flip_v = true
