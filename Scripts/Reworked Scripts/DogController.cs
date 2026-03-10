@@ -126,6 +126,7 @@ public partial class DogController : Node2D
 	public void Die()
 	{
 		Explode();
+		gameScene.isGameOver = true;
 		gameScene.GameOver();
 	}
 

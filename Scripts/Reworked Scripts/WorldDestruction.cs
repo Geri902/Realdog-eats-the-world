@@ -32,6 +32,7 @@ public partial class WorldDestruction : Node2D
 	private int currentCharge = 0;
 	private const int coolDownDuration = 5;
 	private int coolDownCurrent = 0;
+	public bool isGameOver = false;
 
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
@@ -235,29 +236,32 @@ public partial class WorldDestruction : Node2D
 
 	private void HandleStep()
 	{
-		if (HandleFiring())
+		if (!isGameOver)
 		{
-			return;
-		}
-
-		if (willDash)
-		{
-			bool did = dogController.Dash(currentDirection);
-			if (did)
+			if (HandleFiring())
 			{
-				stepTimer.Start();
+				return;
+			}
+	
+			if (willDash)
+			{
+				bool did = dogController.Dash(currentDirection);
+				if (did)
+				{
+					stepTimer.Start();
+				}
+				else
+				{
+					currentDirection = nextDirection;
+					dogController.Move(currentDirection);
+				}
+				willDash = false;
 			}
 			else
 			{
 				currentDirection = nextDirection;
 				dogController.Move(currentDirection);
 			}
-			willDash = false;
-		}
-		else
-		{
-			currentDirection = nextDirection;
-			dogController.Move(currentDirection);
 		}
 	}
 
@@ -278,6 +282,8 @@ public partial class WorldDestruction : Node2D
 
 	public void GameOver()
 	{
+		isGameOver = true;
+
 		currentCharge = 0;
 		coolDownCurrent = 0;
 		willDash = false;
