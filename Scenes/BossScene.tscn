@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsmneqjauclbb"]
+[gd_scene load_steps=9 format=3 uid="uid://bsmneqjauclbb"]
 
 [ext_resource type="SpriteFrames" uid="uid://coslnjtiwyc8r" path="res://Resources/SpriteFrames/BossFrames.tres" id="1_d27am"]
 [ext_resource type="Script" uid="uid://c4rinqglgito3" path="res://Scripts/Reworked Scripts/Boss.cs" id="1_r5e8v"]
 [ext_resource type="Script" uid="uid://dyfcqgufvd4ke" path="res://Scripts/Reworked Scripts/BossPart.cs" id="2_r5e8v"]
+[ext_resource type="Script" uid="uid://bf3vau60ki3j7" path="res://Scripts/Reworked Scripts/BossArrowManager.cs" id="4_poe2g"]
+[ext_resource type="SpriteFrames" uid="uid://dm6lonyt5w2b1" path="res://Resources/SpriteFrames/ArrowFrames.tres" id="5_iavs8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iavs8"]
 size = Vector2(383, 383)
@@ -205,4 +207,36 @@ animation = &"split"
 flip_h = true
 flip_v = true
 
-[node name="Move Timer" type="Timer" parent="."]
+[node name="Step" type="Timer" parent="."]
+
+[node name="Delay" type="Timer" parent="."]
+
+[node name="Arrows" type="Node2D" parent="."]
+script = ExtResource("4_poe2g")
+
+[node name="Up" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(128, -128)
+sprite_frames = ExtResource("5_iavs8")
+frame = 3
+centered = false
+
+[node name="Down" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(128, 384)
+sprite_frames = ExtResource("5_iavs8")
+frame = 1
+centered = false
+
+[node name="Left" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(-128, 128)
+sprite_frames = ExtResource("5_iavs8")
+frame = 2
+centered = false
+
+[node name="Right" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(384, 128)
+sprite_frames = ExtResource("5_iavs8")
+centered = false

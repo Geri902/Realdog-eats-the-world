@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://dm6lonyt5w2b1"]
+
+[ext_resource type="Texture2D" uid="uid://coj5i2k52n874" path="res://Assets/Warning arrow-Sheet.png" id="1_sc0fn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qykx3"]
+atlas = ExtResource("1_sc0fn")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xax5"]
+atlas = ExtResource("1_sc0fn")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hdo3"]
+atlas = ExtResource("1_sc0fn")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gp20t"]
+atlas = ExtResource("1_sc0fn")
+region = Rect2(384, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qykx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xax5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hdo3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gp20t")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
