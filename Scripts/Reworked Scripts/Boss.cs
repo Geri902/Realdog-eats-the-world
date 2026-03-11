@@ -16,8 +16,8 @@ public partial class Boss : CharacterBody2D
 	private Bar healthBar;
 	public List<BossPart> parts = new List<BossPart>();
 	public RandomNumberGenerator rnd = new RandomNumberGenerator();
-	private int movementChance = 2; // movementChance = x means 1/x chance to move
-	private int dashChance = 3; 
+	private int movementChance = 1; // movementChance = x means 1/x chance to move
+	private int dashChance = 4; 
 	private Vector2 actDirection;
 	private const int maxHP = 3;
 	private int currentHP = maxHP;
@@ -112,11 +112,33 @@ public partial class Boss : CharacterBody2D
 	private void Dash()
 	{
 		arrowManager.ResetArrows();
-        KinematicCollision2D collision;
+        bool canContinue = true;
         do
 		{
-			collision = MoveAndCollide(actDirection * size);
-		} while (collision is null && actDirection != Vector2.Zero);
+			KinematicCollision2D collision = MoveAndCollide(actDirection * size, true);
+
+			if (collision is not null)
+			{
+				GodotObject hit = collision.GetCollider();
+				if (hit is not null)
+				{
+					if (hit is Segment segment)
+					{
+						canContinue = false;
+						segment.Hit();
+					}
+					else if (hit is TileMapLayer)
+					{
+						canContinue = false;
+					}
+				}
+			}
+			if (canContinue)
+			{
+				MoveAndCollide(actDirection * size);
+			}
+
+		} while (canContinue && actDirection != Vector2.Zero);
 		actDirection = Vector2.Zero;
 	}
 
