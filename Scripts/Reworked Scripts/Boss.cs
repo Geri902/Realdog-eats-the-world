@@ -83,19 +83,22 @@ public partial class Boss : CharacterBody2D
 		int chance = rnd.RandiRange(1,dashChance);
 		Vector2 direction = GetRandomDirection();
 		
-		if (chance == 1 && arrowManager.CanAct())
+		if (arrowManager.CanAct())
 		{
-			arrowManager.SetArrow(direction);
-			actDirection = direction;
-			delayTimer.Start();
-		}
-		else
-		{
-			chance = rnd.RandiRange(1,movementChance);
-
 			if (chance == 1)
 			{
-				Move(direction);
+				arrowManager.SetArrow(direction);
+				actDirection = direction;
+				delayTimer.Start();
+			}
+			else
+			{
+				chance = rnd.RandiRange(1,movementChance);
+	
+				if (chance == 1)
+				{
+					Move(direction);
+				}
 			}
 		}
 
@@ -107,7 +110,6 @@ public partial class Boss : CharacterBody2D
         KinematicCollision2D collision;
         do
 		{
-			GD.Print("pls ne legél infinite recursion");
 			collision = MoveAndCollide(actDirection * size);
 		} while (collision is null && actDirection != Vector2.Zero);
 		actDirection = Vector2.Zero;
