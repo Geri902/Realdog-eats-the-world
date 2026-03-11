@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsmneqjauclbb"]
+[gd_scene load_steps=11 format=3 uid="uid://bsmneqjauclbb"]
 
 [ext_resource type="SpriteFrames" uid="uid://coslnjtiwyc8r" path="res://Resources/SpriteFrames/BossFrames.tres" id="1_d27am"]
 [ext_resource type="Script" uid="uid://c4rinqglgito3" path="res://Scripts/Reworked Scripts/Boss.cs" id="1_r5e8v"]
 [ext_resource type="Script" uid="uid://dyfcqgufvd4ke" path="res://Scripts/Reworked Scripts/BossPart.cs" id="2_r5e8v"]
 [ext_resource type="Script" uid="uid://bf3vau60ki3j7" path="res://Scripts/Reworked Scripts/BossArrowManager.cs" id="4_poe2g"]
 [ext_resource type="SpriteFrames" uid="uid://dm6lonyt5w2b1" path="res://Resources/SpriteFrames/ArrowFrames.tres" id="5_iavs8"]
+[ext_resource type="SpriteFrames" uid="uid://b18a75djrhoa1" path="res://Resources/SpriteFrames/HealthBarFrames.tres" id="6_iavs8"]
+[ext_resource type="Script" uid="uid://40dw3ube3ed5" path="res://Scripts/Reworked Scripts/Bar.cs" id="7_j3xw2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iavs8"]
 size = Vector2(383, 383)
@@ -240,4 +242,18 @@ centered = false
 visible = false
 position = Vector2(384, 128)
 sprite_frames = ExtResource("5_iavs8")
+centered = false
+
+[node name="Bar" type="AnimatedSprite2D" parent="."]
+z_index = 2
+position = Vector2(0, 256)
+scale = Vector2(3, 0.9999998)
+sprite_frames = ExtResource("6_iavs8")
+centered = false
+script = ExtResource("7_j3xw2")
+
+[node name="Health" type="AnimatedSprite2D" parent="Bar"]
+z_index = -1
+sprite_frames = ExtResource("6_iavs8")
+frame = 1
 centered = false

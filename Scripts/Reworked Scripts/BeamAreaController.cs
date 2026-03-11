@@ -5,6 +5,7 @@ public partial class BeamAreaController : Area2D
 {
 	private const int size = 128;
 	private CollisionShape2D hitbox;
+	private int damadge = 0;
 	public override void _Ready()
 	{
 		hitbox = GetNode<CollisionShape2D>("Shape");
@@ -23,11 +24,14 @@ public partial class BeamAreaController : Area2D
 		{
 			case "medium":
 				y = 3;
+				damadge = 2;
 				break;
 			case "large":
 				y = 5;
+				damadge = 3;
 				break;
 			default:
+				damadge = 1;
 				break;
 		}
 
@@ -47,7 +51,7 @@ public partial class BeamAreaController : Area2D
 		}
 		else if(body is Boss boss)
 		{
-			boss.Die();
+			boss.Hit(damadge);
 		}
 	}
 }

@@ -13,11 +13,14 @@ public partial class Boss : CharacterBody2D
 	private Area2D overlap;
 	private BossArrowManager arrowManager;
 	private Timer delayTimer;
+	private Bar healthBar;
 	public List<BossPart> parts = new List<BossPart>();
 	public RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private int movementChance = 2; // movementChance = x means 1/x chance to move
 	private int dashChance = 3; 
 	private Vector2 actDirection;
+	private const int maxHP = 3;
+	private int currentHP = maxHP;
 
     public override void _Ready()
     {
@@ -30,6 +33,7 @@ public partial class Boss : CharacterBody2D
 		overlap = GetNode<Area2D>("Overlap");
 		arrowManager = GetNode<BossArrowManager>("Arrows");
 		delayTimer = GetNode<Timer>("Delay");
+		healthBar = GetNode<Bar>("Bar");
 
 		foreach (BossPart part in deadParts.GetChildren())
 		{
@@ -59,6 +63,7 @@ public partial class Boss : CharacterBody2D
 	public void Die()
 	{
 		mainFrames.Visible = false;
+		healthBar.Visible = false;
 		mainShape.SetDeferred("disabled", true);
 		stepTimer.Stop();
 
@@ -126,5 +131,15 @@ public partial class Boss : CharacterBody2D
 		int randInd = rnd.RandiRange(0, dirs.Length - 1);
 
 		return dirs[randInd];
+	}
+
+	public void Hit(int damadge)
+	{
+		currentHP -= damadge;
+		healthBar.SetBar((float)currentHP / (float)maxHP);
+		if (currentHP <= 0)
+		{
+			Die();
+		}
 	}
 }
