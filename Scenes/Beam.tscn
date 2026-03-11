@@ -22,6 +22,8 @@ sprite_frames = ExtResource("1_josl3")
 animation = &"body"
 
 [node name="Area" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("2_xrmn3")
 
 [node name="Shape" type="CollisionShape2D" parent="Area"]

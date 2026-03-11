@@ -18,8 +18,6 @@ shape = SubResource("RectangleShape2D_8yyay")
 z_index = 10
 position = Vector2(64, 64)
 sprite_frames = ExtResource("3_goft0")
-frame = 17
-frame_progress = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_7gl8c")

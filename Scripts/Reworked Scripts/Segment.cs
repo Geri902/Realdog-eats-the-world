@@ -192,6 +192,10 @@ public partial class Segment : CharacterBody2D
 		{
 			return "Die";
 		}
+		if (collider is Boss)
+		{
+			return "Die";
+		}
 		if (collider is Segment segment)
 		{
 			if (segment.isAttatched)
@@ -207,6 +211,12 @@ public partial class Segment : CharacterBody2D
 		if (collider is ReworkedFood food)
 		{
 			food.MoveFood();
+			GlobalPosition += direction;
+			return "Eat";
+		}
+		if (collider is BossPart part)
+		{
+			part.Eaten();
 			GlobalPosition += direction;
 			return "Eat";
 		}

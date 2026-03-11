@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=15 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
 [ext_resource type="PackedScene" uid="uid://ds0c54tggre6a" path="res://Scenes/Beam.tscn" id="9_alsvf"]
 [ext_resource type="SpriteFrames" uid="uid://cfck71ry7g6ku" path="res://Resources/SpriteFrames/ChargeFrames.tres" id="10_5akdq"]
+[ext_resource type="PackedScene" uid="uid://bsmneqjauclbb" path="res://Scenes/BossScene.tscn" id="11_l5i0y"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
 
@@ -73,3 +74,6 @@ offset_bottom = -789.0
 label_settings = SubResource("LabelSettings_l5i0y")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BossScene" parent="." instance=ExtResource("11_l5i0y")]
+position = Vector2(-1536, -512)

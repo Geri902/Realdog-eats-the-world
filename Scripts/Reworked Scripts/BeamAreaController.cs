@@ -45,5 +45,9 @@ public partial class BeamAreaController : Area2D
 		{
 			obstacle.Hit();
 		}
+		else if(body is Boss boss)
+		{
+			boss.Die();
+		}
 	}
 }

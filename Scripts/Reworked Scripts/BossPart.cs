@@ -12,7 +12,7 @@ public partial class BossPart : CharacterBody2D
 
 	public void Enable()
 	{
-		hitbox.Disabled = false;
+		hitbox.SetDeferred("disabled", false);
 		Visible = true;
 	}
 	public void Eaten()
