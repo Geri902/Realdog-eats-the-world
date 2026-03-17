@@ -11,6 +11,7 @@ public partial class AreaHit : Area2D
 	private AnimatedSprite2D animation;
 	private TileMapLayer warningTiles;
 	private CollisionShape2D shape;
+	private WorldDestruction gameController;
 	private int area;
 	private float vis = 1;
 	private float visStep = 0.10f;
@@ -122,6 +123,7 @@ public partial class AreaHit : Area2D
 	private void Finish()
 	{
 		Visible = false;
+		gameController.hits.Remove(this);
 		QueueFree();
 	}
 

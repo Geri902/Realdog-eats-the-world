@@ -21,6 +21,7 @@ public partial class BossPart : CharacterBody2D
 		{
 			if (main.parts.Count < 2)
 			{
+				main.gameController.BossDefeated();
 				main.QueueFree();
 				return;
 			}

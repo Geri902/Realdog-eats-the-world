@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://diqb2sl70uko0"]
+[gd_scene load_steps=6 format=3 uid="uid://diqb2sl70uko0"]
 
 [ext_resource type="Script" uid="uid://b5kralyej6jlk" path="res://Scripts/MainMenu.cs" id="1_tt5f1"]
 [ext_resource type="PackedScene" uid="uid://b80aan3xp8do1" path="res://Scenes/Game.tscn" id="2_853f1"]
+[ext_resource type="PackedScene" uid="uid://db6dfhna4fiat" path="res://Scenes/World Destruction.tscn" id="3_8saeu"]
 
 [sub_resource type="SystemFont" id="SystemFont_853f1"]
 
@@ -15,6 +16,7 @@ outline_color = Color(0, 0, 0, 1)
 [node name="Main menu" type="Node2D" node_paths=PackedStringArray("normalButton", "worldDestructionButton")]
 script = ExtResource("1_tt5f1")
 gameScene = ExtResource("2_853f1")
+worldDestructionScene = ExtResource("3_8saeu")
 normalButton = NodePath("Panel/Normal mode")
 worldDestructionButton = NodePath("Panel/World Destruction")
 

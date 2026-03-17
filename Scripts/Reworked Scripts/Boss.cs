@@ -1,4 +1,5 @@
 using Godot;
+using GodotPlugins.Game;
 using System;
 using System.Collections.Generic;
 
@@ -16,11 +17,13 @@ public partial class Boss : CharacterBody2D
 	private Bar healthBar;
 	public List<BossPart> parts = new List<BossPart>();
 	public RandomNumberGenerator rnd = new RandomNumberGenerator();
+	public WorldDestruction gameController = null;
 	private int movementChance = 1; // movementChance = x means 1/x chance to move
 	private int dashChance = 4; 
 	private Vector2 actDirection;
-	private const int maxHP = 3;
-	private int currentHP = maxHP;
+	private int maxHP;
+	private int currentHP;
+	private bool isDead = false;
 
     public override void _Ready()
     {
@@ -40,9 +43,25 @@ public partial class Boss : CharacterBody2D
 			part.main = this;
 			parts.Add(part);
 		}
-
-		SetupTimers("");
     }
+
+	public void SetHealth(int health)
+	{
+		maxHP = health;
+		currentHP = health;
+	}
+
+	public List<Vector2> PartPositions()
+	{
+		List<Vector2> partPositions = new List<Vector2>();
+
+		foreach (BossPart part in parts)
+		{
+			partPositions.Add(part.GlobalPosition);
+		}
+
+		return partPositions;
+	}
 
 	public void SetupTimers(string action)
 	{
@@ -62,6 +81,9 @@ public partial class Boss : CharacterBody2D
 
 	public void Die()
 	{
+		arrowManager.ResetArrows();
+		isDead = true;
+		gameController.isBossDead = true;
 		mainFrames.Visible = false;
 		healthBar.Visible = false;
 		mainShape.SetDeferred("disabled", true);
@@ -111,40 +133,46 @@ public partial class Boss : CharacterBody2D
 
 	private void Dash()
 	{
-		arrowManager.ResetArrows();
-        bool canContinue = true;
-        do
+		if (isDead == false)
 		{
-			KinematicCollision2D collision = MoveAndCollide(actDirection * size, true);
-
-			if (collision is not null)
+			arrowManager.ResetArrows();
+	        bool canContinue = true;
+	        do
 			{
-				GodotObject hit = collision.GetCollider();
-				if (hit is not null)
+				KinematicCollision2D collision = MoveAndCollide(actDirection * size, true);
+	
+				if (collision is not null)
 				{
-					if (hit is Segment segment)
+					GodotObject hit = collision.GetCollider();
+					if (hit is not null)
 					{
-						canContinue = false;
-						segment.Hit();
-					}
-					else if (hit is TileMapLayer)
-					{
-						canContinue = false;
+						if (hit is Segment segment)
+						{
+							canContinue = false;
+							segment.Hit();
+						}
+						else if (hit is TileMapLayer)
+						{
+							canContinue = false;
+						}
 					}
 				}
-			}
-			if (canContinue)
-			{
-				MoveAndCollide(actDirection * size);
-			}
-
-		} while (canContinue && actDirection != Vector2.Zero);
-		actDirection = Vector2.Zero;
+				if (canContinue)
+				{
+					MoveAndCollide(actDirection * size);
+				}
+	
+			} while (canContinue && actDirection != Vector2.Zero);
+			actDirection = Vector2.Zero;
+		}
 	}
 
 	private void Move(Vector2 direction)
 	{
-		MoveAndCollide(direction * size);
+		if (isDead == false)
+		{
+			MoveAndCollide(direction * size);
+		}
 
 	}
 

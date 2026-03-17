@@ -11,9 +11,12 @@ public partial class WorldDestruction : Node2D
 	[Export]
 	private PackedScene areaHitScene;
 	[Export]
+	private PackedScene bossScene;
+	[Export]
 	private PackedScene groundObstacleScene;
 	public List<GroundObstacle> obstacles = new List<GroundObstacle>();
 	private List<ReworkedFood> foods = new List<ReworkedFood>();
+	public List<AreaHit> hits = new List<AreaHit>();
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private DogController dogController;
 	private Timer stepTimer;
@@ -22,7 +25,9 @@ public partial class WorldDestruction : Node2D
 	private TileMapLayer borderTiles;
 	private Beam beam;
 	private AnimatedSprite2D chargeMeter;
+	private Sprite2D outsideBackground;
 	private Label coolDownLabel;
+	private Label bossSpawnRequironmentLabel;
 	private Vector2 currentDirection;
 	private Vector2 nextDirection;
 	private bool willDash = false;
@@ -33,6 +38,13 @@ public partial class WorldDestruction : Node2D
 	private const int coolDownDuration = 5;
 	private int coolDownCurrent = 0;
 	public bool isGameOver = false;
+	private int BossSpawnRequironment = 5;
+	private Boss boss;
+	private int foodAmount = 10;
+	private const int maxLevels = 3;
+	private int currentLevel = 1;
+	public bool isBossDead = false;
+	private int bossHealth = 3;
 
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
@@ -54,6 +66,8 @@ public partial class WorldDestruction : Node2D
 		beam = GetNode<Beam>("Beam");
 		chargeMeter = GetNode<AnimatedSprite2D>("Charge");
 		coolDownLabel = GetNode<Label>("CoolDown");
+		bossSpawnRequironmentLabel = GetNode<Label>("Spawn req");
+		outsideBackground = GetNode<Sprite2D>("Outside Background");
 		
 		stepTimer.Timeout += HandleStep;
 		areaHitTimer.Timeout += SpawnHit;
@@ -62,14 +76,36 @@ public partial class WorldDestruction : Node2D
 		SetBoundries(borderTiles.GetUsedCells());
 
 		dogController.SetUp(rnd, this);
+		SetLevel();
+
+	}
+
+	private void SetLevel()
+	{
 		nextDirection = dogController.Spawn();
-		SpawnFood();
+		SpawnFood(foodAmount);
 		currentDirection = nextDirection;
+
+		SetBossLabel();
 
 		stepTimer.Start();
 		areaHitTimer.Start();
 		obstacleTimer.Start();
+	}
 
+	private void NewLevel()
+	{
+		foodAmount -= 2;
+		BossSpawnRequironment += 2;
+		areaHitTimer.WaitTime -= 1;
+		obstacleTimer.WaitTime -= 1;
+		bossHealth += 3;
+
+		currentLevel++;
+		
+		outsideBackground.SelfModulate = new Color(r: rnd.RandfRange(0,1), g: rnd.RandfRange(0,1), b: rnd.RandfRange(0,1));
+
+		SetLevel();
 	}
 
 	public override void _Process(double delta)
@@ -130,7 +166,7 @@ public partial class WorldDestruction : Node2D
 	{
 		int length = 1;
 		Vector2 current = dogController.parts[0].GlobalPosition / size;
-		while (current.X < boundry["maxX"] && current.X > boundry["minX"] && current.Y < boundry["maxY"] && current.Y > boundry["minY"])
+		while (current.X <= boundry["maxX"] && current.X >= boundry["minX"] && current.Y <= boundry["maxY"] && current.Y >= boundry["minY"])
 		{
 			current += currentDirection;
 			length++;
@@ -265,19 +301,53 @@ public partial class WorldDestruction : Node2D
 		}
 	}
 
-	private void SpawnFood()
+	private void SpawnFood(int count = 1)
 	{
-		ReworkedFood food = foodScene.Instantiate<ReworkedFood>();
-		food.SetUp(rnd, this);
-		food.MoveFood();
-		AddChild(food);
-		foods.Add(food);
+		for (int i = 0; i < count; i++)
+		{
+			ReworkedFood food = foodScene.Instantiate<ReworkedFood>();
+			food.SetUp(rnd, this);
+			food.MoveFood();
+			AddChild(food);
+			foods.Add(food);
+		}
 	}
 
-	private void ResetFood()
+	private void ResetFoods()
 	{
+		foreach (ReworkedFood food in foods)
+		{
+			food.QueueFree();
+		}
 		foods.Clear();
-		SpawnFood();
+		
+	}
+
+	private void ResetObstacles()
+	{
+		foreach (GroundObstacle obstacle in obstacles)
+		{
+			obstacle.QueueFree();
+		}
+		obstacles.Clear();
+		
+	}
+
+	private void ResetHits()
+	{
+		foreach (AreaHit hit in hits)
+		{
+			hit.QueueFree();
+		}
+		hits.Clear();
+		
+	}
+
+	private void ResetBoss()
+	{
+		boss.QueueFree();
+		boss = null;
+		isBossDead = false;
 	}
 
 	public void GameOver()
@@ -289,6 +359,8 @@ public partial class WorldDestruction : Node2D
 		willDash = false;
 		willFire = false;
 		didFire = false;
+
+		ResetFoods();
 
 		stepTimer.Stop();
 		obstacleTimer.Stop();
@@ -333,6 +405,7 @@ public partial class WorldDestruction : Node2D
 
 		AreaHit hit = areaHitScene.Instantiate<AreaHit>();
 		AddChild(hit);
+		hits.Add(hit);
 		Vector2 position = GetRandomAreaCenter(areaSize);
 		float countdown = 4.0f;
 
@@ -361,9 +434,30 @@ public partial class WorldDestruction : Node2D
 		return obstaclePositions;
     }
 
+	public List<Vector2> FoodPositions()
+	{
+		List<Vector2> foodPositions = new List<Vector2>();
+
+		foreach (ReworkedFood food in foods)
+		{
+			foodPositions.Add(food.GlobalPosition);
+		}
+
+		return foodPositions;
+	}
+
 	public Vector2 GetRandomFreePosition()
 	{
-		List<Vector2> occupied = [.. ObstaclePositions(), .. dogController.GetDogPositions()];
+		List<Vector2> occupied;
+		if (boss is null)
+		{
+			occupied = [.. FoodPositions(), .. ObstaclePositions(), .. dogController.GetDogPositions()];
+		}
+		else
+		{
+			occupied = [.. boss.PartPositions(), .. FoodPositions(), .. ObstaclePositions(), .. dogController.GetDogPositions()];
+		}
+		
 
 		if (dogController.parts.Count > 0)
 		{
@@ -390,4 +484,69 @@ public partial class WorldDestruction : Node2D
 		}
 		return new Vector2(-1000, -1000);
 	}
+
+	private void SetBossLabel()
+	{
+		if (boss is null)
+		{
+			int len = dogController.parts.Count;
+			bossSpawnRequironmentLabel.Text = $"{len}/{BossSpawnRequironment}";
+		}
+		else
+		{
+			if (isBossDead)
+			{
+				bossSpawnRequironmentLabel.Text = $"Consume it's flesh!";
+			}
+			else
+			{
+				bossSpawnRequironmentLabel.Text = $"It is here!";
+			}
+		}
+	}
+
+	public void SpawnBoss()
+	{
+		if (boss is null)
+		{
+			int len = dogController.parts.Count;
+			if (len >= BossSpawnRequironment)
+			{
+				Boss spawned = bossScene.Instantiate<Boss>();
+				boss = spawned;
+				boss.gameController = this;
+				boss.SetHealth(bossHealth);
+				boss.GlobalPosition = GetRandomAreaCenter(2);
+				AddChild(boss);
+				boss.rnd = rnd;
+				boss.SetupTimers("Dash");
+			}
+		}
+		SetBossLabel();
+	}
+    internal void BossDefeated()
+    {
+        stepTimer.Stop();
+		areaHitTimer.Stop();
+		obstacleTimer.Stop();
+
+		ResetFoods();
+		ResetObstacles();
+		ResetBoss();
+		ResetHits();
+		dogController.Reset();
+
+		SetBossLabel();
+
+		if (currentLevel != maxLevels)
+		{
+			NewLevel();
+		}
+		else
+		{
+			GD.Print("You did it!");
+		}
+
+		
+    }
 }

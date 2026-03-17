@@ -6,11 +6,14 @@ public partial class MainMenu : Node2D
 	[Export]
 	private PackedScene gameScene;
 	[Export]
+	private PackedScene worldDestructionScene;
+	[Export]
 	private Button normalButton;
 	[Export]
 	private Button worldDestructionButton;
 	private Control panel;
 	private Game game = null;
+	private WorldDestruction destructionGame = null;
 	public override void _Ready()
 	{
 		normalButton.Pressed += StartNormal;
@@ -34,13 +37,26 @@ public partial class MainMenu : Node2D
 
 	private void ChangeScene(string type)
 	{
-		if (game is null)
+		if (type == "Normal")
 		{
-			game = gameScene.Instantiate<Game>();
-			game.gameMode = type;
-			game.mainMenu = this;
-			panel.Visible = false;
-			GetTree().Root.AddChild(game);
+			if (game is null)
+			{
+				game = gameScene.Instantiate<Game>();
+				game.gameMode = type;
+				game.mainMenu = this;
+				panel.Visible = false;
+				GetTree().Root.AddChild(game);
+			}
+		}
+		else
+		{
+			if (destructionGame is null)
+			{
+				destructionGame = worldDestructionScene.Instantiate<WorldDestruction>();
+				//destructionGame.mainMenu = this;
+				panel.Visible = false;
+				GetTree().Root.AddChild(destructionGame);
+			}
 		}
 	}
 

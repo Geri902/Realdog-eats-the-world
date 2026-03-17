@@ -107,6 +107,7 @@ public partial class DogController : Node2D
 				parts[0].isFull = true;
 				break;
 			case "Reattach":
+				gameScene.SpawnBoss();
 				break;
 			case "Moved":
 				MoveRest(prev);
@@ -155,6 +156,7 @@ public partial class DogController : Node2D
 		{
 			parts[lastInd].isFull = false;
 			AddPart(prev);
+			gameScene.SpawnBoss();
 		}
 
 		for (int i = lastInd; i > 0; i--)
@@ -232,6 +234,7 @@ public partial class DogController : Node2D
 		if (parts.Count > 2)
 		{
 			SplitAt(parts[2]);
+			gameScene.SpawnBoss();
 
 			for (int i = 0; i < dashLength; i++)
 			{
@@ -266,5 +269,6 @@ public partial class DogController : Node2D
 		parts.Remove(toRemove);
 		toRemove.QueueFree();
 		DrawAll();
+		gameScene.SpawnBoss();
     }
 }
