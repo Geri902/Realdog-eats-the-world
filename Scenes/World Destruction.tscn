@@ -15,6 +15,7 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
 
 [sub_resource type="SystemFont" id="SystemFont_5akdq"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_l5i0y"]
 font = SubResource("SystemFont_5akdq")
@@ -70,9 +71,9 @@ scale = Vector2(1.9999999, 2.0000002)
 sprite_frames = ExtResource("10_5akdq")
 
 [node name="CoolDown" type="Label" parent="."]
-offset_left = -792.0
+offset_left = 393.0
 offset_top = -1045.0
-offset_right = -536.0
+offset_right = 649.0
 offset_bottom = -789.0
 label_settings = SubResource("LabelSettings_l5i0y")
 horizontal_alignment = 1

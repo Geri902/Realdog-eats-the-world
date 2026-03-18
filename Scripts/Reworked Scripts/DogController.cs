@@ -271,4 +271,15 @@ public partial class DogController : Node2D
 		DrawAll();
 		gameScene.SpawnBoss();
     }
+
+	public void GrowHead()
+	{
+		parts[0].ZIndex = 100;
+		parts[0].grow = true;
+	}
+
+	public void GrowOver()
+	{
+		gameScene.NextLevel();
+	}
 }

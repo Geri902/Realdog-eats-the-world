@@ -84,6 +84,7 @@ public partial class Boss : CharacterBody2D
 		arrowManager.ResetArrows();
 		isDead = true;
 		gameController.isBossDead = true;
+		gameController.SetBossLabel();
 		mainFrames.Visible = false;
 		healthBar.Visible = false;
 		mainShape.SetDeferred("disabled", true);
@@ -96,6 +97,10 @@ public partial class Boss : CharacterBody2D
 			if (body is GroundObstacle obstacle)
 			{
 				obstacle.Hit();
+			}
+			if (body is ReworkedFood food)
+			{
+				food.MoveFood();
 			}
 		}
 

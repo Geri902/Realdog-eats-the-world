@@ -16,13 +16,14 @@ public enum BodyType
 public partial class Segment : CharacterBody2D
 {
 	private const int size = 128;
-	private AnimatedSprite2D bodyFrames;
+	public AnimatedSprite2D bodyFrames;
 	private AnimatedSprite2D explosionFrames;
 	private Timer delayTimer;
 	public bool isHead = false;
 	public bool isFull = false;
 	private DogController owner = null;
 	public bool isAttatched = true;
+	public bool grow = false;
 	public override void _Ready()
 	{
 		bodyFrames = GetNode<AnimatedSprite2D>("Body Frames");
@@ -53,6 +54,27 @@ public partial class Segment : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
+		Grow();
+	}
+
+	private void Grow()
+	{
+		if (grow)
+		{
+			bodyFrames.Scale *= 1.15f;
+			bodyFrames.Modulate = new Color(r: 1.0f, g: 1.0f, b: 1.0f);
+
+			if (bodyFrames.Scale.X >= 1000)
+			{
+				grow = false;
+				owner.GrowOver();
+			}
+		}
+	}
+
+	public void ResetGrowth()
+	{
+		bodyFrames.Scale = Vector2.One;
 	}
 	private int CalcDeg(Vector2I currentI, Vector2I previousI, Vector2I nextI, BodyType what)
 	{

@@ -334,7 +334,6 @@ public partial class WorldDestruction : Node2D
 
 	private void ResetBoss()
 	{
-		boss.QueueFree();
 		boss = null;
 		isBossDead = false;
 	}
@@ -475,7 +474,7 @@ public partial class WorldDestruction : Node2D
 		return new Vector2(-1000, -1000);
 	}
 
-	private void SetBossLabel()
+	public void SetBossLabel()
 	{
 		if (boss is null)
 		{
@@ -520,6 +519,11 @@ public partial class WorldDestruction : Node2D
 		areaHitTimer.Stop();
 		obstacleTimer.Stop();
 
+		dogController.GrowHead();
+    }
+
+	public void NextLevel()
+	{
 		ResetFoods();
 		ResetObstacles();
 		ResetBoss();
@@ -535,7 +539,5 @@ public partial class WorldDestruction : Node2D
 		{
 			GD.Print("You did it!");
 		}
-
-		
-    }
+	}
 }
