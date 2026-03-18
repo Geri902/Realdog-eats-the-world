@@ -11,13 +11,14 @@ public partial class AreaHit : Area2D
 	private AnimatedSprite2D animation;
 	private TileMapLayer warningTiles;
 	private CollisionShape2D shape;
-	private WorldDestruction gameController;
+	public WorldDestruction gameController;
 	private int area;
 	private float vis = 1;
 	private float visStep = 0.10f;
 	private double visDelay = 0.05f;
 	private int flickerCount = 3;
 	private bool inc = false;
+	public int level = 0;
 	public override void _Ready()
 	{
 		countdownTimer = GetNode<Timer>("Countdown");
@@ -101,7 +102,7 @@ public partial class AreaHit : Area2D
 	private void Hit()
 	{
 		warningTiles.Visible = false;
-		if (HasOverlappingBodies())
+		if (level == gameController.currentLevel && HasOverlappingBodies())
 		{
 			Godot.Collections.Array<Node2D> bodies = GetOverlappingBodies();
 
@@ -123,7 +124,6 @@ public partial class AreaHit : Area2D
 	private void Finish()
 	{
 		Visible = false;
-		gameController.hits.Remove(this);
 		QueueFree();
 	}
 

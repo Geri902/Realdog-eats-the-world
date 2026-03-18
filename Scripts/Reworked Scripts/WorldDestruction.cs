@@ -16,7 +16,6 @@ public partial class WorldDestruction : Node2D
 	private PackedScene groundObstacleScene;
 	public List<GroundObstacle> obstacles = new List<GroundObstacle>();
 	private List<ReworkedFood> foods = new List<ReworkedFood>();
-	public List<AreaHit> hits = new List<AreaHit>();
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private DogController dogController;
 	private Timer stepTimer;
@@ -42,7 +41,7 @@ public partial class WorldDestruction : Node2D
 	private Boss boss;
 	private int foodAmount = 10;
 	private const int maxLevels = 3;
-	private int currentLevel = 1;
+	public int currentLevel = 1;
 	public bool isBossDead = false;
 	private int bossHealth = 3;
 
@@ -333,16 +332,6 @@ public partial class WorldDestruction : Node2D
 		
 	}
 
-	private void ResetHits()
-	{
-		foreach (AreaHit hit in hits)
-		{
-			hit.QueueFree();
-		}
-		hits.Clear();
-		
-	}
-
 	private void ResetBoss()
 	{
 		boss.QueueFree();
@@ -405,7 +394,8 @@ public partial class WorldDestruction : Node2D
 
 		AreaHit hit = areaHitScene.Instantiate<AreaHit>();
 		AddChild(hit);
-		hits.Add(hit);
+		hit.gameController = this;
+		hit.level = currentLevel;
 		Vector2 position = GetRandomAreaCenter(areaSize);
 		float countdown = 4.0f;
 
@@ -533,7 +523,6 @@ public partial class WorldDestruction : Node2D
 		ResetFoods();
 		ResetObstacles();
 		ResetBoss();
-		ResetHits();
 		dogController.Reset();
 
 		SetBossLabel();
