@@ -58,7 +58,7 @@ public partial class AreaHit : Area2D
 
 		visDelay = countdown / (flickerCount * 2) * visStep;
 
-		countdownTimer.WaitTime = countdown;
+		countdownTimer.WaitTime = countdown - 0.01;
 		countdownTimer.Start();
 		visibilityTimer.WaitTime = visDelay;
 		visibilityTimer.Start();
