@@ -353,6 +353,8 @@ public partial class WorldDestruction : Node2D
 		stepTimer.Stop();
 		obstacleTimer.Stop();
 		areaHitTimer.Stop();
+		boss.Stop();
+		beam.Banish();
 	}
 
 	private void SetBoundries(Godot.Collections.Array<Vector2I> walls)

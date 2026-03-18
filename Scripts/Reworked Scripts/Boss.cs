@@ -79,6 +79,12 @@ public partial class Boss : CharacterBody2D
 		stepTimer.Start();
 	}
 
+	public void Stop()
+	{
+		stepTimer.Stop();
+		arrowManager.ResetArrows();
+		delayTimer.Stop();
+	}
 	public void Die()
 	{
 		arrowManager.ResetArrows();
