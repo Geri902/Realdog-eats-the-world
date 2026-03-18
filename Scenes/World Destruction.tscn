@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=16 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bsmneqjauclbb" path="res://Scenes/BossScene.tscn" id="4_l5i0y"]
 [ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
 [ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
+[ext_resource type="Script" uid="uid://bl12tmyq20b0t" path="res://Scripts/Reworked Scripts/Camera.cs" id="6_twslg"]
 [ext_resource type="PackedScene" uid="uid://ds0c54tggre6a" path="res://Scenes/Beam.tscn" id="9_alsvf"]
 [ext_resource type="SpriteFrames" uid="uid://cfck71ry7g6ku" path="res://Resources/SpriteFrames/ChargeFrames.tres" id="10_5akdq"]
 
@@ -32,6 +33,7 @@ groundObstacleScene = ExtResource("4_fc74m")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
+script = ExtResource("6_twslg")
 
 [node name="Borders" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAANAAcAAAADAAIAAAANAAYAAAAAAAIAAAANAAUAAAAAAAIAAAANAAQAAAAAAAIAAAANAAMAAAAAAAIAAAANAAIAAAAAAAIAAAANAAEAAAAAAAIAAAANAAAAAAAAAAIAAAANAP//AAAAAAIAAAANAP7/AAAAAAIAAAANAP3/AAAAAAIAAAANAPz/AAAAAAIAAAAMAAcAAAABAAIAAAALAAcAAAABAAIAAAAKAAcAAAABAAIAAAAJAAcAAAABAAIAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAcAAAABAAIAAAD//wcAAAABAAIAAAD+/wcAAAABAAIAAAD9/wcAAAABAAIAAAD8/wcAAAABAAIAAAD7/wcAAAABAAIAAAD6/wcAAAABAAIAAAD5/wcAAAABAAIAAAD4/wcAAAABAAIAAAD3/wcAAAABAAIAAAD2/wcAAAABAAIAAAD1/wcAAAABAAIAAAD0/wcAAAABAAIAAADz/wcAAAABAAIAAADy/wcAAAACAAIAAADy/wYAAAAAAAIAAADy/wUAAAAAAAIAAADy/wQAAAAAAAIAAADy/wMAAAAAAAIAAADy/wIAAAAAAAIAAADy/wEAAAAAAAIAAADy/wAAAAAAAAIAAADy////AAAAAAIAAADy//7/AAAAAAIAAADy//3/AAAAAAIAAADy//z/AAAAAAIAAADy//v/AAAAAAIAAAANAPv/AAAAAAIAAAANAPr/AAAFAAIAAAAMAPr/AAABAAIAAAALAPr/AAABAAIAAAAKAPr/AAABAAIAAAAJAPr/AAABAAIAAAAIAPr/AAABAAIAAAAHAPr/AAABAAIAAAAGAPr/AAABAAIAAAAFAPr/AAABAAIAAAAEAPr/AAABAAIAAAADAPr/AAABAAIAAAACAPr/AAABAAIAAAABAPr/AAABAAIAAAAAAPr/AAABAAIAAAD///r/AAABAAIAAAD+//r/AAABAAIAAAD9//r/AAABAAIAAAD8//r/AAABAAIAAAD7//r/AAABAAIAAAD6//r/AAABAAIAAAD5//r/AAABAAIAAAD4//r/AAABAAIAAAD3//r/AAABAAIAAAD2//r/AAABAAIAAAD1//r/AAABAAIAAAD0//r/AAABAAIAAADz//r/AAABAAIAAADy//r/AAAEAAIAAAA=")

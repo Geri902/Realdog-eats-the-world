@@ -23,6 +23,7 @@ public partial class WorldDestruction : Node2D
 	private Timer obstacleTimer;
 	private TileMapLayer borderTiles;
 	private Beam beam;
+	private Camera camera;
 	private AnimatedSprite2D chargeMeter;
 	private Sprite2D outsideBackground;
 	private Label coolDownLabel;
@@ -59,6 +60,7 @@ public partial class WorldDestruction : Node2D
 
 		dogController = GetNode<DogController>("DogController");
 		stepTimer = GetNode<Timer>("Step");
+		camera = GetNode<Camera>("Camera");
 		areaHitTimer = GetNode<Timer>("Area Hit");
 		obstacleTimer = GetNode<Timer>("Obstacle");
 		borderTiles = GetNode<TileMapLayer>("Borders");
@@ -75,6 +77,7 @@ public partial class WorldDestruction : Node2D
 		SetBoundries(borderTiles.GetUsedCells());
 
 		dogController.SetUp(rnd, this);
+		camera.gameController = this;
 		SetLevel();
 
 	}
@@ -87,6 +90,18 @@ public partial class WorldDestruction : Node2D
 
 		SetBossLabel();
 
+		if (currentLevel != 1)
+		{
+			camera.Setup(dogController.parts[0].bodyFrames.GlobalPosition, 1);
+		}
+		else
+		{
+			StartGame();
+		}
+	}
+
+	public void StartGame()
+	{
 		stepTimer.Start();
 		areaHitTimer.Start();
 		obstacleTimer.Start();
@@ -353,7 +368,10 @@ public partial class WorldDestruction : Node2D
 		stepTimer.Stop();
 		obstacleTimer.Stop();
 		areaHitTimer.Stop();
-		boss.Stop();
+		if (boss is not null)
+		{
+			boss.Stop();
+		}
 		beam.Banish();
 	}
 
