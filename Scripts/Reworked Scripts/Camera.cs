@@ -6,7 +6,7 @@ public partial class Camera : Camera2D
 	public WorldDestruction gameController;
 	private Timer shakeTimer;
 	public RandomNumberGenerator rnd = new RandomNumberGenerator();
-	private const int maxShakes = 7;
+	private int maxShakes = 7;
 	private int currentShakes = 0;
 	private float shakeMagnitude = 6.0f;
 	private bool isShaking = false;
@@ -24,10 +24,12 @@ public partial class Camera : Camera2D
 		
 	}
 
-	public void startShaking()
+	public void startShaking(float magnitude = 5.0f, int shakeCount = 7)
 	{
 		if (isShaking == false)
 		{
+			shakeMagnitude = magnitude;
+			maxShakes = shakeCount;
 			Shake();
 		}
 	}

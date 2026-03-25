@@ -190,7 +190,6 @@ public partial class WorldDestruction : Node2D
 			}
 			else if(Input.IsActionJustPressed("Dash"))
 			{
-				camera.startShaking();
 				if (willDash)
 				{
 					willDash = false;
@@ -593,6 +592,8 @@ public partial class WorldDestruction : Node2D
 		areaHitTimer.Stop();
 		obstacleTimer.Stop();
 
+		boss = null;
+
 		dogController.GrowHead();
     }
 
@@ -613,5 +614,10 @@ public partial class WorldDestruction : Node2D
 		{
 			GD.Print("You did it!");
 		}
+	}
+
+	public void ShakeCamera(float magnitude = 5.0f, int shakeCount = 7)
+	{
+		camera.startShaking(magnitude, shakeCount);
 	}
 }

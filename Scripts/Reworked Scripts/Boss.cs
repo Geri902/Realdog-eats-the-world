@@ -96,6 +96,8 @@ public partial class Boss : CharacterBody2D
 		mainShape.SetDeferred("disabled", true);
 		stepTimer.Stop();
 
+		gameController.ShakeCamera(15.0f, 30);
+
 		Godot.Collections.Array<Node2D> bodies = overlap.GetOverlappingBodies();
 
 		foreach (Node2D body in bodies)
@@ -174,6 +176,7 @@ public partial class Boss : CharacterBody2D
 				}
 	
 			} while (canContinue && actDirection != Vector2.Zero);
+			gameController.ShakeCamera(10.0f);
 			actDirection = Vector2.Zero;
 		}
 	}
