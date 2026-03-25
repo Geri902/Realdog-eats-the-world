@@ -36,7 +36,6 @@ public partial class MainMenu : Node2D
 		if(Input.IsAnythingPressed()){
 			if (Input.IsActionJustPressed("Fire"))
 			{
-				GD.Print(videoLength);
 				introVideo.StreamPosition = videoLength;
 			}
 		}

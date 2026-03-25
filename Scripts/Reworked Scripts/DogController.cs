@@ -225,6 +225,7 @@ public partial class DogController : Node2D
 		else
 		{
 			SplitAt(at);
+			gameScene.SetBossLabel();
 			at.StartExplosion(0.05f);
 		}
 	}
@@ -268,6 +269,7 @@ public partial class DogController : Node2D
 		Segment toRemove = parts[parts.Count - 1];
 		parts.Remove(toRemove);
 		toRemove.QueueFree();
+		gameScene.SetBossLabel();
 		DrawAll();
 		gameScene.SpawnBoss();
     }
