@@ -81,6 +81,7 @@ public partial class WorldDestruction : Node2D
 		obstacleTimer.Timeout += SpawnObstacle;
 
 		SetBoundries(borderTiles.GetUsedCells());
+		camera.rnd = rnd;
 
 		dogController.SetUp(rnd, this);
 		camera.gameController = this;
@@ -189,6 +190,7 @@ public partial class WorldDestruction : Node2D
 			}
 			else if(Input.IsActionJustPressed("Dash"))
 			{
+				camera.startShaking();
 				if (willDash)
 				{
 					willDash = false;
