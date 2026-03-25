@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=21 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bl12tmyq20b0t" path="res://Scripts/Reworked Scripts/Camera.cs" id="6_twslg"]
 [ext_resource type="PackedScene" uid="uid://ds0c54tggre6a" path="res://Scenes/Beam.tscn" id="9_alsvf"]
 [ext_resource type="SpriteFrames" uid="uid://cfck71ry7g6ku" path="res://Resources/SpriteFrames/ChargeFrames.tres" id="10_5akdq"]
+[ext_resource type="Script" uid="uid://b6q5p6vp0owb3" path="res://Scripts/Reworked Scripts/ReworkedGameOverPopup.cs" id="13_wywmg"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e2hwi"]
 
@@ -23,6 +24,22 @@ font = SubResource("SystemFont_5akdq")
 font_size = 132
 outline_size = 20
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_71axn"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_as3b4"]
+font = SubResource("SystemFont_71axn")
+font_size = 153
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_3so38"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_okh8j"]
+font = SubResource("SystemFont_3so38")
+font_size = 141
+font_color = Color(0, 0, 0, 1)
 
 [node name="WorldDestruction" type="Node2D"]
 script = ExtResource("1_e2hwi")
@@ -89,3 +106,78 @@ offset_bottom = -789.0
 label_settings = SubResource("LabelSettings_l5i0y")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Game Over Popup" type="ColorRect" parent="."]
+visible = false
+z_index = 10
+offset_left = -1590.0
+offset_top = -579.0
+offset_right = 1524.0
+offset_bottom = 780.0
+script = ExtResource("13_wywmg")
+
+[node name="Text" type="Label" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -880.0
+offset_top = 18.0
+offset_right = 880.0
+offset_bottom = 439.0
+grow_horizontal = 2
+text = "Lol, You just got exploded!
+Better luck next time!"
+label_settings = SubResource("LabelSettings_as3b4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stats" type="Label" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -147.5
+offset_right = 395.0
+offset_bottom = 147.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Layer reached: "
+label_settings = SubResource("LabelSettings_okh8j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Main Menu" type="Button" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 161.0
+offset_top = -396.0
+offset_right = 1341.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 211
+text = "Main Menu"
+
+[node name="New Game" type="Button" parent="Game Over Popup"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 182.0
+offset_top = -396.0
+offset_right = 1362.0
+offset_bottom = -100.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 211
+text = "New Game"
+
+[node name="Delay" type="Timer" parent="Game Over Popup"]
+one_shot = true

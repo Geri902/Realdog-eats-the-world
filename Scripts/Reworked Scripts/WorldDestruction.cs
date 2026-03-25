@@ -14,6 +14,7 @@ public partial class WorldDestruction : Node2D
 	private PackedScene bossScene;
 	[Export]
 	private PackedScene groundObstacleScene;
+	public MainMenu mainMenu;
 	public List<GroundObstacle> obstacles = new List<GroundObstacle>();
 	private List<ReworkedFood> foods = new List<ReworkedFood>();
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
@@ -22,6 +23,7 @@ public partial class WorldDestruction : Node2D
 	private Timer areaHitTimer;
 	private Timer obstacleTimer;
 	private TileMapLayer borderTiles;
+	private ReworkedGameOverPopup gameOverPopup;
 	private Beam beam;
 	private Camera camera;
 	private AnimatedSprite2D chargeMeter;
@@ -69,6 +71,10 @@ public partial class WorldDestruction : Node2D
 		coolDownLabel = GetNode<Label>("CoolDown");
 		bossSpawnRequironmentLabel = GetNode<Label>("Spawn req");
 		outsideBackground = GetNode<Sprite2D>("Outside Background");
+		gameOverPopup = GetNode<ReworkedGameOverPopup>("Game Over Popup");
+
+		gameOverPopup.newGameButton.Pressed += RestartGame;
+		gameOverPopup.mainMenuButton.Pressed += BackToMainMenu;
 		
 		stepTimer.Timeout += HandleStep;
 		areaHitTimer.Timeout += SpawnHit;
@@ -80,6 +86,46 @@ public partial class WorldDestruction : Node2D
 		camera.gameController = this;
 		SetLevel();
 
+	}
+
+	private void BackToMainMenu()
+	{
+		if (mainMenu is not null)
+		{
+			mainMenu.BackToMenu();
+		}
+	}
+
+	private void RestartGame()
+	{
+		ResetFoods();
+		ResetObstacles();
+		ResetBoss();
+		dogController.Reset();
+
+		StatsToOriginal();
+
+		gameOverPopup.Visible = false;
+
+		nextDirection = dogController.Spawn();
+		SpawnFood(foodAmount);
+		currentDirection = nextDirection;
+
+		SetBossLabel();
+
+		StartGame();
+	}
+
+	private void StatsToOriginal()
+	{
+		foodAmount = 10;
+		BossSpawnRequironment = 5;
+		areaHitTimer.WaitTime = 3;
+		obstacleTimer.WaitTime = 3;
+		bossHealth = 3;
+		isGameOver = false;
+
+		currentLevel = 1;
 	}
 
 	private void SetLevel()
@@ -111,8 +157,8 @@ public partial class WorldDestruction : Node2D
 	{
 		foodAmount -= 2;
 		BossSpawnRequironment += 2;
-		areaHitTimer.WaitTime -= 1;
-		obstacleTimer.WaitTime -= 1;
+		areaHitTimer.WaitTime -= 0.5;
+		obstacleTimer.WaitTime -= 0.5;
 		bossHealth += 3;
 
 		currentLevel++;
@@ -349,6 +395,10 @@ public partial class WorldDestruction : Node2D
 
 	private void ResetBoss()
 	{
+		if (boss is not null)
+		{
+			boss.QueueFree();
+		}
 		boss = null;
 		isBossDead = false;
 	}
@@ -373,6 +423,8 @@ public partial class WorldDestruction : Node2D
 			boss.Stop();
 		}
 		beam.Banish();
+
+		gameOverPopup.GetGameOver(currentLevel);
 	}
 
 	private void SetBoundries(Godot.Collections.Array<Vector2I> walls)

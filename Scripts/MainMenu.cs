@@ -19,6 +19,7 @@ public partial class MainMenu : Node2D
 	private Game game = null;
 	private WorldDestruction destructionGame = null;
 	private double videoLength = 0.0;
+	private bool done = false;
 
 	public override void _Ready()
 	{
@@ -34,9 +35,10 @@ public partial class MainMenu : Node2D
 	public override void _Process(double delta)
 	{
 		if(Input.IsAnythingPressed()){
-			if (Input.IsActionJustPressed("Fire"))
+			if (Input.IsActionJustPressed("Fire") && done == false)
 			{
 				introVideo.StreamPosition = videoLength;
+				done = true;
 			}
 		}
 	}
@@ -46,6 +48,7 @@ public partial class MainMenu : Node2D
 		titleLabel.Visible = true;
 		normalButton.Visible = true;
 		worldDestructionButton.Visible = true;
+		done = true;
 	}
 
 	private void StartNormal()
@@ -76,7 +79,7 @@ public partial class MainMenu : Node2D
 			if (destructionGame is null)
 			{
 				destructionGame = worldDestructionScene.Instantiate<WorldDestruction>();
-				//destructionGame.mainMenu = this;
+				destructionGame.mainMenu = this;
 				panel.Visible = false;
 				GetTree().Root.AddChild(destructionGame);
 			}
@@ -85,8 +88,16 @@ public partial class MainMenu : Node2D
 
 	public void BackToMenu()
 	{
-		game.QueueFree();
-		game = null;
+		if (game is not null)
+		{
+			game.QueueFree();
+			game = null;
+		}
+		if (destructionGame is not null)
+		{
+			destructionGame.QueueFree();
+			destructionGame = null;
+		}
 		panel.Visible = true;
 	}
 }
