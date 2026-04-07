@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b8eunq1psqbav"]
 
 [ext_resource type="Script" uid="uid://mrvgb6quauui" path="res://Scripts/Reworked Scripts/ReworkedFood.cs" id="1_q3i57"]
-[ext_resource type="Texture2D" uid="uid://dh68lk7dllx0c" path="res://Assets/NegPal.png" id="2_jrb82"]
+[ext_resource type="SpriteFrames" uid="uid://djcom51qjvidd" path="res://Resources/SpriteFrames/FoodFrames.tres" id="2_q3i57"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m1s8x"]
 size = Vector2(128, 128)
@@ -17,9 +17,11 @@ position = Vector2(64, 64)
 scale = Vector2(0.95, 0.95)
 shape = SubResource("RectangleShape2D_m1s8x")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(64, 64)
-texture = ExtResource("2_jrb82")
+scale = Vector2(0.39, 0.39)
+sprite_frames = ExtResource("2_q3i57")
+animation = &"JohnPal"
 
 [node name="Fear Area" type="Area2D" parent="."]
 

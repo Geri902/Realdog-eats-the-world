@@ -367,9 +367,10 @@ public partial class WorldDestruction : Node2D
 		for (int i = 0; i < count; i++)
 		{
 			ReworkedFood food = foodScene.Instantiate<ReworkedFood>();
-			food.SetUp(rnd, this);
-			food.MoveFood();
+			food.SetUp(rnd, this, currentLevel);
+			food.GlobalPosition = new Vector2(-1000, -1000);
 			AddChild(food);
+			food.MoveFood();
 			foods.Add(food);
 		}
 	}

@@ -4,19 +4,25 @@ using System.Collections.Generic;
 
 public partial class ReworkedFood : CharacterBody2D
 {
+	private Dictionary<int, (string name, int variations)> LevelData = new Dictionary<int, (string name, int variations)>
+	{
+		{1, (name: "NegPal", variations: 3)},
+		{2, (name: "JohnPal", variations: 2)},
+	};
 	private const int size = 128;
 	private float maxOffset = 10f;
 	private RandomNumberGenerator rnd = new RandomNumberGenerator();
 	private WorldDestruction gameController;
-	private Sprite2D sprite;
+	private AnimatedSprite2D sprite;
 	private Timer shiverTimer;
 	private Area2D fearArea;
 	private float shiverSpead = 0.05f;
 	public int panicRange = 3;
 	public bool isPanicing = false;
+	private int currentLevel = 1;
 	public override void _Ready()
 	{
-		sprite = GetNode<Sprite2D>("Sprite");
+		sprite = GetNode<AnimatedSprite2D>("Sprite");
 		shiverTimer = GetNode<Timer>("Timer");
 		fearArea = GetNode<Area2D>("Fear Area");
 
@@ -32,10 +38,14 @@ public partial class ReworkedFood : CharacterBody2D
 	{
 	}
 
-	public void SetUp(RandomNumberGenerator rnd, WorldDestruction gameController)
+	public void SetUp(RandomNumberGenerator rnd, WorldDestruction gameController, int currentLevel)
 	{
 		this.rnd = rnd;	
 		this.gameController = gameController;
+		if (LevelData.ContainsKey(currentLevel))
+		{
+			this.currentLevel = currentLevel;
+		}
 	}
 
 	private Vector2 GetRandomOffset()
@@ -44,6 +54,12 @@ public partial class ReworkedFood : CharacterBody2D
 		float y = rnd.RandfRange(-maxOffset ,maxOffset);
 
 		return new Vector2(x,y);
+	}
+
+	private void RandomiseSprite()
+	{
+		sprite.Animation = LevelData[currentLevel].name;
+		sprite.Frame = rnd.RandiRange(0, LevelData[currentLevel].variations - 1);
 	}
 
 	private void Shiver()
@@ -93,5 +109,6 @@ public partial class ReworkedFood : CharacterBody2D
 		{
 			GlobalPosition = gameController.GetRandomFreePosition();
 		} while (GlobalPosition.IsEqualApprox(prevPos));
+		RandomiseSprite();
 	}
 }

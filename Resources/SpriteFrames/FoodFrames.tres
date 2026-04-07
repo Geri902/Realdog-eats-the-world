@@ -1,0 +1,52 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://djcom51qjvidd"]
+
+[ext_resource type="Texture2D" uid="uid://cm8xb0ephqba1" path="res://Assets/Pal-sheet.png" id="1_4p6vk"]
+[ext_resource type="Texture2D" uid="uid://b4xbmmrf8b5xt" path="res://Assets/JohnPal-Sheet.png" id="1_tm12h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0vig"]
+atlas = ExtResource("1_tm12h")
+region = Rect2(0, 0, 333, 330)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xbl8"]
+atlas = ExtResource("1_tm12h")
+region = Rect2(333, 0, 333, 330)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm12h"]
+atlas = ExtResource("1_4p6vk")
+region = Rect2(0, 0, 333, 284)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pq35"]
+atlas = ExtResource("1_4p6vk")
+region = Rect2(333, 0, 333, 284)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxlsp"]
+atlas = ExtResource("1_4p6vk")
+region = Rect2(666, 0, 333, 284)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0vig")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xbl8")
+}],
+"loop": false,
+"name": &"JohnPal",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tm12h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pq35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxlsp")
+}],
+"loop": false,
+"name": &"NegPal",
+"speed": 0.0
+}]
