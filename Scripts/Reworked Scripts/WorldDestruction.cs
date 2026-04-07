@@ -582,7 +582,7 @@ public partial class WorldDestruction : Node2D
 				boss.GlobalPosition = GetRandomAreaCenter(2);
 				AddChild(boss);
 				boss.rnd = rnd;
-				boss.SetupTimers("Dash");
+				boss.Setup();
 			}
 		}
 		SetBossLabel();

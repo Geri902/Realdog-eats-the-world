@@ -1,0 +1,259 @@
+[gd_scene load_steps=11 format=3 uid="uid://rea8w7heru1j"]
+
+[ext_resource type="Script" uid="uid://c4rinqglgito3" path="res://Scripts/Reworked Scripts/Boss.cs" id="1_cm3i0"]
+[ext_resource type="SpriteFrames" uid="uid://coslnjtiwyc8r" path="res://Resources/SpriteFrames/BossFrames.tres" id="2_eeqdw"]
+[ext_resource type="Script" uid="uid://dyfcqgufvd4ke" path="res://Scripts/Reworked Scripts/BossPart.cs" id="3_lbfs7"]
+[ext_resource type="Script" uid="uid://bf3vau60ki3j7" path="res://Scripts/Reworked Scripts/BossArrowManager.cs" id="4_ybhr1"]
+[ext_resource type="SpriteFrames" uid="uid://dm6lonyt5w2b1" path="res://Resources/SpriteFrames/ArrowFrames.tres" id="5_vk017"]
+[ext_resource type="SpriteFrames" uid="uid://b18a75djrhoa1" path="res://Resources/SpriteFrames/HealthBarFrames.tres" id="6_rxbbq"]
+[ext_resource type="Script" uid="uid://40dw3ube3ed5" path="res://Scripts/Reworked Scripts/Bar.cs" id="7_adq4d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iavs8"]
+size = Vector2(383, 383)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52ox3"]
+size = Vector2(383, 383)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_poe2g"]
+size = Vector2(127, 127)
+
+[node name="BossScene" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_cm3i0")
+
+[node name="Overlap" type="Area2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Overlap"]
+position = Vector2(192, 192)
+shape = SubResource("RectangleShape2D_iavs8")
+
+[node name="Main Frames" type="AnimatedSprite2D" parent="."]
+z_index = 1
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_eeqdw")
+centered = false
+
+[node name="Main Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(192, 192)
+shape = SubResource("RectangleShape2D_52ox3")
+
+[node name="Dead Parts" type="Node2D" parent="."]
+
+[node name="Up Left" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Up Left"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Up Left"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476189, 3.0476189)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 8
+flip_h = true
+flip_v = true
+
+[node name="Up Middle" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(128, 0)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Up Middle"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Up Middle"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476189, 3.0476189)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 7
+flip_h = true
+flip_v = true
+
+[node name="Up Right" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(256, 0)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Up Right"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Up Right"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476189, 3.0476189)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 6
+flip_h = true
+flip_v = true
+
+[node name="Middle Left" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(0, 128)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Middle Left"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Middle Left"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476189, 3.0476189)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 5
+flip_h = true
+flip_v = true
+
+[node name="Middle Middle" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(128, 128)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Middle Middle"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Middle Middle"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476189, 3.0476189)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 4
+flip_h = true
+flip_v = true
+
+[node name="Middle Right" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(256, 128)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Middle Right"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Middle Right"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476189, 3.0476189)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 3
+flip_h = true
+flip_v = true
+
+[node name="Bottom Left" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(0, 256)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Bottom Left"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Bottom Left"]
+position = Vector2(64.00001, 64.00001)
+scale = Vector2(3.047619, 3.047619)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 2
+flip_h = true
+flip_v = true
+
+[node name="Bottom Middle" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(128, 256)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Bottom Middle"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Bottom Middle"]
+position = Vector2(64, 63.999996)
+scale = Vector2(3.0476193, 3.0476196)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+frame = 1
+flip_h = true
+flip_v = true
+
+[node name="Bottom Right" type="CharacterBody2D" parent="Dead Parts"]
+visible = false
+position = Vector2(256, 256)
+script = ExtResource("3_lbfs7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="Dead Parts/Bottom Right"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_poe2g")
+disabled = true
+
+[node name="Frames" type="AnimatedSprite2D" parent="Dead Parts/Bottom Right"]
+position = Vector2(64, 64)
+scale = Vector2(3.0476193, 3.0476193)
+sprite_frames = ExtResource("2_eeqdw")
+animation = &"split"
+flip_h = true
+flip_v = true
+
+[node name="Step" type="Timer" parent="."]
+
+[node name="Delay" type="Timer" parent="."]
+one_shot = true
+
+[node name="Arrows" type="Node2D" parent="."]
+script = ExtResource("4_ybhr1")
+
+[node name="Up" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(128, -128)
+sprite_frames = ExtResource("5_vk017")
+frame = 3
+centered = false
+
+[node name="Down" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(128, 384)
+sprite_frames = ExtResource("5_vk017")
+frame = 1
+centered = false
+
+[node name="Left" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(-128, 128)
+sprite_frames = ExtResource("5_vk017")
+frame = 2
+centered = false
+
+[node name="Right" type="AnimatedSprite2D" parent="Arrows"]
+visible = false
+position = Vector2(384, 128)
+sprite_frames = ExtResource("5_vk017")
+centered = false
+
+[node name="Bar" type="AnimatedSprite2D" parent="."]
+z_index = 2
+position = Vector2(0, 256)
+scale = Vector2(3, 0.9999998)
+sprite_frames = ExtResource("6_rxbbq")
+centered = false
+script = ExtResource("7_adq4d")
+
+[node name="Health" type="AnimatedSprite2D" parent="Bar"]
+z_index = -1
+sprite_frames = ExtResource("6_rxbbq")
+frame = 1
+centered = false

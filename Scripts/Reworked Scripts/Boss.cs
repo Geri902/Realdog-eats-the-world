@@ -10,17 +10,17 @@ public partial class Boss : CharacterBody2D
 	private CollisionShape2D mainShape;
 	private AnimatedSprite2D mainFrames;
 	private Node2D deadParts;
-	private Timer stepTimer;
+	protected Timer stepTimer;
 	private Area2D overlap;
 	private BossArrowManager arrowManager;
-	private Timer delayTimer;
+	protected Timer delayTimer;
 	private Bar healthBar;
 	public List<BossPart> parts = new List<BossPart>();
 	public RandomNumberGenerator rnd = new RandomNumberGenerator();
 	public WorldDestruction gameController = null;
-	private int movementChance = 1; // movementChance = x means 1/x chance to move
-	private int dashChance = 4; 
-	private Vector2 actDirection;
+	protected int movementChance = 1; // movementChance = x means 1/x chance to move
+	protected int actChance = 4; 
+	protected Vector2 actDirection;
 	private int maxHP;
 	private int currentHP;
 	private bool isDead = false;
@@ -63,17 +63,9 @@ public partial class Boss : CharacterBody2D
 		return partPositions;
 	}
 
-	public void SetupTimers(string action)
+	public virtual void Setup()
 	{
-		switch (action)
-		{
-			case "Cannon":
-				//delayTimer.Timeout += later boss action
-				break;
-			default:
-				delayTimer.Timeout += Dash;
-				break;
-		}
+		delayTimer.Timeout += Dash;
 		
 		stepTimer.Timeout += Step;
 		stepTimer.Start();
@@ -85,7 +77,7 @@ public partial class Boss : CharacterBody2D
 		arrowManager.ResetArrows();
 		delayTimer.Stop();
 	}
-	public void Die()
+	public virtual void Die()
 	{
 		arrowManager.ResetArrows();
 		isDead = true;
@@ -118,9 +110,9 @@ public partial class Boss : CharacterBody2D
 		}
 	}
 
-	private void Step()
+	protected virtual void Step()
 	{
-		int chance = rnd.RandiRange(1,dashChance);
+		int chance = rnd.RandiRange(1,actChance);
 		Vector2 direction = GetRandomDirection();
 		
 		if (arrowManager.CanAct())
@@ -181,7 +173,7 @@ public partial class Boss : CharacterBody2D
 		}
 	}
 
-	private void Move(Vector2 direction)
+	protected void Move(Vector2 direction)
 	{
 		if (isDead == false)
 		{
@@ -190,7 +182,7 @@ public partial class Boss : CharacterBody2D
 
 	}
 
-	private Vector2 GetRandomDirection()
+	protected Vector2 GetRandomDirection()
 	{
 		int randInd = rnd.RandiRange(0, dirs.Length - 1);
 
