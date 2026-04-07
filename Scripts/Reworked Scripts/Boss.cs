@@ -8,7 +8,7 @@ public partial class Boss : CharacterBody2D
 	private const int size = 128;
 	private Vector2[] dirs = {Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right};
 	private CollisionShape2D mainShape;
-	private AnimatedSprite2D mainFrames;
+	protected AnimatedSprite2D mainFrames;
 	private Node2D deadParts;
 	protected Timer stepTimer;
 	private Area2D overlap;

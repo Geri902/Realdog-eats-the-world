@@ -1,10 +1,15 @@
-[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://coslnjtiwyc8r"]
+[gd_resource type="SpriteFrames" load_steps=23 format=3 uid="uid://coslnjtiwyc8r"]
 
 [ext_resource type="Texture2D" uid="uid://dh68lk7dllx0c" path="res://Assets/NegPal.png" id="1_js8ow"]
+[ext_resource type="Texture2D" uid="uid://bu0ng1fwp525q" path="res://Assets/Tank-Body.png" id="2_sjauj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sjauj"]
 atlas = ExtResource("1_js8ow")
 region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6jc83"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(0, 0, 384, 384)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_js8ow"]
 atlas = ExtResource("1_js8ow")
@@ -42,11 +47,50 @@ region = Rect2(42, 84, 42, 42)
 atlas = ExtResource("1_js8ow")
 region = Rect2(84, 84, 42, 42)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggp2b"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_px4th"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q25v1"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xisjj"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gout"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ip0x"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6yhn"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mma80"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4iruq"]
+atlas = ExtResource("2_sjauj")
+region = Rect2(256, 256, 128, 128)
+
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sjauj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6jc83")
 }],
 "loop": false,
 "name": &"default",
@@ -82,5 +126,37 @@ animations = [{
 }],
 "loop": false,
 "name": &"split",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggp2b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px4th")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q25v1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xisjj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gout")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ip0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6yhn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mma80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4iruq")
+}],
+"loop": false,
+"name": &"tank_split",
 "speed": 5.0
 }]

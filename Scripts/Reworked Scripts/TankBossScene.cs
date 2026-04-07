@@ -5,6 +5,8 @@ public partial class TankBossScene : Boss
 {
     public override void Setup()
     {
+		mainFrames.Frame = 1;
+
         delayTimer.Timeout += Shoot;
 		
 		stepTimer.Timeout += Step;
@@ -43,6 +45,7 @@ public partial class TankBossScene : Boss
 	
 				if (chance == 1)
 				{
+					//need to add rotate logic
 					Move(direction);
 				}
 			}
