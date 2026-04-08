@@ -359,7 +359,13 @@ public partial class WorldDestruction : Node2D
 				currentDirection = nextDirection;
 				dogController.Move(currentDirection);
 			}
+
+			if (boss is not null)
+			{
+				boss.GameStepped();
+			}
 		}
+
 	}
 
 	private void SpawnFood(int count = 1)

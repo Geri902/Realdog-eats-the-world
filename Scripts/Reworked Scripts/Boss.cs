@@ -198,4 +198,9 @@ public partial class Boss : CharacterBody2D
 			Die();
 		}
 	}
+
+	public virtual void GameStepped()
+	{
+		
+	}
 }

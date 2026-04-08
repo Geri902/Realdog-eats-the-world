@@ -3,6 +3,14 @@ using System;
 
 public partial class TankBossScene : Boss
 {
+	private Sprite2D turret = null;
+	private Segment head = null;
+
+    public override void _Ready()
+    {
+        base._Ready();
+		turret = mainFrames.GetNode<Sprite2D>("Turret");
+    }
     public override void Setup()
     {
 		mainFrames.Frame = 1;
@@ -49,6 +57,22 @@ public partial class TankBossScene : Boss
 					Move(direction);
 				}
 			}
+		}
+    }
+
+	public void RotateTurret()
+	{
+		if (head is not null)
+		{
+			turret.LookAt(head.GlobalPosition);
+		}
+	}
+
+    public override void GameStepped()
+    {
+        if (turret is not null)
+		{
+			RotateTurret();
 		}
     }
 

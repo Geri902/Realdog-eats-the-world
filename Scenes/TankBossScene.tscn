@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://rea8w7heru1j"]
+[gd_scene load_steps=12 format=3 uid="uid://rea8w7heru1j"]
 
 [ext_resource type="Script" uid="uid://bnskaauexuq63" path="res://Scripts/Reworked Scripts/TankBossScene.cs" id="1_cm3i0"]
 [ext_resource type="SpriteFrames" uid="uid://coslnjtiwyc8r" path="res://Resources/SpriteFrames/BossFrames.tres" id="2_eeqdw"]
 [ext_resource type="Script" uid="uid://dyfcqgufvd4ke" path="res://Scripts/Reworked Scripts/BossPart.cs" id="3_lbfs7"]
 [ext_resource type="Texture2D" uid="uid://bd74ftfpfr2r4" path="res://Assets/Tank-Head.png" id="3_ybhr1"]
-[ext_resource type="Script" uid="uid://6wdb0nerxx4a" path="res://Scripts/Reworked Scripts/Turret.cs" id="4_vk017"]
 [ext_resource type="Script" uid="uid://bf3vau60ki3j7" path="res://Scripts/Reworked Scripts/BossArrowManager.cs" id="4_ybhr1"]
 [ext_resource type="SpriteFrames" uid="uid://dm6lonyt5w2b1" path="res://Resources/SpriteFrames/ArrowFrames.tres" id="5_vk017"]
 [ext_resource type="SpriteFrames" uid="uid://b18a75djrhoa1" path="res://Resources/SpriteFrames/HealthBarFrames.tres" id="6_rxbbq"]
@@ -41,7 +40,6 @@ z_index = 2
 position = Vector2(139, 187)
 texture = ExtResource("3_ybhr1")
 offset = Vector2(75, 0)
-script = ExtResource("4_vk017")
 
 [node name="Main Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(192, 192)
