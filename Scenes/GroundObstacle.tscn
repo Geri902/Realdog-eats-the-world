@@ -8,6 +8,8 @@
 size = Vector2(127, 127)
 
 [node name="GroundObstacle" type="CharacterBody2D"]
+collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_b3ola")
 
 [node name="Shape" type="CollisionShape2D" parent="."]

@@ -3,14 +3,26 @@ using System;
 
 public partial class TankBossScene : Boss
 {
+	[Export]
+	private PackedScene bulletScene;
 	private Sprite2D turret = null;
 	private Segment head = null;
+	private float bulletSpeed = 500f;
+	private bool grow = false;
 
     public override void _Ready()
     {
         base._Ready();
 		head = gameController.GetHead();
 		turret = mainFrames.GetNode<Sprite2D>("Turret");
+    }
+
+    public override void _Process(double delta)
+    {
+        if (grow)
+		{
+			turret.Scale += new Vector2(0.001f,0.001f);
+		}
     }
     public override void Setup()
     {
@@ -24,7 +36,11 @@ public partial class TankBossScene : Boss
 
 	private void Shoot()
 	{
-		
+		Bullet bullet = bulletScene.Instantiate<Bullet>();
+		AddChild(bullet);
+		bullet.SetTarget(turret.GlobalPosition, head.GlobalPosition, bulletSpeed);
+		grow = false;
+		turret.Scale = Vector2.One;
 	}
 
     public override void Die()
@@ -44,9 +60,8 @@ public partial class TankBossScene : Boss
 		{
 			if (chance == 1)
 			{
-				//arrowManager.SetArrow(direction);
-				actDirection = direction;
 				delayTimer.Start();
+				grow = true;
 			}
 			else
 			{
@@ -54,7 +69,7 @@ public partial class TankBossScene : Boss
 	
 				if (chance == 1)
 				{
-					//need to add rotate logic
+					//need to add logic to rotate based on where it's moving
 					Move(direction);
 				}
 			}

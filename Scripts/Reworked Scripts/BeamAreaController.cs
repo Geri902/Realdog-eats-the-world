@@ -53,5 +53,9 @@ public partial class BeamAreaController : Area2D
 		{
 			boss.Hit(damadge);
 		}
+		else if (body is Bullet bullet)
+		{
+			bullet.Die();
+		}
 	}
 }

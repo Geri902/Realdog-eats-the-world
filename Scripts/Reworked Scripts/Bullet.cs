@@ -37,12 +37,16 @@ public partial class Bullet : CharacterBody2D
 				{
 					obstacle.Die();
 				}
+				if (collider is ReworkedFood food)
+				{
+					food.MoveFood();
+				}
 				
 			}
 		}
 	}
 
-	private void Die()
+	public void Die()
 	{
 		QueueFree();
 	}

@@ -10,6 +10,8 @@ size = Vector2(128, 128)
 size = Vector2(640, 640)
 
 [node name="ReworkedFoodScene" type="CharacterBody2D"]
+collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_q3i57")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
