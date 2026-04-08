@@ -13,6 +13,8 @@ public partial class WorldDestruction : Node2D
 	[Export]
 	private PackedScene bossScene;
 	[Export]
+	private PackedScene tankBossScene;
+	[Export]
 	private PackedScene groundObstacleScene;
 	public MainMenu mainMenu;
 	public List<GroundObstacle> obstacles = new List<GroundObstacle>();
@@ -47,6 +49,7 @@ public partial class WorldDestruction : Node2D
 	public int currentLevel = 1;
 	public bool isBossDead = false;
 	private int bossHealth = 3;
+	private Dictionary<int, PackedScene> bossOrder = new Dictionary<int, PackedScene>();
 
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
@@ -56,6 +59,13 @@ public partial class WorldDestruction : Node2D
         {"maxY",0},
         
     };
+	private void bossOrderInit()
+	{
+		bossOrder = new Dictionary<int, PackedScene>{
+			{1, bossScene},
+			{2, tankBossScene}
+		};
+	}
 	public override void _Ready()
 	{
 		rnd.Randomize();
@@ -80,6 +90,7 @@ public partial class WorldDestruction : Node2D
 		areaHitTimer.Timeout += SpawnHit;
 		obstacleTimer.Timeout += SpawnObstacle;
 
+		bossOrderInit();
 		SetBoundries(borderTiles.GetUsedCells());
 		camera.rnd = rnd;
 
@@ -581,14 +592,18 @@ public partial class WorldDestruction : Node2D
 			int len = dogController.parts.Count;
 			if (len >= BossSpawnRequironment)
 			{
-				Boss spawned = bossScene.Instantiate<Boss>();
-				boss = spawned;
-				boss.gameController = this;
-				boss.SetHealth(bossHealth);
-				boss.GlobalPosition = GetRandomAreaCenter(2);
-				AddChild(boss);
-				boss.rnd = rnd;
-				boss.Setup();
+				PackedScene currentBoss = GetCurrentBossScene();
+				if (currentBoss is not null)
+				{
+					Boss spawned = currentBoss.Instantiate<Boss>();
+					boss = spawned;
+					boss.gameController = this;
+					boss.SetHealth(bossHealth);
+					boss.GlobalPosition = GetRandomAreaCenter(2);
+					AddChild(boss);
+					boss.rnd = rnd;
+					boss.Setup();
+				}
 			}
 		}
 		SetBossLabel();
@@ -626,5 +641,19 @@ public partial class WorldDestruction : Node2D
 	public void ShakeCamera(float magnitude = 5.0f, int shakeCount = 7)
 	{
 		camera.startShaking(magnitude, shakeCount);
+	}
+
+	public Segment GetHead()
+	{
+		return dogController.parts[0];
+	}
+
+	private PackedScene GetCurrentBossScene()
+	{
+		if (bossOrder.ContainsKey(currentLevel))
+		{
+			return bossOrder[currentLevel];
+		}
+		return null;
 	}
 }

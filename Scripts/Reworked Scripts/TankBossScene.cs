@@ -9,6 +9,7 @@ public partial class TankBossScene : Boss
     public override void _Ready()
     {
         base._Ready();
+		head = gameController.GetHead();
 		turret = mainFrames.GetNode<Sprite2D>("Turret");
     }
     public override void Setup()

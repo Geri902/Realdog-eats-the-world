@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://db6dfhna4fiat"]
+[gd_scene load_steps=22 format=4 uid="uid://db6dfhna4fiat"]
 
 [ext_resource type="Script" uid="uid://b7gvvtfmdansm" path="res://Scripts/Reworked Scripts/WorldDestruction.cs" id="1_e2hwi"]
 [ext_resource type="TileSet" uid="uid://duhmlmhnrx3dn" path="res://Resources/TileSets/Map.tres" id="1_w32rk"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bo7javuf8q6kr" path="res://Scenes/GroundObstacle.tscn" id="4_fc74m"]
 [ext_resource type="PackedScene" uid="uid://bsmneqjauclbb" path="res://Scenes/BossScene.tscn" id="4_l5i0y"]
 [ext_resource type="PackedScene" uid="uid://cinj2xxubx1fm" path="res://Scenes/Segment.tscn" id="5_2dj2o"]
+[ext_resource type="PackedScene" uid="uid://rea8w7heru1j" path="res://Scenes/TankBossScene.tscn" id="5_as3b4"]
 [ext_resource type="PackedScene" uid="uid://b8eunq1psqbav" path="res://Scenes/ReworkedFoodScene.tscn" id="6_ax67c"]
 [ext_resource type="Script" uid="uid://bl12tmyq20b0t" path="res://Scripts/Reworked Scripts/Camera.cs" id="6_twslg"]
 [ext_resource type="PackedScene" uid="uid://ds0c54tggre6a" path="res://Scenes/Beam.tscn" id="9_alsvf"]
@@ -46,6 +47,7 @@ script = ExtResource("1_e2hwi")
 foodScene = ExtResource("6_ax67c")
 areaHitScene = ExtResource("3_j8355")
 bossScene = ExtResource("4_l5i0y")
+tankBossScene = ExtResource("5_as3b4")
 groundObstacleScene = ExtResource("4_fc74m")
 
 [node name="Camera" type="Camera2D" parent="."]
