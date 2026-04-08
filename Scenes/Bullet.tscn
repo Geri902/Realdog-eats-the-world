@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbqkxuxh6d7i3"]
+
+[ext_resource type="Script" uid="uid://dtokt2w6i3brs" path="res://Scripts/Reworked Scripts/Bullet.cs" id="1_14k46"]
+[ext_resource type="Texture2D" uid="uid://b6ekx2ksev7j1" path="res://Assets/Tank-Bullet.png" id="2_qvus8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pypll"]
+size = Vector2(68, 28)
+
+[node name="Bullet" type="CharacterBody2D"]
+script = ExtResource("1_14k46")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qvus8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pypll")

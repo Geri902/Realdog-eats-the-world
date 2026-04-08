@@ -18,7 +18,7 @@ public partial class GroundObstacle : CharacterBody2D
 	{
 	}
 
-	private void Die()
+	public void Die()
 	{
 		if (gameController is not null && gameController.obstacles.Contains(this))
 		{
