@@ -7,6 +7,8 @@ public partial class WorldDestruction : Node2D
 {
 	private const int size = 128;
 	[Export]
+	private CompressedTexture2D[] backgrounds;
+	[Export]
 	private PackedScene foodScene;
 	[Export]
 	private PackedScene areaHitScene;
@@ -30,6 +32,7 @@ public partial class WorldDestruction : Node2D
 	private Camera camera;
 	private AnimatedSprite2D chargeMeter;
 	private Sprite2D outsideBackground;
+	private Sprite2D insideBackground;
 	private Label coolDownLabel;
 	private Label bossSpawnRequironmentLabel;
 	private Vector2 currentDirection;
@@ -50,6 +53,7 @@ public partial class WorldDestruction : Node2D
 	public bool isBossDead = false;
 	private int bossHealth = 3;
 	private Dictionary<int, PackedScene> bossOrder = new Dictionary<int, PackedScene>();
+	private Dictionary<int, (CompressedTexture2D image, Vector2 scale, Vector2 position)> levelBackgroundProperties = new Dictionary<int, (CompressedTexture2D image, Vector2 scale, Vector2 position)>();
 
 	private Dictionary<string, int> boundry = new Dictionary<string, int>()
     {
@@ -64,6 +68,16 @@ public partial class WorldDestruction : Node2D
 		bossOrder = new Dictionary<int, PackedScene>{
 			{1, bossScene},
 			{2, tankBossScene}
+		};
+	}
+	private void levelBackgroundPropertiesInit()
+	{
+		levelBackgroundProperties = new Dictionary<int, (CompressedTexture2D image, Vector2 scale, Vector2 position)>
+		{
+			{1, (image: backgrounds[0], scale: new Vector2(4.788f, 3.568f), position: new Vector2(-2.5f, 127.5f))},	
+			{2, (image: backgrounds[1], scale: new Vector2(4.545f, 3.459f), position: new Vector2(-5.0f, 123.0f))},	
+			{3, (image: backgrounds[2], scale: new Vector2(2.82f, 2.273f), position: new Vector2(-5.0f, 123.0f))},	
+			{4, (image: backgrounds[3], scale: new Vector2(2.472f, 2.199f), position: new Vector2(-2.5f, 130.5f))},	
 		};
 	}
 	public override void _Ready()
@@ -81,6 +95,7 @@ public partial class WorldDestruction : Node2D
 		coolDownLabel = GetNode<Label>("CoolDown");
 		bossSpawnRequironmentLabel = GetNode<Label>("Spawn req");
 		outsideBackground = GetNode<Sprite2D>("Outside Background");
+		insideBackground = GetNode<Sprite2D>("Inside Background");
 		gameOverPopup = GetNode<ReworkedGameOverPopup>("Game Over Popup");
 
 		gameOverPopup.newGameButton.Pressed += RestartGame;
@@ -91,6 +106,7 @@ public partial class WorldDestruction : Node2D
 		obstacleTimer.Timeout += SpawnObstacle;
 
 		bossOrderInit();
+		levelBackgroundPropertiesInit();
 		SetBoundries(borderTiles.GetUsedCells());
 		camera.rnd = rnd;
 
@@ -118,6 +134,7 @@ public partial class WorldDestruction : Node2D
 		outsideBackground.SelfModulate = new Color(r: 1.0f, g: 1.0f, b: 1.0f, a: 1);
 
 		StatsToOriginal();
+		SetBackgroundImage();
 
 		gameOverPopup.Visible = false;
 
@@ -144,6 +161,7 @@ public partial class WorldDestruction : Node2D
 
 	private void SetLevel()
 	{
+		SetBackgroundImage();
 		nextDirection = dogController.Spawn();
 		SpawnFood(foodAmount);
 		currentDirection = nextDirection;
@@ -707,5 +725,16 @@ public partial class WorldDestruction : Node2D
 		List<Vector2> foodPos = FoodPositions();
 
 		return foodPos.Any(x=>around.Any(y=>x.IsEqualApprox(y)));
+	}
+
+	private void SetBackgroundImage()
+	{
+		if (levelBackgroundProperties.ContainsKey(currentLevel))
+		{
+			(CompressedTexture2D image, Vector2 scale, Vector2 position) = levelBackgroundProperties[currentLevel];
+			insideBackground.Texture = image;
+			insideBackground.Scale = scale;
+			insideBackground.Position = position;
+		}
 	}
 }
