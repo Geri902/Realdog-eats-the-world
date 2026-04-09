@@ -41,6 +41,7 @@ public partial class DogController : Node2D
 			segment.QueueFree();
 		}
 		removedParts.Clear();
+		headState = BodyType.HeadNormal;
 	}
 
 	public Vector2 Spawn()
