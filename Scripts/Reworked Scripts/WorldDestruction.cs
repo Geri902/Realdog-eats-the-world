@@ -114,6 +114,8 @@ public partial class WorldDestruction : Node2D
 		ResetObstacles();
 		ResetBoss();
 		dogController.Reset();
+		chargeMeter.Frame = 0;
+		outsideBackground.SelfModulate = new Color(r: 1.0f, g: 1.0f, b: 1.0f, a: 1);
 
 		StatsToOriginal();
 
@@ -319,6 +321,16 @@ public partial class WorldDestruction : Node2D
 			{
 				if (willFire)
 				{
+					if (currentCharge == 1)
+					{
+						dogController.headState = BodyType.AttackSmall;
+					}
+					else
+					{
+						dogController.headState = BodyType.AttackLarge;
+					}
+					dogController.DrawAll();
+
 					Fire(currentCharge);
 					willFire = false;
 					didFire = true;
@@ -462,6 +474,37 @@ public partial class WorldDestruction : Node2D
 		return new Vector2(x, y);
 	}
 
+	private Vector2 GetRandomDoglessAreaCenter(int areaSize)
+	{
+		int x;
+		int y;
+		List<Vector2> dogPositions = dogController.GetDogPositions();
+		List<Vector2> positions = new List<Vector2>();
+		do
+		{
+			x = rnd.RandiRange(boundry["minX"] + areaSize,boundry["maxX"] - areaSize) * size;
+			y = rnd.RandiRange(boundry["minY"] + areaSize,boundry["maxY"] - areaSize) * size;
+
+			positions.Clear();
+
+			int half = areaSize / 2;
+
+			for (int i = -half; i <= half; i++)
+			{
+				for (int j = -half; j <= half; j++)
+				{
+					positions.Add(new Vector2(
+						x + i * size,
+						y + j * size
+					));
+				}
+			}
+			
+		} while (dogPositions.Any(dog=>positions.Any(pos=>dog.IsEqualApprox(pos))));
+
+		return new Vector2(x, y);
+	}
+
 	private void SpawnHit()
 	{
 		int areaSize = rnd.RandiRange(1,3);
@@ -599,7 +642,7 @@ public partial class WorldDestruction : Node2D
 					boss = spawned;
 					boss.gameController = this;
 					boss.SetHealth(bossHealth);
-					boss.GlobalPosition = GetRandomAreaCenter(2);
+					boss.GlobalPosition = GetRandomDoglessAreaCenter(2);
 					AddChild(boss);
 					boss.rnd = rnd;
 					boss.Setup();
@@ -625,6 +668,7 @@ public partial class WorldDestruction : Node2D
 		ResetObstacles();
 		ResetBoss();
 		dogController.Reset();
+		chargeMeter.Frame = 0;
 
 		SetBossLabel();
 
@@ -655,5 +699,13 @@ public partial class WorldDestruction : Node2D
 			return bossOrder[currentLevel];
 		}
 		return null;
+	}
+
+	public bool IsFoodNear(Vector2 headPosition)
+	{
+		List<Vector2> around = new List<Vector2>{headPosition + Vector2.Up * size, headPosition + Vector2.Down * size, headPosition + Vector2.Left * size, headPosition + Vector2.Right * size};
+		List<Vector2> foodPos = FoodPositions();
+
+		return foodPos.Any(x=>around.Any(y=>x.IsEqualApprox(y)));
 	}
 }

@@ -7,7 +7,7 @@ public partial class TankBossScene : Boss
 	private PackedScene bulletScene;
 	private Sprite2D turret = null;
 	private Segment head = null;
-	private float bulletSpeed = 500f;
+	private float bulletSpeed = 700f;
 	private bool grow = false;
 
     public override void _Ready()
@@ -21,7 +21,7 @@ public partial class TankBossScene : Boss
     {
         if (grow)
 		{
-			turret.Scale += new Vector2(0.001f,0.001f);
+			turret.Scale += new Vector2(0.005f,0.005f);
 		}
     }
     public override void Setup()

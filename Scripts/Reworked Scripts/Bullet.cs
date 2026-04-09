@@ -28,6 +28,7 @@ public partial class Bullet : CharacterBody2D
 				if (collider is Segment segment)
 				{
 					segment.Hit();
+					Die();
 				}
 				if (collider is TileMapLayer)
 				{

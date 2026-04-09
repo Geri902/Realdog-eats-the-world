@@ -11,7 +11,7 @@ public partial class DogController : Node2D
 	public List<Segment> parts = new List<Segment>();
 	public List<Segment> removedParts = new List<Segment>();
 	private RandomNumberGenerator rnd;
-	private BodyType headState = BodyType.HeadNormal;
+	public BodyType headState = BodyType.HeadNormal;
 	private WorldDestruction gameScene;
 	private int dashLength = 3;
 	public override void _Ready()
@@ -83,7 +83,7 @@ public partial class DogController : Node2D
 		AddChild(part);
 	}
 
-	private void DrawAll()
+	public void DrawAll()
 	{
 		int lastInd = parts.Count - 1;
 
@@ -118,6 +118,15 @@ public partial class DogController : Node2D
 			default:
 				GD.Print(response);
 				break;
+		}
+
+		if (gameScene.IsFoodNear(parts[0].GlobalPosition))
+		{
+			headState = BodyType.HeadOpen;
+		}
+		else
+		{
+			headState = BodyType.HeadNormal;
 		}
 
 		DrawAll();
