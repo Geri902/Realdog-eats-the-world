@@ -38,7 +38,7 @@ public partial class TankBossScene : Boss
 	{
 		Bullet bullet = bulletScene.Instantiate<Bullet>();
 		AddChild(bullet);
-		bullet.SetTarget(turret.GlobalPosition, head.GlobalPosition, bulletSpeed);
+		bullet.SetUp(turret.GlobalPosition, head.GlobalPosition, bulletSpeed, gameController);
 		grow = false;
 		turret.Scale = Vector2.One;
 	}

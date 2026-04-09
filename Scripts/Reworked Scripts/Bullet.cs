@@ -5,9 +5,12 @@ public partial class Bullet : CharacterBody2D
 {
 	public float speed = 0.0f;
 	public Vector2 direction = Vector2.Zero;
+	private WorldDestruction gameController;
 
-	public void SetTarget(Vector2 start, Vector2 target, float speed)
+	public void SetUp(Vector2 start, Vector2 target, float speed, WorldDestruction gameController)
 	{
+		this.gameController = gameController;
+
 		GlobalPosition = start;
 		direction = (target - start).Normalized();
 		LookAt(target);
@@ -42,6 +45,7 @@ public partial class Bullet : CharacterBody2D
 				{
 					food.MoveFood();
 				}
+				gameController.ShakeCamera();
 				
 			}
 		}
