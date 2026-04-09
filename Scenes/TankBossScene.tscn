@@ -33,13 +33,13 @@ shape = SubResource("RectangleShape2D_iavs8")
 
 [node name="Main Frames" type="AnimatedSprite2D" parent="."]
 z_index = 1
+position = Vector2(192, 192)
 sprite_frames = ExtResource("2_eeqdw")
 frame = 1
-centered = false
 
 [node name="Turret" type="Sprite2D" parent="Main Frames"]
 z_index = 2
-position = Vector2(139, 187)
+position = Vector2(-50, 0)
 texture = ExtResource("3_ybhr1")
 offset = Vector2(75, 0)
 

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class TankBossScene : Boss
 {
@@ -9,6 +10,13 @@ public partial class TankBossScene : Boss
 	private Segment head = null;
 	private float bulletSpeed = 700f;
 	private bool grow = false;
+	private Dictionary<Vector2, int> directionRotations = new Dictionary<Vector2, int>
+	{
+		{Vector2.Right,0},
+		{Vector2.Down,90},
+		{Vector2.Left,180},
+		{Vector2.Up,270}
+	};
 
     public override void _Ready()
     {
@@ -43,20 +51,12 @@ public partial class TankBossScene : Boss
 		turret.Scale = Vector2.One;
 	}
 
-    public override void Die()
-    {
-        base.Die();
-
-		//add explosions + clean up head
-    }
-
     protected override void Step()
     {
         int chance = rnd.RandiRange(1,actChance);
-		Vector2 direction = GetRandomDirection(); //get cannon direction?
+		Vector2 direction = GetRandomDirection();
 		
 		if (true)
-		//prev arrowmanager, de szerintem ide nem kell
 		{
 			if (chance == 1)
 			{
@@ -69,7 +69,8 @@ public partial class TankBossScene : Boss
 	
 				if (chance == 1)
 				{
-					//need to add logic to rotate based on where it's moving
+					mainFrames.RotationDegrees = directionRotations[direction];
+					RotateTurret();
 					Move(direction);
 				}
 			}

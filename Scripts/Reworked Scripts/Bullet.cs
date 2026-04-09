@@ -46,7 +46,6 @@ public partial class Bullet : CharacterBody2D
 					food.MoveFood();
 				}
 				gameController.ShakeCamera();
-				
 			}
 		}
 	}

@@ -77,7 +77,7 @@ public partial class Boss : CharacterBody2D
 		arrowManager.ResetArrows();
 		delayTimer.Stop();
 	}
-	public virtual void Die()
+	public void Die()
 	{
 		arrowManager.ResetArrows();
 		isDead = true;
@@ -87,6 +87,7 @@ public partial class Boss : CharacterBody2D
 		healthBar.Visible = false;
 		mainShape.SetDeferred("disabled", true);
 		stepTimer.Stop();
+		delayTimer.Stop();
 
 		gameController.ShakeCamera(15.0f, 30);
 
